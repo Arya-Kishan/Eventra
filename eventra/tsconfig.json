@@ -1,0 +1,48 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react-native",
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": [
+        "components/*"
+      ],
+      "@screens/*": [
+        "screens/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@constants/*": [
+        "constants/*"
+      ],
+      "@store/*": [
+        "store/*"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}
