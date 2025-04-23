@@ -1,22 +1,29 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { FC } from 'react'
 import CustomText from '@components/global/CustomText'
 import { AppConstants } from '@constants/AppConstants'
 import { s } from 'react-native-size-matters'
+import { showToast } from '@utils/Helper'
 
 interface TimeSlotType {
     start: string,
     end: string,
-    isBooked?: boolean
+    isBooked?: boolean,
+    onPress?: () => void
 }
 
-const TimeSlot: FC<TimeSlotType> = ({ start, end, isBooked = false }) => {
+const TimeSlot: FC<TimeSlotType> = ({ start, end, isBooked = false, onPress }) => {
+
+    const alreadyBooked = () => {
+        showToast({ title: "Already Booked", description: "Slot is already booked for other event", type: "info" })
+    }
+
     return (
-        <View style={[styles.main, isBooked && { backgroundColor: AppConstants.greenColor }]}>
+        <Pressable onPress={isBooked ? alreadyBooked : onPress} style={[styles.main, isBooked && { backgroundColor: AppConstants.redColor }]}>
             <CustomText variant='body2' fontWeight='500'>{start}</CustomText>
             <CustomText>-</CustomText>
             <CustomText variant='body2' fontWeight='500'>{end}</CustomText>
-        </View>
+        </Pressable>
     )
 }
 

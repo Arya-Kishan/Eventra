@@ -1,30 +1,34 @@
+import SelectVenueSlot from '@components/event/SelectVenueSlot';
 import CustomCheckbox from '@components/global/CustomCheckBox';
 import CustomModal from '@components/global/CustomModal';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
 import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
+import TimeSlot from '@components/venue/TimeSlot';
 import { AppConstants } from '@constants/AppConstants';
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { createEventApi } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setAllEvents, setCategory, setDate, setDescription, setHeadcount, setPic, setTime, setTitle, setVenue } from '@store/reducers/eventSlice';
-import { formatDate, formatTime, showToast } from '@utils/Helper';
-import React, { FC, useState } from 'react';
+import { formatDate, formatISODate, formatTime, showToast } from '@utils/Helper';
+import React, { FC, useEffect, useState } from 'react';
 import { FlatList, Image, Pressable, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { s, vs } from 'react-native-size-matters';
-import { AssetType, NavigationProps, RouteProps } from 'types/AppTypes';
+import { AssetType, NavigationProps, RouteProps, slotType, VenueType } from 'types/AppTypes';
 
 const CreateEventScreen: FC = () => {
 
-    const { params: { eventId } } = useRoute<RouteProps<'CreateEventScreen'>>();
+    const { params: { event, method } } = useRoute<RouteProps<'CreateEventScreen'>>();
     const [addLoader, setAddLoader] = useState(false);
     const navigation = useNavigation<NavigationProps<'CreateEventScreen'>>();
+    const { allVenues } = useAppSelector(store => store.venue)
 
     const [showVenues, setShowVenues] = useState(false);
+    console.log("event : ", event)
 
     const { category, date, description, headcount, pic, time, title, venue, allEvents } = useAppSelector(store => store.event);
     const { loggedInUser } = useAppSelector(store => store.user);
@@ -54,9 +58,11 @@ const CreateEventScreen: FC = () => {
         formData.append('date', date);
         formData.append('host', loggedInUser?._id);
         formData.append('pic', { uri: pic.uri, name: pic.fileName, type: pic.type });
-        formData.append('venue', venue);
+        formData.append('venue', (venue as VenueType)._id);
         formData.append('headCount', headcount);
         formData.append('category', category);
+
+        console.log("formData : ", formData)
 
         const { data, error, success, message } = await createEventApi(formData);
         // console.log(data.data)
@@ -68,6 +74,30 @@ const CreateEventScreen: FC = () => {
         setAddLoader(false);
 
     }
+
+    useEffect(() => {
+
+        if (method == "update") {
+            dispatch(setTitle(event!.title));
+            dispatch(setDescription(event!.description));
+            dispatch(setDate(event!.date));
+            dispatch(setTime(event!.time));
+            dispatch(setVenue(typeof event!.venue !== 'string' ? event!.venue.title : ""));
+            dispatch(setPic(event!.pic));
+            dispatch(setCategory(event!.category));
+            dispatch(setHeadcount(event!.headcount.toString()));
+        } else {
+            dispatch(setTitle(""));
+            dispatch(setDescription(""));
+            dispatch(setDate(""));
+            dispatch(setTime({ start: "", end: "" }));
+            dispatch(setVenue(""));
+            dispatch(setPic(""));
+            dispatch(setCategory(""));
+            dispatch(setHeadcount(""));
+        }
+
+    }, [method])
 
 
     return (
@@ -108,38 +138,30 @@ const CreateEventScreen: FC = () => {
                             <Icon icon='calendar' iconType='FontAwesome' size={s(18)} color='red' />
                         </DateTimeSelector>
 
+                        {/* VENUE */}
+                        <View style={{ gap: vs(6) }}>
 
-                        <CustomText variant='h6'>Time</CustomText>
+                            <CustomText variant='h6'>Venue</CustomText>
 
-                        {/* TIME */}
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
-
-
-                            <DateTimeSelector onSet={(val) => dispatch(setTime({ ...time, start: val }))} mode='time' viewStyle={{ flex: 1, alignItems: "center", flexDirection: "row", justifyContent: "space-between", backgroundColor: AppConstants.whiteColor, paddingHorizontal: s(5) }}>
-                                <TextInput placeholder='Select Start Time' value={formatTime(time.start)} onChangeText={() => { }} editable={false} style={styles.input} />
-                                <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
-
-                            </DateTimeSelector>
-
-                            <DateTimeSelector onSet={(val) => dispatch(setTime({ ...time, end: val }))} mode='time' viewStyle={{ flex: 1, alignItems: "center", flexDirection: "row", justifyContent: "space-between", backgroundColor: AppConstants.whiteColor, paddingHorizontal: s(5) }}>
-                                <TextInput placeholder='Select End Time' value={formatTime(time.end)} onChangeText={() => { }} editable={false} style={styles.input} />
-                                <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
-
-                            </DateTimeSelector>
+                            <Pressable onPress={() => { setShowVenues(true) }} style={styles.venue}>
+                                <TextInput value={typeof venue !== 'string' ? venue.title : ""} placeholder='Enter Description' onChangeText={() => { }} style={styles.input} editable={false} />
+                                <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(18)} color={AppConstants.redColor} />
+                            </Pressable>
 
                         </View>
 
-                    </View>
+                        {/* TIME */}
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
+                            <View style={{ backgroundColor: AppConstants.whiteColor, alignItems: "center", flexDirection: "row", width: "48%", paddingVertical: s(2), paddingHorizontal: s(6) }}>
+                                <TextInput placeholder='Select Start Time' value={formatTime(time.start)} onChangeText={() => { }} editable={false} style={styles.input} />
+                                <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
+                            </View>
+                            <View style={{ backgroundColor: AppConstants.whiteColor, alignItems: "center", flexDirection: "row", width: "48%", paddingVertical: s(2), paddingHorizontal: s(6) }}>
+                                <TextInput placeholder='Select End Time' value={formatTime(time.end)} onChangeText={() => { }} editable={false} style={styles.input} />
+                                <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
+                            </View>
 
-                    {/* VENUE */}
-                    <View style={{ gap: vs(6) }}>
-
-                        <CustomText variant='h6'>Venue</CustomText>
-
-                        <Pressable onPress={() => { setShowVenues(true) }} style={{ flexDirection: "row", justifyContent: "space-between", backgroundColor: AppConstants.whiteColor, alignItems: "center", paddingHorizontal: s(5) }}>
-                            <TextInput value={venue} placeholder='Enter Description' onChangeText={() => { }} style={styles.input} editable={false} />
-                            <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(18)} color={AppConstants.redColor} />
-                        </Pressable>
+                        </View>
 
                     </View>
 
@@ -150,7 +172,7 @@ const CreateEventScreen: FC = () => {
                             {
                                 pic !== ""
                                 &&
-                                <Image source={{ uri: pic.uri }} style={{ flex: 1 }} />
+                                <Image source={{ uri: pic.uri ?? pic.url }} style={{ flex: 1 }} />
                             }
 
                         </View>
@@ -177,17 +199,22 @@ const CreateEventScreen: FC = () => {
 
             <CustomModal show={showVenues} setShow={setShowVenues}>
                 <View style={{ height: "60%" }}>
+
                     <FlatList
-                        data={AppTemporaryContants.temporaryVenueArr}
+                        data={allVenues}
                         renderItem={({ item, index }) => (
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
-                                <Text>{item.title}</Text>
-                                <CustomCheckbox onChange={(val: boolean) => { dispatch(setVenue(item._id.toString())), setShowVenues(false) }} />
-                            </View>
+                            <SelectVenueSlot handleSelectSlot={(slot: slotType) => { dispatch(setTime({ start: slot.time.start, end: slot.time.end })) }} handleSelectVenue={(venue) => { dispatch(setVenue(venue)) }} venue={item} selectedVenue={venue} />
                         )}
-                        contentContainerStyle={{ gap: vs(10) }}
+                        contentContainerStyle={{ width: s(250), gap: vs(10) }}
                         keyExtractor={(item, index) => (item._id).toString()}
                     />
+
+                    <View>
+                        <CustomText>{`Selected Venue : ${typeof venue !== "string" ? venue.title : "None Selected"}`}</CustomText>
+                        <CustomText>{`Start : ${formatTime(time.start) ? formatTime(time.start) : "None Selected"}`}</CustomText>
+                        <CustomText>{`End : ${formatTime(time.end) ? formatTime(time.end) : "None Selected"}`}</CustomText>
+                    </View>
+
                 </View>
             </CustomModal>
 
@@ -201,5 +228,6 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: AppConstants.whiteColor,
         flex: 1
-    }
+    },
+    venue: { flexDirection: "row", justifyContent: "space-between", backgroundColor: AppConstants.whiteColor, alignItems: "center", paddingHorizontal: s(5) },
 })

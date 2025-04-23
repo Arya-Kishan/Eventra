@@ -33,6 +33,7 @@ const EventScreen = () => {
     dispatch(setEventLoader("success"))
   }, [])
 
+  console.log("eventLoader : ", eventLoader)
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
@@ -52,15 +53,15 @@ const EventScreen = () => {
       </View>
 
       {
-        eventLoader == "loading"
+        eventLoader == "idle" || eventLoader == "loading"
           ?
           <CustomLoader />
           :
-          allEvents && allEvents!.length == 0
+          allEvents && allEvents.length == 0
             ?
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: vs(20) }}>
               <Text>NO EVENTS</Text>
-              <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateEventScreen", { eventId: null })}>
+              <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateVenueScreen", { venue: null, method: "create" })}>
                 <Icon icon='plus' iconType='Feather' />
               </RoundedBox>
             </View>
@@ -71,7 +72,7 @@ const EventScreen = () => {
               contentContainerStyle={{ padding: AppConstants.screenPadding, gap: AppConstants.defaultGap }}
               ListHeaderComponent={() => (<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <CustomText variant='h4'>Events</CustomText>
-                <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateEventScreen", { eventId: null })}>
+                <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateEventScreen", { event: null, method: "create" })}>
                   <Icon icon='plus' iconType='Feather' />
                 </RoundedBox>
               </View>)}

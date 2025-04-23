@@ -5,8 +5,8 @@ export type RootStackParamList = {
     Main: undefined;
     EventDetailScreen: { event: EventType };
     VenueDetailScreen: { venue: VenueType };
-    CreateEventScreen: { eventId: string | null };
-    CreateVenueScreen: { venueId: string | null };
+    CreateEventScreen: { event: EventType | null, method: "create" | "update" };
+    CreateVenueScreen: { venue: VenueType | null, method: "create" | "update" };
     ErrorScreen: undefined;
     Home: undefined;
     Details: { userId: number; userName: string };
@@ -41,6 +41,7 @@ export type userType = {
 type location = { latitude: string, longitude: string };
 type address = { state: string, city: string, area: string };
 export type LoaderType = "loading" | "idle" | "success" | "error"
+export type pic = { url: string, public_id: string, success: boolean }
 
 export type EventType = {
     title: string,
@@ -49,11 +50,12 @@ export type EventType = {
     date: string,
     pic: any,
     host: { name: string, _id: number, profilePic: string, bio: string } | string,
-    participants: string[] | userType[],
+    participants: [],
     venue: VenueType | string,
-    headCount: string,
+    headcount: string,
     category: string,
-    status?: "pending" | "rejected" | "accepted"
+    status?: "pending" | "rejected" | "accepted",
+    _id: string
 }
 
 export type SpotLightType = {
@@ -71,11 +73,12 @@ export type slotType = {
 export type VenueType = {
     title: string,
     description: string,
-    pic: string,
+    pic: pic,
     location: location,
     address: address,
     bookedEvents: any,
     slots: slotType[],
+    _id:string
 }
 
 

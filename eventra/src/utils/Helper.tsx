@@ -15,7 +15,9 @@ export const formatISODate = (isoString: any) => {
         month: months[dateObj.getMonth()],          // Month (1-12)
         year: dateObj.getFullYear(),            // Year (e.g., 2025)
         day: days[dateObj.getDay()],            // Day of the week (e.g., "Thursday")
-        time: formattedTime                     // e.g., "03:54 PM"
+        time: formattedTime,                   // e.g., "03:54 PM"
+        hours: dateObj.getHours(),
+        mins: dateObj.getMinutes(),
     };
 }
 
@@ -29,7 +31,27 @@ export const formatTime = (isoString: string) => {
     return isoString ? `${time}` : ""
 }
 
-export const showAlert = (title: string, description: string) => {
+export const showAlert = ({ title, description, text1, text2, handleText1, handleText2 }: { title: string, description?: string, handleText1: () => void, handleText2: () => void, text1: string, text2: string }) => {
+
+    Alert.alert(
+        title, // Title of the alert
+        description, // Message content
+        [
+            {
+                text: text1, // Button label
+                onPress: handleText1, // Action when button is pressed
+            },
+            {
+                text: text2, // Button label
+                onPress: handleText2, // Action when button is pressed
+            },
+        ],
+        { cancelable: true } // Optional, if set to true, the alert can be dismissed by tapping outside
+    )
+
+}
+
+export const showErrorAlert = (title: string, description: string) => {
 
     Alert.alert(
         title, // Title of the alert

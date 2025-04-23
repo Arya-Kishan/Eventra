@@ -20,7 +20,7 @@ const VenueCard: FC<VenueCardProps> = ({ item, index }) => {
     return (
         <Pressable onPress={() => { navigation.navigate("VenueDetailScreen", { venue: item }) }} key={index} style={styles.main}>
 
-            <Image source={{ uri: "https://i.pinimg.com/736x/6b/9d/12/6b9d129fefe082d62c5b1da8820156fa.jpg" }} style={styles.image} />
+            <Image source={{ uri: item.pic.url }} style={styles.image} />
 
             <View style={{ width: "100%", gap: s(5), padding: s(8), position: "absolute", bottom: 0, left: 0, backgroundColor: "#FFFFFFB9" }}>
                 <CustomText style={styles.title}>{item.title}</CustomText>

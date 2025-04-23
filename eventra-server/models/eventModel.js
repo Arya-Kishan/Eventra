@@ -11,6 +11,7 @@ const eventSchema = new Schema({
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
     category: { type: String, default: null },
     headcount: { type: Number, default: 1 },
+    price: { type: String, required: true, default: 1 },
     status: { type: String, default: "pending", enum: ["pending", "rejected", "accepted"] }
 }, { timestamps: true })
 

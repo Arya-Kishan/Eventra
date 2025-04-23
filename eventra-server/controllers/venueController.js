@@ -4,12 +4,14 @@ import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createVenue = AsyncHandler(async (req, res) => {
 
+    const { slots, address, location } = req.body;
+
     const picUrl = await uploadFileToCloudinary("image", req.files);
     if (picUrl.success == false) {
         throw Error("Error in Uploading Image to Cloudinary !!");
     }
 
-    const doc = new Venue({ ...req.body, pic: picUrl });
+    const doc = new Venue({ ...req.body, pic: picUrl, slots: JSON.parse(slots), location: JSON.parse(location), address: JSON.parse(address) });
     const newDoc = await doc.save();
     res.status(200).json({ data: newDoc, message: "Success" });
 
@@ -49,12 +51,9 @@ export const getAllVenueByUserId = AsyncHandler(async (req, res) => {
 
 export const getAllVenues = AsyncHandler(async (req, res) => {
     const doc = await Venue.find().populate({
-        path: 'venue'
+        path: 'host'
     }).populate({
-        path: 'participants',
-        select: ["name", "email", "bio", "profilePic"]
-    }).populate({
-        path: 'host',
+        path: 'bookedEvents',
         select: ["name", "email", "bio", "profilePic"]
     });
     res.status(200).json({ data: doc, message: "Success" });

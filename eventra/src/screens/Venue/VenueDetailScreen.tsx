@@ -1,3 +1,4 @@
+import { CustomImage } from '@components/global/CustomImage'
 import CustomText from '@components/global/CustomText'
 import Icon from '@components/global/Icon'
 import RoundedBox from '@components/global/RoundedBox'
@@ -8,6 +9,7 @@ import VenueReviewCard from '@components/venue/VenueReviewCard'
 import { AppConstants } from '@constants/AppConstants'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { openLocationInMaps } from '@utils/DeviceHelper'
+import { formatISODate, formatTime } from '@utils/Helper'
 import React, { FC } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -25,6 +27,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({ isCreatingEvent = false 
 
   const { params } = useRoute<VenueDetailScreenRouteProp>();
   const { address, description, location, pic, title, slots, bookedEvents } = params.venue;
+  console.log("params.venue : ", params.venue)
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -34,7 +37,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({ isCreatingEvent = false 
         {/* TITLE,LOCATION,ORICE */}
         <View style={{ padding: AppConstants.screenPadding, gap: vs(6), paddingBottom: vs(60) }}>
 
-          <Image source={{ uri: pic }} style={{ borderRadius: s(20), width: "100%", height: vs(250) }} />
+          <CustomImage source={typeof pic !== 'string' ? pic.url : ""} width={"100%"} height={vs(250)} />
 
           <View style={styles.shadowContainer}>
 
@@ -45,7 +48,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({ isCreatingEvent = false 
                 <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.grayColor} size={s(16)} />
                 <CustomText numberOfLines={2} style={{ fontWeight: "500", fontSize: s(16), color: AppConstants.darkGrayColor }} >{`${address.state}, ${address.city}`}</CustomText>
                 <CustomText variant='h4'>|</CustomText>
-                <RoundedBox onPress={() => { openLocationInMaps(40.7128, -74.0060); }} size={s(20)}>
+                <RoundedBox onPress={() => { openLocationInMaps(Number(location.latitude), Number(location.longitude)); }} size={s(20)}>
                   <Icon icon='location-arrow' iconType='FontAwesome5' color={AppConstants.redColor} size={s(12)} />
                 </RoundedBox>
               </View>
@@ -71,19 +74,14 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({ isCreatingEvent = false 
             {/* SLOTS */}
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
               <CustomText variant='h5'>Slots</CustomText>
-              <ToggleBox onChange={() => { }} wordArr={["AM", "PM"]} viewStyle={{ paddingHorizontal: s(6) }} textStyle={{ fontWeight: "500" }} />
             </View>
 
-            <View style={{ flexDirection: "row", gap: s(10), flexWrap: "wrap", justifyContent: "space-between", marginTop: vs(8) }}>
-              <TimeSlot start='02' end='04' />
-              <TimeSlot isBooked={true} start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
-              <TimeSlot start='02' end='04' />
+            <View style={{ flexDirection: "row", gap: s(10), flexWrap: "wrap", justifyContent: "flex-start", marginTop: vs(8) }}>
+              {
+                slots.map((item, index) => (
+                  <TimeSlot key={index} end={formatISODate(item.time.end).hours.toString()} start={formatISODate(item.time.start).hours.toString()} isBooked={item.isBooked} />
+                ))
+              }
             </View>
 
             {/* REVIEWS */}

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './reducers/counterSlice'
 import eventReducer from './reducers/eventSlice'
 import userReducer from './reducers/userSlice'
+import venueReducer from './reducers/venueSlice'
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
         event: eventReducer,
         user: userReducer,
+        venue: venueReducer,
     },
     devTools: true
 })

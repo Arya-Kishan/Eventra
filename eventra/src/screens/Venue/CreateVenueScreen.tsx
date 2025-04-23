@@ -8,7 +8,7 @@ import RoundedButton from '@components/global/RoundedButton';
 import { AppConstants } from '@constants/AppConstants';
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { createEventApi } from '@services/EventService';
+import { createVenueApi } from '@services/VenueServices';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setVenue } from '@store/reducers/eventSlice';
 import { formatTime, showToast } from '@utils/Helper';
@@ -17,12 +17,12 @@ import { FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, Vi
 import { launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { s, vs } from 'react-native-size-matters';
-import { AssetType, NavigationProps, RouteProps, slotType } from 'types/AppTypes';
 import uuid from 'react-native-uuid';
+import { AssetType, NavigationProps, RouteProps } from 'types/AppTypes';
 
 const CreateVenueScreen: FC = () => {
 
-    const { params: { venueId } } = useRoute<RouteProps<'CreateVenueScreen'>>();
+    const { params: { venue } } = useRoute<RouteProps<'CreateVenueScreen'>>();
     const [addLoader, setAddLoader] = useState(false);
     const navigation = useNavigation<NavigationProps<'CreateVenueScreen'>>();
 
@@ -54,7 +54,7 @@ const CreateVenueScreen: FC = () => {
         });
     };
 
-    const createEvent = async () => {
+    const createVenue = async () => {
         setAddLoader(true);
 
         const formData = new FormData();
@@ -62,12 +62,18 @@ const CreateVenueScreen: FC = () => {
         formData.append('description', description);
         formData.append('host', loggedInUser?._id);
         formData.append('pic', { uri: pic.uri, name: pic.fileName, type: pic.type });
+        formData.append('location', JSON.stringify(location));
+        formData.append('address', JSON.stringify(address));
+        const allSlots = slots.map((item) => {
+            return { time: { start: item.start, end: item.end }, isBooked: false, event: null }
+        })
+        formData.append('slots', JSON.stringify(allSlots));
 
-        const { data, error, success, message } = await createEventApi(formData);
+        const { data, error, success, message } = await createVenueApi(formData);
         // console.log(data.data)
         if (success) {
             navigation.navigate("Main");
-            showToast({ title: "Success", description: "New Event Created", type: "success" });
+            showToast({ title: "Success", description: "New Venue Created", type: "success" });
             // dispatch(setAllEvents([...allEvents!]))
         }
         setAddLoader(false);
@@ -178,11 +184,13 @@ const CreateVenueScreen: FC = () => {
                                 data={slots}
                                 renderItem={({ item, index }) => (
                                     <View style={{ flexDirection: "row", gap: s(20) }}>
-                                        <View style={[styles.timeBox, { padding: s(6) }]}>
+                                        <View style={[styles.timeBox, { padding: s(6), width: "100%" }]}>
                                             <CustomText>{formatTime(item.start)}</CustomText>
+                                            <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
                                         </View>
-                                        <View style={[styles.timeBox, { padding: s(6) }]}>
+                                        <View style={[styles.timeBox, { padding: s(6), width: "100%" }]}>
                                             <CustomText>{formatTime(item.end)}</CustomText>
+                                            <Icon icon='clock' iconType='Feather' size={s(18)} color='red' />
                                         </View>
                                         <RoundedBox size={s(25)} viewStyle={{ backgroundColor: AppConstants.redColor }} onPress={() => { handleDeleteSlot(item.id) }}>
                                             <Icon icon='x' iconType='Feather' size={s(20)} />
@@ -224,7 +232,7 @@ const CreateVenueScreen: FC = () => {
                     <TextInput style={styles.timeBox} value={address.area} placeholder='Area' onChangeText={(val) => (setAddress((prev) => ({ ...prev, area: val })))} />
 
 
-                    <RoundedButton loading={addLoader} title='Create' onPress={() => { createEvent() }} />
+                    <RoundedButton loading={addLoader} title='Create' onPress={createVenue} />
 
                 </View>
 

@@ -1,8 +1,15 @@
 import { Event } from '../models/eventModel.js'
+import { Venue } from '../models/venueModel.js'
 import { uploadFileToCloudinary } from '../services/Cloudinary.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createEvent = AsyncHandler(async (req, res) => {
+
+    // console.log("body : ", req.body)
+    // res.status(200).json({ data: "", message: "Success" });
+    // return;
+
+    const { venue, time } = req.body;
 
     const picUrl = await uploadFileToCloudinary("image", req.files);
     if (picUrl.success == false) {
@@ -11,12 +18,31 @@ export const createEvent = AsyncHandler(async (req, res) => {
 
     const doc = new Event({ ...req.body, pic: picUrl, time: JSON.parse(req.body.time) });
     const newDoc = await doc.save();
+    console.log("newDoc  : ", newDoc)
+    await Venue.findOneAndUpdate(
+        {
+            _id: venue,
+            "slots.time.start": JSON.parse(time).start,
+            "slots.time.end": JSON.parse(time).end
+        },
+        {
+            $set: {
+                "slots.$.isBooked": true,
+                "slots.$.event": newDoc._id
+            },
+            $push: {
+                bookedEvents: venue
+            }
+        },
+        { new: true }
+    );
     res.status(200).json({ data: newDoc, message: "Success" });
 
 }, "error in creating Event")
 
 export const updateEvent = AsyncHandler(async (req, res) => {
-    const doc = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate({
+    const { participants } = req.body;
+    const doc = await Event.findByIdAndUpdate(req.params.id, { ...req.body, participants: JSON.parse(participants) }, { new: true }).populate({
         path: 'venue'
     }).populate({
         path: 'participants',
@@ -25,7 +51,6 @@ export const updateEvent = AsyncHandler(async (req, res) => {
         path: 'host',
         select: ["name", "email", "bio", "profilePic"]
     });
-    await createEventNotification(doc);
     res.status(200).json({ data: doc, message: "Success" });
 }, 'error in updating Event')
 

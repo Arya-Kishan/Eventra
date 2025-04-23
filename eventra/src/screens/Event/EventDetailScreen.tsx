@@ -1,90 +1,155 @@
 import DetailCard1 from '@components/event/DetailCard1'
+import SmallEventCard from '@components/event/SmallEventCard'
 import { CustomImage } from '@components/global/CustomImage'
+import CustomLoader from '@components/global/CustomLoader'
 import CustomText from '@components/global/CustomText'
 import Icon from '@components/global/Icon'
+import RoundedBox from '@components/global/RoundedBox'
 import RoundedButton from '@components/global/RoundedButton'
+import ThreeDotBottomModal from '@components/global/ThreeDotBottomModal'
 import { AppConstants } from '@constants/AppConstants'
-import { RouteProp, useRoute } from '@react-navigation/native'
-import React from 'react'
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
+import { getSingleEvent, updateEventApi } from '@services/EventService'
+import { useAppSelector } from '@store/hooks'
+import { formatDate, formatISODate, formatTime, showToast } from '@utils/Helper'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
-import { RootStackParamList } from 'types/AppTypes'
+import { EventType, NavigationProps, RootStackParamList } from 'types/AppTypes'
 
 type EventDetailsScreenRouteProp = RouteProp<RootStackParamList, 'EventDetailScreen'>;
 
 const EventDetailScreen = () => {
 
     const route = useRoute<EventDetailsScreenRouteProp>();
+    const navigation = useNavigation<NavigationProps<'EventDetailScreen'>>();
     const { event } = route.params;
+    const [showEditModal, setShowEditModal] = useState(false);
+    const { loggedInUser } = useAppSelector(store => store.user)
+    const [loader, setLoader] = useState(false);
+    const [eventDetail, setEventDetail] = useState<EventType | null>(null);
 
-    const { address, dateAndTime, description, host, location, participants, pic, subTitle, title } = event;
+    const handleDelete = () => {
+        console.log("yes delete it")
+    }
+
+    const handleEdit = () => {
+        console.log("PLEASE  EDIT ME")
+        navigation.navigate('CreateEventScreen', { event: event, method: "update" })
+        setShowEditModal(false);
+    }
+
+    const handleJoin = async () => {
+
+        setLoader(true);
+        const formData = new FormData();
+        const newParticipants = eventDetail!.participants.length == 0 ? [loggedInUser?._id] : [...eventDetail!.participants.map((item: any) => item._id), loggedInUser?._id]
+        formData.append('participants', JSON.stringify(newParticipants));
+        formData.append('headcount', eventDetail!.headcount + 1);
+        const { success, data } = await updateEventApi(formData, eventDetail!._id);
+        if (success) {
+            setEventDetail(data.data)
+            showToast({ title: "Joined", description: "You joined The Event", type: "success" })
+        } else {
+            showToast({ title: "Not Joined", description: "Didn't join The Event", type: "error" })
+        }
+        setLoader(false);
+
+    }
+
+    const fetchSingleEvent = async () => {
+        const { data, success } = await getSingleEvent(event._id);
+        success ? setEventDetail(data.data) : navigation.navigate("ErrorScreen")
+    }
+
+    const isJoined = () => {
+        const userIdArr = eventDetail?.participants.map((item: EventType) => (item._id))
+        return userIdArr?.includes(loggedInUser?._id!);
+    }
+
+    useEffect(() => {
+        fetchSingleEvent();
+    }, [])
+
+    console.log("event detail : ", eventDetail)
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
 
-            <ScrollView style={{ flex: 1, backgroundColor: AppConstants.screenBgColor }}>
+            {
+                eventDetail == null
+                    ?
+                    <CustomLoader />
+                    :
+                    <>
+                        <ScrollView style={{ flex: 1, backgroundColor: AppConstants.screenBgColor }}>
 
-                <View style={{ position: "relative", marginBottom: s(20) }}>
+                            <View style={{ position: "relative", marginBottom: s(20) }}>
 
-                    <CustomImage source={pic} width={AppConstants.screenWidth} height={vs(200)} borderRadius={0} />
+                                <CustomImage source={eventDetail.pic.url} width={AppConstants.screenWidth} height={vs(200)} borderRadius={0} />
 
-                    <View style={{ position: "absolute", bottom: -s(20), left: "50%", transform: [{ translateX: "-50%" }], flexDirection: "row", gap: s(20), backgroundColor: "white", borderRadius: s(10), width: "70%", padding: s(6), height: s(40), justifyContent: "center", alignItems: "center", elevation: 3 }}>
+                                <View style={styles.headerInvite}>
 
-                        <Text>20+ Participated</Text>
+                                    <Text>Join and Invite {eventDetail.participants.length}+</Text>
 
-                        <RoundedButton title='Invite' onPress={() => { }} style={{ paddingVertical: s(2) }} />
+                                    <RoundedButton title='Invite' onPress={() => { }} style={{ paddingVertical: s(2) }} />
 
-                    </View>
+                                </View>
 
-                </View>
+                                <RoundedBox onPress={() => setShowEditModal(true)} size={s(30)} viewStyle={{ position: "absolute", top: 10, right: 10, backgroundColor: "transparent" }}>
+                                    <ThreeDotBottomModal onDelete={handleDelete} onEdit={handleEdit} setShow={setShowEditModal} show={showEditModal} />
+                                </RoundedBox>
 
-                <View style={{ paddingHorizontal: AppConstants.screenPadding, gap: AppConstants.defaultGap }}>
+                            </View>
 
-                    <CustomText style={{ fontSize: s(30), fontWeight: "800" }} numberOfLines={2}>{title}</CustomText>
+                            <View style={{ paddingHorizontal: AppConstants.screenPadding, gap: AppConstants.defaultGap }}>
 
-                    {/* EVENT DETAILS DATE,TIME, HOST INFO */}
-                    <View style={{ gap: AppConstants.defaultGap }}>
+                                <CustomText style={{ fontSize: s(30), fontWeight: "800" }} numberOfLines={2}>{eventDetail.title}</CustomText>
 
-                        <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title='14 Decmber, 2024' subTitle='Tuesday 04:00 PM - 06:00 PM' />
+                                {/* EVENT DETAILS DATE,TIME, HOST INFO */}
+                                <View style={{ gap: AppConstants.defaultGap }}>
 
-                        <DetailCard1 icon={<Icon iconType='FontAwesome' icon='map-marker' color={AppConstants.redColor} />} title='Gala Convention Center' subTitle='34 GB Road, Near Kaushal Enterprise, Patna' />
+                                    <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title={`${formatDate(eventDetail.date)}`} subTitle={`${formatISODate(eventDetail.date).day} ${formatTime(eventDetail.time.start)} - ${formatTime(eventDetail.time.start)}`} />
 
-                        <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title='14 Decmber, 2024' subTitle='Tuesday 04:00 PM - 06:00 PM' isPic={true} picUrl='https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg' showBtn={true} />
+                                    <DetailCard1 icon={<Icon iconType='FontAwesome' icon='map-marker' color={AppConstants.redColor} />} title='Gala Convention Center' subTitle='34 GB Road, Near Kaushal Enterprise, Patna' />
 
-                    </View>
+                                    <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title={typeof eventDetail.host !== 'string' ? `${eventDetail.host.name}` : "Host Of The Event"} subTitle={typeof eventDetail.host !== 'string' ? eventDetail.host.bio : "Enjoy the Event"} isPic={true} picUrl={typeof eventDetail.host !== 'string' ? `${eventDetail.host.profilePic}` : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'} showBtn={true} />
 
-                    {/* ABOUT */}
-                    <View>
-                        <CustomText style={{ fontWeight: "800", fontSize: s(18) }} >About Event</CustomText>
-                        <Text style={{ fontWeight: "400", fontSize: s(14), marginTop: vs(4) }} >
-                            Extraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or groupExtraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or groupExtraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or groupExtraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or groupExtraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or groupExtraterrestrial: This is the most common association with the word alien It refers to a living being that does not originate from Earth, often used in the context of science fiction
-                            Non-citizen: In legal terms, an alien is a person who is not a citizen of the country where they reside. They may be a legal resident, but they do not have the rights and obligations of a citizen.
-                            Foreign/Strange: The word can also describe something that is not native to a particular place, environment, or way of life. It can also refer to ideas, beliefs, or behaviors that are not part of a culture or group
-                        </Text>
-                    </View>
+                                </View>
 
-                </View>
+                                {/* ABOUT */}
+                                <View>
+                                    <CustomText style={{ fontWeight: "800", fontSize: s(18) }} >About Event</CustomText>
+                                    <Text style={{ fontWeight: "400", fontSize: s(14), marginTop: vs(4) }} >
+                                        {eventDetail.description}
+                                    </Text>
+                                </View>
 
-            </ScrollView>
+                                <View>
+                                    <CustomText style={{ fontWeight: "800", fontSize: s(18) }} >Venue</CustomText>
 
-            <View style={{ width: "100%", position: "absolute", bottom: 0, left: 0, justifyContent: "space-between", flexDirection: "row", alignItems: "center", backgroundColor: AppConstants.whiteColor, elevation: 4, paddingHorizontal: AppConstants.screenPadding, paddingVertical: vs(6) }}>
+                                    {
+                                        typeof eventDetail.venue !== 'string'
+                                        &&
+                                        <SmallEventCard venue={eventDetail.venue} />
+                                    }
 
-                <Text style={{ fontWeight: "800", fontSize: s(18) }}>$120</Text>
+                                </View>
 
-                <RoundedButton onPress={() => { }} title='Book Now' style={{ paddingVertical: s(8) }} />
+                            </View>
 
-            </View>
+                        </ScrollView>
+
+                        <View style={{ width: "100%", position: "absolute", bottom: 0, left: 0, justifyContent: "space-between", flexDirection: "row", alignItems: "center", backgroundColor: AppConstants.whiteColor, elevation: 4, paddingHorizontal: AppConstants.screenPadding, paddingVertical: vs(6) }}>
+
+                            <Text style={{ fontWeight: "800", fontSize: s(18) }}>$120</Text>
+
+                            <RoundedButton onPress={handleJoin} title={isJoined() ? "Joined" : "Join Now"} style={{ paddingVertical: s(8), width: s(130) }} loading={loader} disabled={isJoined()} />
+
+                        </View>
+                    </>
+            }
 
         </SafeAreaView>
     )
@@ -92,4 +157,6 @@ const EventDetailScreen = () => {
 
 export default EventDetailScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    headerInvite: { position: "absolute", bottom: -s(20), left: "50%", transform: [{ translateX: "-50%" }], flexDirection: "row", gap: s(20), backgroundColor: "white", borderRadius: s(10), width: "70%", padding: s(6), height: s(40), justifyContent: "center", alignItems: "center", elevation: 3 },
+})

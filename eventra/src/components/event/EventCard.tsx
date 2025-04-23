@@ -14,9 +14,9 @@ interface EventCardProps {
 }
 
 const EventCard: FC<EventCardProps> = ({ item, index }) => {
-      const navigation = useNavigation<NavigationProps<'Main'>>();
-      console.log(item)
-    
+    const navigation = useNavigation<NavigationProps<'Main'>>();
+    console.log(item)
+
     const getTiming = (): string => {
         const { date, day, month, time, year } = formatISODate(item.time.start)
         const { time: endTime } = formatISODate(item.time.end)
@@ -36,7 +36,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <View style={styles.address}>
                         <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.redColor} size={s(16)} />
-                        {/* <CustomText style={styles.city}>{`${item.venue.toString()},${item.venue.toString}`}</CustomText> */}
+                        <CustomText style={styles.city}>{typeof item.venue !== 'string' ? `${item.venue.address.city},${item.venue.address.state}` : ""}</CustomText>
                     </View>
                     <Icon icon='bookmark' iconType='Feather' color={AppConstants.black} size={s(20)} />
                 </View>

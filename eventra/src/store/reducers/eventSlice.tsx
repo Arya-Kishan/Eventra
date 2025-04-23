@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@store/store'
-import { EventType, LoaderType } from 'types/AppTypes'
+import { EventType, LoaderType, VenueType } from 'types/AppTypes'
 
 // Define a type for the slice state
 interface eventState {
@@ -10,7 +10,7 @@ interface eventState {
     description: string,
     time: { start: string, end: string },
     date: string,
-    venue: string,
+    venue: string | VenueType,
     pic: any,
     category: string,
     headcount: string,
@@ -26,7 +26,7 @@ const initialState: eventState = {
     description: "",
     time: { start: "", end: "" },
     date: "",
-    venue: "68037ec56eb1526bb1e542ea",
+    venue: "",
     pic: "",
     category: "",
     headcount: "",
@@ -52,7 +52,7 @@ export const eventSlice = createSlice({
         setDate: (state, action: PayloadAction<any>) => {
             state.date = action.payload
         },
-        setVenue: (state, action: PayloadAction<string>) => {
+        setVenue: (state, action: PayloadAction<VenueType|string>) => {
             state.venue = action.payload
         },
         setPic: (state, action: PayloadAction<any>) => {

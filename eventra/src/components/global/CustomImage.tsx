@@ -3,7 +3,7 @@ import { Image, StyleSheet, View, ActivityIndicator, ImageStyle, ViewStyle } fro
 
 interface CustomImageProps {
     source: string;
-    width?: number;
+    width?: any;
     height?: number;
     borderRadius?: number;
     style?: ImageStyle;

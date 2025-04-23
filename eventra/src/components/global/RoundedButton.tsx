@@ -11,6 +11,7 @@ type RoundedButtonProps = {
     style?: ViewStyle;
     textStyle?: TextStyle;
     loading?: boolean;
+    disabled?: boolean;
 };
 
 const RoundedButton: React.FC<RoundedButtonProps> = ({
@@ -20,13 +21,15 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
     textColor = '#fff',
     style,
     textStyle,
-    loading = false
+    loading = false,
+    disabled = false
 }) => {
     return (
         <TouchableOpacity
             style={[styles.button, { backgroundColor: color }, style]}
             onPress={onPress}
             activeOpacity={0.8}
+            disabled={disabled}
         >
             {
                 loading
