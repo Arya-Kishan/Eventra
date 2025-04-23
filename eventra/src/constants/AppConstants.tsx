@@ -26,7 +26,6 @@ export const AppConstants = {
     screenWidth: width,
     screenHeight: height,
 
-    googleMapKey:"AIzaSyAHv_z_vgUGrfNpIQjBN0N52YunphIUKP4",
     baseUrl : Config.BASE_URL,
 
 }
