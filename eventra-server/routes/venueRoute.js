@@ -4,12 +4,12 @@ import { mixUpload } from '../middlewares/Multer.js';
 const router = express.Router();
 
 router.post("/", mixUpload, createVenue)
-    .put("/:id", updateVenue)
+    .patch("/:id", mixUpload, updateVenue)
     .delete("/:id", deleteVenue)
     .get("/all", getAllVenues)
     .get("/upcoming", getAllUpcomingVenues)
     .get("/all/:userId", getAllVenueByUserId)
-    .get("/Venue/:id", getSingleVenue)
+    .get("/single/:id", getSingleVenue)
     .get("/search", getSearchedVenue)
 
 export default router;

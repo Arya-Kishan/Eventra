@@ -22,7 +22,7 @@ const ThreeDotBottomModal: FC<CustomModalType> = ({ setShow, show, onEdit, onDel
     return (
         <>
 
-            <RoundedBox onPress={() => setShow(true)} size={s(30)} viewStyle={{ position: "absolute", top: 10, right: 10, backgroundColor: "transparent" }}>
+            <RoundedBox onPress={() => setShow(true)} size={s(30)} viewStyle={{ position: "absolute", top: 10, right: 10, backgroundColor: AppConstants.redColor }}>
                 <Icon icon='dots-vertical' iconType='MaterialCommunityIcons' size={s(25)} />
             </RoundedBox>
 

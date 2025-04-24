@@ -1,52 +1,72 @@
 import CustomHeader from '@components/global/CustomHeader'
-import Icon from '@components/global/Icon'
 import CustomCarousel from '@components/home/CustomCarousel'
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList'
-import EventCard from '@components/home/EventCard'
 import HomeHeader from '@components/home/HomeHeader'
+import SmallEventCard from '@components/home/SmallEventCard'
 import SpotlightCard from '@components/home/SpotlightCard'
 import { AppConstants } from '@constants/AppConstants'
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants'
-import React from 'react'
-import { FlatList, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { getUpcomingEventsApi } from '@services/EventService'
+import { useAppDispatch, useAppSelector } from '@store/hooks'
+import { setUpcomingEvents } from '@store/reducers/eventSlice'
+import React, { useEffect } from 'react'
+import { FlatList, ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
+import { NavigationProps } from 'types/AppTypes'
 
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigation<NavigationProps<'Main'>>();
+  const { upcomingEvents } = useAppSelector(store => store.event);
+
+  const fetchData = async () => {
+    const { data, success } = await getUpcomingEventsApi();
+    console.log("UPCOMING DATA : ", data.data)
+    success ? dispatch(setUpcomingEvents(data.data)) : navigate.navigate("ErrorScreen");
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
+    <SafeAreaView>
 
-      <StatusBar translucent={false} />
+      <ScrollView style={{ backgroundColor: "white" }}>
 
-      <View style={styles.main}>
+        <StatusBar translucent={false} />
 
-        {/* HEADER CONTAINER */}
-        <HomeHeader />
+        <View style={styles.main}>
 
-
-        {/* CAROUSEL CONTAINER */}
-        <CustomHeader leftText='For You' rightText='See All' />
-        <CustomCarousel />
-
-        <CustomHeader leftText='Upcoming Events' rightText='See All' />
-        <DoubleHorizontalFlatList data={AppTemporaryContants.eventsArr} renderItem={(item, index) => <EventCard item={item} index={index} />} itemsPerColumn={2} />
-
-        <CustomHeader leftText='SpotLight' rightText='See All' />
-        <FlatList
-          data={AppTemporaryContants.spotLightsArr}
-          horizontal
-          keyExtractor={(_, index) => `column-${index}`}
-          renderItem={({ item, index }) => (
-            <SpotlightCard item={item} index={index} />
-          )}
-          contentContainerStyle={{ gap: AppConstants.defaultGap }}
-          showsHorizontalScrollIndicator={false}
-        />
+          {/* HEADER CONTAINER */}
+          <HomeHeader />
 
 
-      </View>
-    </ScrollView>
+          {/* CAROUSEL CONTAINER */}
+          <CustomHeader leftText='For You' rightText='See All' />
+          <CustomCarousel />
+
+          <CustomHeader leftText='Upcoming Events' rightText='See All' />
+          <DoubleHorizontalFlatList data={upcomingEvents ? upcomingEvents : []} renderItem={(item, index) => <View key={item._id}><SmallEventCard item={item} index={index} /></View>} itemsPerColumn={2} />
+
+          <CustomHeader leftText='SpotLight' rightText='See All' />
+          <FlatList
+            data={AppTemporaryContants.spotLightsArr}
+            horizontal
+            keyExtractor={(_, index) => `column-${index}`}
+            renderItem={({ item, index }) => (
+              <SpotlightCard item={item} index={index} />
+            )}
+            contentContainerStyle={{ gap: AppConstants.defaultGap }}
+            showsHorizontalScrollIndicator={false}
+          />
+
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

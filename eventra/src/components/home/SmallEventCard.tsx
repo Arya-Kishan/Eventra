@@ -7,16 +7,16 @@ import { AppConstants } from '@constants/AppConstants'
 import { EventType } from 'types/AppTypes'
 import CustomText from '@components/global/CustomText'
 
-interface EventCardProps {
+interface SmallEventCardProps {
     item: EventType,
     index: number
 }
 
-const EventCard: FC<EventCardProps> = ({ item, index }) => {
+const SmallEventCard: FC<SmallEventCardProps> = ({ item, index }) => {
     return (
-        <View key={index} style={styles.main}>
+        <View key={item._id} style={styles.main}>
 
-            <Image source={{ uri: "https://i.pinimg.com/736x/6b/9d/12/6b9d129fefe082d62c5b1da8820156fa.jpg" }} style={styles.image} />
+            <Image source={{ uri: item.pic.url }} style={styles.image} />
 
             <View style={styles.rightContainer}>
 
@@ -26,7 +26,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
 
                     <View style={styles.address}>
                         <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.grayColor} size={s(16)} />
-                        <CustomText style={styles.city}>{`${item.address.city},${item.address.state}`}</CustomText>
+                        <CustomText style={styles.city}>{`${typeof item.venue !== 'string' && item.venue.address.city},${typeof item.venue !== 'string' && item.venue.address.state}`}</CustomText>
                     </View>
 
                     <RoundedButton onPress={() => { }} title='Check' style={styles.btn} textStyle={{ fontSize: s(11) }} />
@@ -36,7 +36,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
     )
 }
 
-export default EventCard
+export default SmallEventCard
 
 const styles = StyleSheet.create({
     main: { width: s(210), flexDirection: "row", gap: s(10) },

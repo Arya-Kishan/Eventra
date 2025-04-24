@@ -18,17 +18,32 @@ export const createVenue = AsyncHandler(async (req, res) => {
 }, "error in creating Venue")
 
 export const updateVenue = AsyncHandler(async (req, res) => {
-    const doc = await Venue.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate({
-        path: 'venue'
-    }).populate({
-        path: 'participants',
-        select: ["name", "email", "bio", "profilePic"]
-    }).populate({
-        path: 'host',
-        select: ["name", "email", "bio", "profilePic"]
-    });
-    await createVenueNotification(doc);
-    res.status(200).json({ data: doc, message: "Success" });
+
+    const normalUpdates = ["title", "description", "host", "pic", "location", "address"];
+    const pushUpdates = ["bookedEvents", "slots", "reviews"];
+
+    const DoUpdateNormal = {};
+    const DoUpdatePush = {};
+
+    for (let key in req.body) {
+        if (normalUpdates.includes(key)) {
+            DoUpdateNormal[key] = req.body[key];
+        } else {
+            DoUpdatePush[key] = JSON.parse(req.body[key]);
+        }
+    }
+
+    const newUpdates = await Venue.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: DoUpdateNormal,
+            $push: DoUpdatePush
+        },
+        { new: true }
+    )
+
+    res.status(200).json({ data: newUpdates, message: "Success" });
+
 }, 'error in updating Venue')
 
 export const deleteVenue = AsyncHandler(async (req, res) => {
@@ -76,13 +91,14 @@ export const getAllUpcomingVenues = AsyncHandler(async (req, res) => {
 
 export const getSingleVenue = AsyncHandler(async (req, res) => {
     const doc = await Venue.findById(req.params.id).populate({
-        path: 'venue'
-    }).populate({
-        path: 'participants',
-        select: ["name", "email", "bio", "profilePic"]
-    }).populate({
         path: 'host',
         select: ["name", "email", "bio", "profilePic"]
+    }).populate({
+        path: 'bookedEvents',
+    }).populate({
+        path: 'slots',
+    }).populate({
+        path: 'reviews.user',
     });
     res.status(200).json({ data: doc, message: "Success" });
 }, "error in getting single Venue")

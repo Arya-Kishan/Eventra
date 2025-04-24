@@ -18,7 +18,7 @@ const VenueCard: FC<VenueCardProps> = ({ item, index }) => {
     const navigation = useNavigation<NavigationProps<'Main'>>();
 
     return (
-        <Pressable onPress={() => { navigation.navigate("VenueDetailScreen", { venue: item }) }} key={index} style={styles.main}>
+        <Pressable onPress={() => { navigation.navigate("VenueDetailScreen", { venueId: item._id }) }} key={index} style={styles.main}>
 
             <Image source={{ uri: item.pic.url }} style={styles.image} />
 

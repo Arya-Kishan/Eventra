@@ -1,20 +1,28 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 interface CustomCheckBoxType {
-    onChange: (val: boolean) => void
+    onSelected: () => void;
+    onUnSelected: () => void;
+    checked: boolean;
+    setChecked: (val: boolean) => void;
 }
 
-const CustomCheckbox: FC<CustomCheckBoxType> = ({ onChange }) => {
-    const [checked, setChecked] = useState(false);
+const CustomCheckbox: FC<CustomCheckBoxType> = ({ onSelected, onUnSelected, checked = false, setChecked }) => {
 
-    const handleCheck = () => {
-        setChecked(!checked);
-        onChange(!checked);
+
+    const handleSelected = () => {
+        onSelected();
+        setChecked(true);
+    }
+
+    const handleUnSelected = () => {
+        onUnSelected();
+        setChecked(false);
     }
 
     return (
-        <TouchableOpacity onPress={handleCheck} style={styles.checkboxContainer}>
+        <TouchableOpacity onPress={checked ? handleUnSelected : handleSelected} style={styles.checkboxContainer}>
             <View style={[styles.checkbox, checked && styles.checked]}>
                 {checked && <Text style={styles.checkmark}>✓</Text>}
             </View>

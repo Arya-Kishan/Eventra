@@ -1,24 +1,20 @@
-import SelectVenueSlot from '@components/event/SelectVenueSlot';
-import CustomCheckbox from '@components/global/CustomCheckBox';
-import CustomModal from '@components/global/CustomModal';
+import SelectVenueModal from '@components/event/SelectVenueModal';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
 import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
-import TimeSlot from '@components/venue/TimeSlot';
 import { AppConstants } from '@constants/AppConstants';
-import { AppTemporaryContants } from '@constants/AppTemporaryConstants';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { createEventApi } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setAllEvents, setCategory, setDate, setDescription, setHeadcount, setPic, setTime, setTitle, setVenue } from '@store/reducers/eventSlice';
-import { formatDate, formatISODate, formatTime, showToast } from '@utils/Helper';
+import { formatDate, formatTime, showToast } from '@utils/Helper';
 import React, { FC, useEffect, useState } from 'react';
-import { FlatList, Image, Pressable, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, ScrollView, StatusBar, StyleSheet, TextInput, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { s, vs } from 'react-native-size-matters';
-import { AssetType, NavigationProps, RouteProps, slotType, VenueType } from 'types/AppTypes';
+import { AssetType, NavigationProps, RouteProps, VenueType } from 'types/AppTypes';
 
 const CreateEventScreen: FC = () => {
 
@@ -107,7 +103,7 @@ const CreateEventScreen: FC = () => {
 
             {/* BACK HEADER */}
             <View style={{ backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding, flexDirection: "row", gap: s(10), alignItems: "center" }}>
-                <Icon icon='arrow-left' iconType='FontAwesome5' size={s(20)} />
+                <Pressable onPress={() => navigation.goBack()}><Icon icon='arrow-left' iconType='FontAwesome5' size={s(20)} /></Pressable>
                 <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Create Event</CustomText>
             </View>
 
@@ -126,7 +122,7 @@ const CreateEventScreen: FC = () => {
                         <TextInput numberOfLines={4} value={description} placeholder='Enter Description' onChangeText={(val) => dispatch(setDescription(val))} style={styles.input} />
                     </View>
 
-                    {/* DATE TIME */}
+                    {/*VENUE, DATE TIME */}
                     <View style={{ gap: vs(10) }}>
 
                         {/* DATE */}
@@ -197,26 +193,7 @@ const CreateEventScreen: FC = () => {
 
             </ScrollView>
 
-            <CustomModal show={showVenues} setShow={setShowVenues}>
-                <View style={{ height: "60%" }}>
-
-                    <FlatList
-                        data={allVenues}
-                        renderItem={({ item, index }) => (
-                            <SelectVenueSlot handleSelectSlot={(slot: slotType) => { dispatch(setTime({ start: slot.time.start, end: slot.time.end })) }} handleSelectVenue={(venue) => { dispatch(setVenue(venue)) }} venue={item} selectedVenue={venue} />
-                        )}
-                        contentContainerStyle={{ width: s(250), gap: vs(10) }}
-                        keyExtractor={(item, index) => (item._id).toString()}
-                    />
-
-                    <View>
-                        <CustomText>{`Selected Venue : ${typeof venue !== "string" ? venue.title : "None Selected"}`}</CustomText>
-                        <CustomText>{`Start : ${formatTime(time.start) ? formatTime(time.start) : "None Selected"}`}</CustomText>
-                        <CustomText>{`End : ${formatTime(time.end) ? formatTime(time.end) : "None Selected"}`}</CustomText>
-                    </View>
-
-                </View>
-            </CustomModal>
+            <SelectVenueModal setShow={setShowVenues} show={showVenues} />
 
         </SafeAreaView>
     )

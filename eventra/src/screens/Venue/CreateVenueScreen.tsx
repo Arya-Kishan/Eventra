@@ -238,22 +238,6 @@ const CreateVenueScreen: FC = () => {
 
             </ScrollView>
 
-            <CustomModal show={showVenues} setShow={setShowVenues}>
-                <View style={{ height: "60%" }}>
-                    <FlatList
-                        data={AppTemporaryContants.temporaryVenueArr}
-                        renderItem={({ item, index }) => (
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
-                                <Text>{item.title}</Text>
-                                <CustomCheckbox onChange={(val: boolean) => { dispatch(setVenue(item._id.toString())), setShowVenues(false) }} />
-                            </View>
-                        )}
-                        contentContainerStyle={{ gap: vs(10) }}
-                        keyExtractor={(item, index) => (item._id).toString()}
-                    />
-                </View>
-            </CustomModal>
-
         </SafeAreaView>
     )
 }

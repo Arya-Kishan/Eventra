@@ -9,17 +9,21 @@ interface TimeSlotType {
     start: string,
     end: string,
     isBooked?: boolean,
-    onPress?: () => void
+    onPress?: () => void,
+    selected: boolean
 }
 
-const TimeSlot: FC<TimeSlotType> = ({ start, end, isBooked = false, onPress }) => {
+const TimeSlot: FC<TimeSlotType> = ({ start, end, isBooked = false, onPress, selected }) => {
 
     const alreadyBooked = () => {
         showToast({ title: "Already Booked", description: "Slot is already booked for other event", type: "info" })
     }
 
     return (
-        <Pressable onPress={isBooked ? alreadyBooked : onPress} style={[styles.main, isBooked && { backgroundColor: AppConstants.redColor }]}>
+        <Pressable
+            onPress={isBooked ? alreadyBooked : onPress}
+            style={[styles.main, isBooked ? { backgroundColor: AppConstants.redColor } : selected && { backgroundColor: AppConstants.greenColor }]}
+        >
             <CustomText variant='body2' fontWeight='500'>{start}</CustomText>
             <CustomText>-</CustomText>
             <CustomText variant='body2' fontWeight='500'>{end}</CustomText>

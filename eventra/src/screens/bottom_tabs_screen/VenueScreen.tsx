@@ -42,7 +42,7 @@ const VenueScreen = () => {
 
             <View style={{ backgroundColor: AppConstants.redColor, padding: s(15), flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CustomText style={{ fontWeight: "800", fontSize: s(25), color: AppConstants.whiteColor }}>Venue</CustomText>
-                <RoundedBox size={s(30)} viewStyle={{ backgroundColor: "transparent" }} onPress={() => { navigation.navigate('CreateVenueScreen', { venueId: "12" }) }}>
+                <RoundedBox size={s(30)} viewStyle={{ backgroundColor: "transparent" }} onPress={() => { navigation.navigate('CreateVenueScreen', { venue: null, method: "create" }) }}>
                     <Icon icon='plus' iconType='Feather' size={s(25)} />
                 </RoundedBox>
             </View>
@@ -59,7 +59,7 @@ const VenueScreen = () => {
                         ListEmptyComponent={() => (
                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: vs(20) }}>
                                 <Text>NO VENUES</Text>
-                                <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateVenueScreen", { venueId: null })}>
+                                <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateVenueScreen", { venue: null, method: "create" })}>
                                     <Icon icon='plus' iconType='Feather' />
                                 </RoundedBox>
                             </View>

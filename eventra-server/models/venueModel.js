@@ -7,9 +7,32 @@ const venueSchema = new Schema({
     pic: { url: String, public_id: String, success: Boolean },
     location: { latitude: String, longitude: String },
     address: { state: String, city: String, area: String },
-    bookedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event', default: [] }], // ARRAY OF EVENT ID
-    slots: [{ time: { start: String, end: String }, isBooked: Boolean, event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' } }],
-    reviews: { type: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, comment: String }], default: [], _id: false },
+    bookedEvents: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event',
+            default: []
+        }
+    ], // ARRAY OF EVENT ID
+    slots: [
+        {
+            time: { start: String, end: String },
+            isBooked: Boolean,
+            event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' }
+        }
+    ],
+    reviews: {
+        type: [
+            {
+                user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+                comment: String,
+                star: { type: String, default: "0" },
+                createdAt: { type: Date, default: Date.now, _id: false }
+            }
+        ],
+        default: [],
+        _id: false
+    },
     price: { type: String, required: true, default: 1 },
 }, { timestamps: true })
 

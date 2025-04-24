@@ -1,5 +1,5 @@
 import DetailCard1 from '@components/event/DetailCard1'
-import SmallEventCard from '@components/event/SmallEventCard'
+import SmallVenueCard from '@components/venue/SmallVenueCard'
 import { CustomImage } from '@components/global/CustomImage'
 import CustomLoader from '@components/global/CustomLoader'
 import CustomText from '@components/global/CustomText'
@@ -22,9 +22,8 @@ type EventDetailsScreenRouteProp = RouteProp<RootStackParamList, 'EventDetailScr
 
 const EventDetailScreen = () => {
 
-    const route = useRoute<EventDetailsScreenRouteProp>();
+    const { params } = useRoute<EventDetailsScreenRouteProp>();
     const navigation = useNavigation<NavigationProps<'EventDetailScreen'>>();
-    const { event } = route.params;
     const [showEditModal, setShowEditModal] = useState(false);
     const { loggedInUser } = useAppSelector(store => store.user)
     const [loader, setLoader] = useState(false);
@@ -36,7 +35,7 @@ const EventDetailScreen = () => {
 
     const handleEdit = () => {
         console.log("PLEASE  EDIT ME")
-        navigation.navigate('CreateEventScreen', { event: event, method: "update" })
+        navigation.navigate('CreateEventScreen', { event: eventDetail, method: "update" })
         setShowEditModal(false);
     }
 
@@ -59,7 +58,7 @@ const EventDetailScreen = () => {
     }
 
     const fetchSingleEvent = async () => {
-        const { data, success } = await getSingleEvent(event._id);
+        const { data, success } = await getSingleEvent(params.eventId);
         success ? setEventDetail(data.data) : navigation.navigate("ErrorScreen")
     }
 
@@ -132,7 +131,7 @@ const EventDetailScreen = () => {
                                     {
                                         typeof eventDetail.venue !== 'string'
                                         &&
-                                        <SmallEventCard venue={eventDetail.venue} />
+                                        <SmallVenueCard venue={eventDetail.venue} />
                                     }
 
                                 </View>

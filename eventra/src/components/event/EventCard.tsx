@@ -24,7 +24,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
 
     }
     return (
-        <Pressable onPress={() => { navigation.navigate("EventDetailScreen", { event: item }) }} key={index} style={styles.main}>
+        <Pressable onPress={() => { navigation.navigate("EventDetailScreen", { eventId: item._id }) }} key={index} style={styles.main}>
 
             <Image source={{ uri: item.pic.url }} style={styles.image} />
 

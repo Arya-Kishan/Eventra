@@ -18,7 +18,6 @@ export const createEvent = AsyncHandler(async (req, res) => {
 
     const doc = new Event({ ...req.body, pic: picUrl, time: JSON.parse(req.body.time) });
     const newDoc = await doc.save();
-    console.log("newDoc  : ", newDoc)
     await Venue.findOneAndUpdate(
         {
             _id: venue,
@@ -31,7 +30,7 @@ export const createEvent = AsyncHandler(async (req, res) => {
                 "slots.$.event": newDoc._id
             },
             $push: {
-                bookedEvents: venue
+                bookedEvents: newDoc._id
             }
         },
         { new: true }

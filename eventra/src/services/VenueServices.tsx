@@ -14,6 +14,16 @@ const getAllVenueApi = async (): Promise<ApiReturnType> => {
     }
 };
 
+const getSingleVenueApi = async (id: string): Promise<ApiReturnType> => {
+    try {
+      const { data } = await axiosInstance.get(`/venue/single/${id}`);
+      return { data: data, message: "Venues Fetched", success: true, error: null };  // Return the response data
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return { data: null, message: "Error in Venues Fetching", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+  };
+
 const createVenueApi = async (venue: VenueType | FormData): Promise<ApiReturnType> => {
 
     console.log("venue : ", venue)
@@ -34,4 +44,22 @@ const createVenueApi = async (venue: VenueType | FormData): Promise<ApiReturnTyp
 
 }
 
-export { createVenueApi, getAllVenueApi };
+const updateVenueApi = async (venue: FormData, id: string): Promise<ApiReturnType> => {
+
+    console.log(venue)
+
+    try {
+        const { data } = await axiosInstance.patch(`/venue/${id}`, venue, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return { data: data, message: "venues Fetched", success: true, error: null };  // Return the response data
+    } catch (error) {
+        console.error('Error creating user data:', error);
+        return { data: null, message: "Error in venues creating", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+
+}
+
+export { createVenueApi, getAllVenueApi, updateVenueApi,getSingleVenueApi };

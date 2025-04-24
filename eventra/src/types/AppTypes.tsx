@@ -3,8 +3,8 @@ import { RouteProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
     Main: undefined;
-    EventDetailScreen: { event: EventType };
-    VenueDetailScreen: { venue: VenueType };
+    EventDetailScreen: { eventId: string };
+    VenueDetailScreen: { venueId: string };
     CreateEventScreen: { event: EventType | null, method: "create" | "update" };
     CreateVenueScreen: { venue: VenueType | null, method: "create" | "update" };
     ErrorScreen: undefined;
@@ -70,6 +70,8 @@ export type slotType = {
     eventId?: any,
 }
 
+export type CommentType = { user: userType, createdAt: string, comment: string, star: string }
+
 export type VenueType = {
     title: string,
     description: string,
@@ -78,7 +80,8 @@ export type VenueType = {
     address: address,
     bookedEvents: any,
     slots: slotType[],
-    _id:string
+    reviews: CommentType[]
+    _id: string
 }
 
 

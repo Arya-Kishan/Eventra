@@ -4,7 +4,6 @@ import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import { AppConstants } from '@constants/AppConstants';
-import { AppTemporaryContants } from '@constants/AppTemporaryConstants';
 import { useNavigation } from '@react-navigation/native';
 import { getAllEvent } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -22,15 +21,14 @@ const EventScreen = () => {
   const { allEvents, upcomingEvents, eventLoader } = useAppSelector(store => store.event);
 
   const fetchAllEvents = async () => {
-    console.log("FETCHING ALL EVENTS")
+    dispatch(setEventLoader("loading"))
     const { data, success } = await getAllEvent();
     success ? dispatch(setAllEvents(data.data)) : navigation.replace("ErrorScreen");
+    dispatch(setEventLoader("success"))
   }
 
   useEffect(() => {
-    dispatch(setEventLoader("loading"))
     fetchAllEvents();
-    dispatch(setEventLoader("success"))
   }, [])
 
   console.log("eventLoader : ", eventLoader)
