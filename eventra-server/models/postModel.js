@@ -1,14 +1,14 @@
 import mongoose, { Schema } from 'mongoose'
 
 const postSchema = new Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', default: null },
-    venue: { type: mongoose.Schema.Types.ObjectId, ref: 'Venue', default: null },
     file: {
         type: {
             fileType: { type: String, default: "", enum: ["image", "video"] },
-            fileUrl: { type: String, default: "" },
-            file_public_id: { type: String, default: "" },
+            url: { type: String, default: "" },
+            public_id: { type: String, default: "" },
+            _id: false
         },
         default: {}
     },

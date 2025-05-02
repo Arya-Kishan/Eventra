@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Icon from '@components/global/Icon'
 import { s, vs } from 'react-native-size-matters'
@@ -14,7 +14,7 @@ const HomeHeader = () => {
         <View style={styles.headerContainer}>
 
             {/* avatar */}
-            <View style={styles.avatarContainer}>
+            <Pressable onPress={() => navigation.navigate("ProfileScreen")} style={styles.avatarContainer}>
 
                 <CustomImage width={s(38)} height={s(38)} source='https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg' />
 
@@ -24,7 +24,7 @@ const HomeHeader = () => {
                 </View>
 
 
-            </View>
+            </Pressable>
 
             {/* ICON BOX */}
             <View style={{ gap: AppConstants.defaultGap, flexDirection: "row" }}>
@@ -33,7 +33,7 @@ const HomeHeader = () => {
                     <Icon iconType='Feather' icon='search' color='black' />
                 </RoundedBox>
 
-                <RoundedBox size={s(35)} onPress={()=>navigation.navigate("ErrorScreen")} >
+                <RoundedBox size={s(35)} onPress={() => navigation.navigate("ErrorScreen")} >
                     <Icon iconType='Feather' icon='bell' color='black' />
                 </RoundedBox>
             </View>

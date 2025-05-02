@@ -1,6 +1,7 @@
 import EventCard from '@components/event/EventCard';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
+import EmptyData from '@components/global/EmptyData';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import { AppConstants } from '@constants/AppConstants';
@@ -57,12 +58,7 @@ const EventScreen = () => {
           :
           allEvents && allEvents.length == 0
             ?
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: vs(20) }}>
-              <Text>NO EVENTS</Text>
-              <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateVenueScreen", { venue: null, method: "create" })}>
-                <Icon icon='plus' iconType='Feather' />
-              </RoundedBox>
-            </View>
+            <EmptyData title='NO EVENTS' handleAddClick={() => { }} />
             :
             <FlatList
               data={allEvents}

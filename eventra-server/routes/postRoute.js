@@ -8,7 +8,7 @@ router.post("/", mixUpload, createPost)
     .get("/single/:id", getSinglePost)
     .get("/all", getAllPosts)
     .get("/user/:id", getUserPosts)
-    .put("/:id", mixUpload, updatePost)
+    .patch("/:id", mixUpload, updatePost)
     .delete("/:id", deletePost)
 
 export default router;

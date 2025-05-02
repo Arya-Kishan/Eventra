@@ -4,7 +4,7 @@ import { Image, StyleSheet, View, ActivityIndicator, ImageStyle, ViewStyle } fro
 interface CustomImageProps {
     source: string;
     width?: any;
-    height?: number;
+    height?: any;
     borderRadius?: number;
     style?: ImageStyle;
     containerStyle?: ViewStyle;

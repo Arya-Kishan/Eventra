@@ -27,6 +27,9 @@ export const AppConstants = {
     screenHeight: height,
 
     baseUrl : Config.BASE_URL,
+    socketBaseUrl : Config.SOCKET_BASE_URL,
+
+    fallbackProfilePic:"https://i.pinimg.com/736x/7d/ef/87/7def87133b56ce7e8cb357d95cd2de4c.jpg"
 
 }
 

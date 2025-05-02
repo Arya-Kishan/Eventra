@@ -4,15 +4,20 @@ import { s } from 'react-native-size-matters'
 import Icon from '@components/global/Icon'
 import RoundedButton from '@components/global/RoundedButton'
 import { AppConstants } from '@constants/AppConstants'
-import { EventType } from 'types/AppTypes'
+import { EventType, NavigationProps, RootStackParamList } from 'types/AppTypes'
 import CustomText from '@components/global/CustomText'
+import { useNavigation } from '@react-navigation/native'
 
 interface SmallEventCardProps {
     item: EventType,
-    index: number
+    index: number,
+    navigationScreen: keyof RootStackParamList
 }
 
-const SmallEventCard: FC<SmallEventCardProps> = ({ item, index }) => {
+const SmallEventCard: FC<SmallEventCardProps> = ({ item, index, navigationScreen }) => {
+
+    const navigation = useNavigation<NavigationProps<typeof navigationScreen>>()
+
     return (
         <View key={item._id} style={styles.main}>
 
@@ -29,7 +34,8 @@ const SmallEventCard: FC<SmallEventCardProps> = ({ item, index }) => {
                         <CustomText style={styles.city}>{`${typeof item.venue !== 'string' && item.venue.address.city},${typeof item.venue !== 'string' && item.venue.address.state}`}</CustomText>
                     </View>
 
-                    <RoundedButton onPress={() => { }} title='Check' style={styles.btn} textStyle={{ fontSize: s(11) }} />
+                    <RoundedButton onPress={() => { navigation.navigate("EventDetailScreen", { eventId: item._id }) }} title='Check' style={styles.btn} textStyle={{ fontSize: s(11) }} />
+
                 </View>
             </View>
         </View>
@@ -39,7 +45,7 @@ const SmallEventCard: FC<SmallEventCardProps> = ({ item, index }) => {
 export default SmallEventCard
 
 const styles = StyleSheet.create({
-    main: { width: s(210), flexDirection: "row", gap: s(10) },
+    main: { width: "100%", flexDirection: "row", gap: s(10) },
     image: { objectFit: "cover", width: s(50), height: s(50), borderRadius: s(14) },
     rightContainer: { justifyContent: "space-between", flex: 1 },
     subTitle: { fontSize: s(15), flexWrap: "wrap", fontWeight: "500" },

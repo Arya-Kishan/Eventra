@@ -12,16 +12,7 @@ interface UserState {
 // Define the initial state using that type
 const initialState: UserState = {
     value: 0,
-    loggedInUser: {
-        name: "Arya",
-        email: "arya12345kishan@gmail.com",
-        password: "12345",
-        bio: "I am a good boy",
-        profilePic: "https://i.pinimg.com/474x/0b/b5/83/0bb583aad899151f55967bb374cb29f8.jpg",
-        role: "admin",
-        FCMToken: "AC12XSFFQ223DFDDDGF01SS",
-        _id: "68027b81ecf0300d691eaf8a"
-    }
+    loggedInUser: null
 }
 
 export const userSlice = createSlice({
@@ -30,7 +21,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         // Use the PayloadAction type to declare the contents of `action.payload`
-        setLoggedInUser: (state, action: PayloadAction<userType>) => {
+        setLoggedInUser: (state, action: PayloadAction<userType | null>) => {
             state.loggedInUser = action.payload
         },
     },

@@ -5,10 +5,20 @@ export type RootStackParamList = {
     Main: undefined;
     EventDetailScreen: { eventId: string };
     VenueDetailScreen: { venueId: string };
+    ProductDetailScreen: { productId: string };
     CreateEventScreen: { event: EventType | null, method: "create" | "update" };
     CreateVenueScreen: { venue: VenueType | null, method: "create" | "update" };
+    CreatePostScreen: { post: PostType | null, method: "create" | "update" };
     ErrorScreen: undefined;
+    CartScreen: undefined;
     Home: undefined;
+    AuthScreen: undefined;
+    LoginScreen: undefined;
+    SignUpScreen: undefined;
+    ForgotPasswordScreen: undefined;
+    ChatDashboardScreen: undefined;
+    ChatScreen: { user: userType };
+    ProfileScreen: undefined;
     Details: { userId: number; userName: string };
 };
 
@@ -71,6 +81,7 @@ export type slotType = {
 }
 
 export type CommentType = { user: userType, createdAt: string, comment: string, star: string }
+export type PostCommentType = { user: userType | string, createdAt?: string, comment: string, post: PostType | string, _id?: string }
 
 export type VenueType = {
     title: string,
@@ -80,8 +91,28 @@ export type VenueType = {
     address: address,
     bookedEvents: any,
     slots: slotType[],
-    reviews: CommentType[]
+    reviews: []
     _id: string
+}
+
+export type PostType = {
+    _id: string,
+    user: userType | string,
+    event: EventType | string,
+    file: {
+        fileType?: "image" | "video",
+        url?: string,
+        public_id?: string,
+        uri?: string,
+        name?: string,
+        type?: string
+    },
+    title: string,
+    description: string,
+    tags: string[],
+    likes: userType[] | null,
+    comments: string[]
+
 }
 
 
@@ -96,3 +127,48 @@ export type AssetType = {
     id?: string;
     base64?: string;
 };
+
+export type ProductType = {
+    _id: string,
+    title: string,
+    description: string,
+    price: number,
+    discountPercentage: number,
+    rating: number,
+    stock: number,
+    category: string,
+    sizes?: string[],
+    pic: string,
+} | null
+
+export type ProductSizesType = "XS" | "S" | "M" | "L" | "XL" | "L"
+
+export type CartProductType = {
+    product: ProductType,
+    quantity: number,
+    selectedsize?: ProductSizesType,
+
+}
+
+export type CartType = ProductType[];
+
+export type UserAddressType = {
+    area: string,
+    city: string,
+    state: string,
+    postalCode: string,
+    country: string,
+    phone: string,
+}
+
+export type ProductOrderType = { product: ProductType | string, quantity: number, size: "XS" | "S" | "M" | "L" | "XL" | "L" }
+
+export type OrderType = {
+    user: userType | string,
+    products: ProductOrderType[],
+    totalAmount: number,
+    paymentStatus: 'pending' | 'paid' | 'failed',
+    orderStatus: 'processing' | 'shipped' | 'delivered' | 'cancelled',
+    shippingAddress: UserAddressType,
+    paymentMethod: 'UPI' | 'COD'
+}

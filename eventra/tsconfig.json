@@ -39,10 +39,17 @@
       ],
       "@hooks/*": [
         "hooks/*"
+      ],
+      "@storage/*": [
+        "storage/*"
+      ],
+      "@context/*": [
+        "context/*"
       ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "declarations.d.ts"
   ]
 }

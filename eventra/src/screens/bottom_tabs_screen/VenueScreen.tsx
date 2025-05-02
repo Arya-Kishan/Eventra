@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks'
 import CustomLoader from '@components/global/CustomLoader'
 import { getAllVenueApi } from '@services/VenueServices'
 import { setAllVenues, setVenueLoader } from '@store/reducers/venueSlice'
+import EmptyData from '@components/global/EmptyData'
 
 const VenueScreen = () => {
 
@@ -52,19 +53,15 @@ const VenueScreen = () => {
                     ?
                     <CustomLoader />
                     :
-                    <FlatList
-                        data={allVenues}
-                        renderItem={({ item, index }) => (<VenueCard item={item} index={index} />)}
-                        contentContainerStyle={{ flex: 1, padding: AppConstants.screenPadding, gap: AppConstants.defaultGap }}
-                        ListEmptyComponent={() => (
-                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: vs(20) }}>
-                                <Text>NO VENUES</Text>
-                                <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateVenueScreen", { venue: null, method: "create" })}>
-                                    <Icon icon='plus' iconType='Feather' />
-                                </RoundedBox>
-                            </View>
-                        )}
-                    />
+                    allVenues && allVenues.length == 0
+                        ?
+                        <EmptyData title='NO POSTS' handleAddClick={() => { navigation.navigate("CreateVenueScreen", { venue: null, method: "create" }) }} />
+                        :
+                        <FlatList
+                            data={allVenues}
+                            renderItem={({ item, index }) => (<VenueCard item={item} index={index} />)}
+                            contentContainerStyle={{ flex: 1, padding: AppConstants.screenPadding, gap: AppConstants.defaultGap }}
+                        />
             }
 
         </SafeAreaView>

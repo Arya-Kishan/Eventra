@@ -1,4 +1,5 @@
 import CustomHeader from '@components/global/CustomHeader'
+import HorizontalRow from '@components/global/HorizontalRow'
 import CustomCarousel from '@components/home/CustomCarousel'
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList'
 import HomeHeader from '@components/home/HomeHeader'
@@ -35,6 +36,8 @@ const HomeScreen = () => {
   return (
     <SafeAreaView>
 
+      <StatusBar backgroundColor={AppConstants.redColor} translucent={false} hidden={false} />
+
       <ScrollView style={{ backgroundColor: "white" }}>
 
         <StatusBar translucent={false} />
@@ -46,13 +49,13 @@ const HomeScreen = () => {
 
 
           {/* CAROUSEL CONTAINER */}
-          <CustomHeader leftText='For You' rightText='See All' />
+          <HorizontalRow leftText='For You' rightText='See All' />
           <CustomCarousel />
 
-          <CustomHeader leftText='Upcoming Events' rightText='See All' />
-          <DoubleHorizontalFlatList data={upcomingEvents ? upcomingEvents : []} renderItem={(item, index) => <View key={item._id}><SmallEventCard item={item} index={index} /></View>} itemsPerColumn={2} />
+          <HorizontalRow leftText='Upcoming Events' rightText='See All' />
+          <DoubleHorizontalFlatList data={upcomingEvents ? upcomingEvents : []} renderItem={(item, index) => <View key={item._id}><SmallEventCard item={item} index={index} navigationScreen='Main' /></View>} itemsPerColumn={2} />
 
-          <CustomHeader leftText='SpotLight' rightText='See All' />
+          <HorizontalRow leftText='SpotLight' rightText='See All' />
           <FlatList
             data={AppTemporaryContants.spotLightsArr}
             horizontal

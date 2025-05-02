@@ -8,33 +8,34 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 interface IconType {
-    iconType: "Entypo" | "Feather" | "FontAwesome" | "FontAwesome5" | "MaterialCommunityIcons" | "MaterialIcons",
-    icon: string,
-    size?: number,
-    color?: string
+    iconType: "Entypo" | "Feather" | "FontAwesome" | "FontAwesome5" | "MaterialCommunityIcons" | "MaterialIcons";
+    icon: string;
+    size?: number;
+    color?: string;
+    onPress?: () => void;
 }
 
-const Icon: FC<IconType> = ({ color = "#FFFFFF", icon = "home", iconType = "Feather", size = 24 }) => {
+const Icon: FC<IconType> = ({ color = "#FFFFFF", icon = "home", iconType = "Feather", size = 24, onPress = () => { } }) => {
 
     return (
         <>
             {
-                iconType == "Entypo" && <Entypo name={icon} size={size} color={color} />
+                iconType == "Entypo" && <Entypo onPress={onPress} name={icon} size={size} color={color} />
             }
             {
-                iconType == "Feather" && <Feather name={icon} size={size} color={color} />
+                iconType == "Feather" && <Feather onPress={onPress} name={icon} size={size} color={color} />
             }
             {
-                iconType == "FontAwesome" && <FontAwesome name={icon} size={size} color={color} />
+                iconType == "FontAwesome" && <FontAwesome onPress={onPress} name={icon} size={size} color={color} />
             }
             {
-                iconType == "FontAwesome5" && <FontAwesome5 name={icon} size={size} color={color} />
+                iconType == "FontAwesome5" && <FontAwesome5 onPress={onPress} name={icon} size={size} color={color} />
             }
             {
-                iconType == "MaterialCommunityIcons" && <MaterialCommunityIcons name={icon} size={size} color={color} />
+                iconType == "MaterialCommunityIcons" && <MaterialCommunityIcons onPress={onPress} name={icon} size={size} color={color} />
             }
             {
-                iconType == "MaterialIcons" && <MaterialIcons name={icon} size={size} color={color} />
+                iconType == "MaterialIcons" && <MaterialIcons onPress={onPress} name={icon} size={size} color={color} />
             }
         </>
     )

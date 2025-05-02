@@ -69,7 +69,7 @@ export const showErrorAlert = (title: string, description: string) => {
 
 
 
-export const showToast = ({ title, description, type }: { title: string, description: string, type: "success" | "error" | "info" }) => {
+export const showToast = ({ title, description = "", type = "success" }: { title: string, description?: string, type?: "success" | "error" | "info" }) => {
     Toast.show({
         type: type,
         text1: title,

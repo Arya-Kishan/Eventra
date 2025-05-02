@@ -1,3 +1,4 @@
+import BasicMap from '@components/BasicMap';
 import CustomCheckbox from '@components/global/CustomCheckBox';
 import CustomModal from '@components/global/CustomModal';
 import CustomText from '@components/global/CustomText';
@@ -61,7 +62,7 @@ const CreateVenueScreen: FC = () => {
         formData.append('title', title); // Additional data you want to send
         formData.append('description', description);
         formData.append('host', loggedInUser?._id);
-        formData.append('pic', { uri: pic.uri, name: pic.fileName, type: pic.type });
+        formData.append('image', { uri: pic.uri, name: pic.fileName, type: pic.type });
         formData.append('location', JSON.stringify(location));
         formData.append('address', JSON.stringify(address));
         const allSlots = slots.map((item) => {
@@ -208,6 +209,8 @@ const CreateVenueScreen: FC = () => {
                     {/* LOCATION : LATITUDE & LONGITUDE */}
 
                     <CustomText variant='h6'>Location</CustomText>
+
+                    <BasicMap />
 
                     <View style={{ flexDirection: "row", gap: s(20), justifyContent: "space-between" }}>
                         <TextInput style={styles.timeBox} value={location.latitude} placeholder='latitude' onChangeText={(val) => (setLocation((prev) => ({ ...prev, latitude: val })))} />

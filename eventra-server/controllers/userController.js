@@ -6,6 +6,7 @@ import AsyncHandler from '../utils/AsyncHandler.js';
 const jwtSecret = process.env.JWT_SECRET
 
 export const createUser = AsyncHandler(async (req, res) => {
+    console.log("BODY : ", req.body)
     let checkUser = await User.find({ email: req.body.email });
     if (checkUser.length > 0) {
         return res.status(400).json({ data: null, message: "Email already exist", success: false });

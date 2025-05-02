@@ -4,43 +4,34 @@ import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createPost = AsyncHandler(async (req, res) => {
 
-    if (req.body.file !== undefined) {
-        const doc = await Post.create({ ...req.body, tags: req.body.tags.split(","), file: JSON.parse(req.body.file) });
-        res.status(200).json({ data: doc, message: "Success" });
-        return true;
-    }
+    console.log("body data : ", req.body);
+    console.log("files data : ", req.files);
+    // return res.status(200).json({ data: "", message: "Success" });
 
-    const result = await fileUrl(req.body.fileType, req.files);
+    const { type, tags, event } = req.body;
 
-    if (!result.success) {
-        res.status(400).json({ data: "CLOUDINARY URL NOT CREATED", message: "clouidinary error" });
-        return false;
-    }
+    if (req.files !== undefined) {
 
-    let newDoc = {
-        userId: req.body.userId,
-        title: req.body.title,
-        description: req.body.description,
-        tags: req.body.tags.split(","),
-        file: {
-            fileType: req.body.fileType,
-            fileUrl: result.url,
-            file_public_id: result.public_id
+        const picUrl = await uploadFileToCloudinary(type, req.files);
+        console.log("PIC URL : ", picUrl)
+        if (picUrl.success == false) {
+            throw Error("Error in Uploading Image to Cloudinary !!");
         }
+
+        const parsedEvent = event == "null" ? JSON.parse(event) : event;
+        const doc = await Post.create({ ...req.body, tags: JSON.parse(tags), event: parsedEvent, file: { ...picUrl, fileType: type } });
+        return res.status(200).json({ data: doc, message: "Success" });
     }
 
-    const doc = await Post.create(newDoc);
-    res.status(200).json({ data: doc, message: "Success" });
+    return res.status(400).json({ data: null, message: "File Not Provided" });
 
 }, "error in making new post")
 
 export const getUserPosts = AsyncHandler(async (req, res) => {
     const doc = await Post.find({ userId: req.params.id }).populate({
-        path: 'userId',
-        select: "name",
+        path: 'user',
     }).populate({
         path: 'likes',
-        select: "name",
     });
     res.status(200).json({ data: doc, message: "Success" });
 }, "error in getting user posts")
@@ -58,7 +49,6 @@ export const getSinglePost = AsyncHandler(async (req, res) => {
 
 
 export const getAllPosts = AsyncHandler(async (req, res) => {
-    console.log(req.query);
 
     let query = Post.find();
     let totalQuery = Post.find();
@@ -84,11 +74,9 @@ export const getAllPosts = AsyncHandler(async (req, res) => {
 
     const doc = await query
         .populate({
-            path: 'userId',
-            select: "name",
+            path: 'user',
         }).populate({
             path: 'likes',
-            select: "name",
         })
         .sort({ createdAt: req.query.sort ? Number(req.query.sort) : 1 })
         .skip(req.query.limit * (req.query.page - 1))
@@ -101,51 +89,58 @@ export const getAllPosts = AsyncHandler(async (req, res) => {
 
 export const updatePost = AsyncHandler(async (req, res) => {
 
-    if (req.query.category == "likes" && req.query.type == "add") {
-        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, { $push: { likes: req.body?.likes } }, { new: true });
+    // console.log("BODY : ", req.body)
+    // console.log("QUERY : ", req.query)
+    // return res.status(200).json({ data: "arya", message: "Success" });
+
+    if (req.query && req.query.category == "likes" && req.query.type == "add") {
+        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, { $addToSet: { likes: req.body?.likes } }, { new: true }).populate({
+            path: 'user',
+        }).populate({
+            path: 'likes',
+        });
         return res.status(200).json({ data: updatedDoc, message: "Success" });
     }
 
-    if (req.query.category == "likes" && req.query.type == "delete") {
-        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, { $pull: { likes: req.body?.likes } }, { new: true });
+    if (req.query && req.query.category == "likes" && req.query.type == "delete") {
+        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, { $pull: { likes: req.body?.likes } }, { new: true }).populate({
+            path: 'user',
+        }).populate({
+            path: 'likes',
+        });
         return res.status(200).json({ data: updatedDoc, message: "Success" });
     }
 
-    if (req.query.category == "update" && req.query.type == "link") {
-        console.log("updatimg file only");
-        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, { ...req.body, tags: req.body.tags.split(","), file: JSON.parse(req.body.file) }, { new: true });
-        return res.status(200).json({ data: updatedDoc, message: "Success" });
-    }
+    const normalUpdates = ["title", "description", "event", "tags"];
+    const pushUpdates = ["likes"];
+    const parsedUpdates = ["tags"];
 
-    if (req.query.category == "update" && req.query.type !== "link") {
-        console.log("updatimg image or video and getting new url and also deleting file from cloudfinary");
+    const DoUpdateNormal = {};
+    const DoUpdatePush = {};
 
-
-        if (req.body.public_id) {
-            await deleteFileFromCloudinary(req.body.public_id);
+    for (let key in req.body) {
+        if (normalUpdates.includes(key)) {
+            DoUpdateNormal[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
+        } else {
+            DoUpdatePush[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
         }
-
-        const result = await fileUrl(req.body.fileType, req.files);
-
-        if (!result.success) {
-            res.status(400).json({ data: "CLOUDINARY URL NOT UPDATED", message: "clouidinary error" });
-            return false;
-        }
-
-        let newDoc = {
-            userId: req.body.userId,
-            title: req.body.title,
-            description: req.body.description,
-            tags: req.body.tags.split(","),
-            file: {
-                fileType: req.body.fileType,
-                fileUrl: result.url,
-                file_public_id: result.public_id
-            }
-        }
-        let updatedDoc = await Post.findByIdAndUpdate(req.params.id, newDoc, { new: true });
-        return res.status(200).json({ data: updatedDoc, message: "Success" });
     }
+
+    const newUpdates = await Venue.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: DoUpdateNormal,
+            $push: DoUpdatePush
+        },
+        { new: true }
+    ).populate({
+        path: 'user',
+    }).populate({
+        path: 'likes',
+    })
+
+    res.status(200).json({ data: newUpdates, message: "Success" });
+
 
 
 }, 'error in updating post')

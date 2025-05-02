@@ -18,6 +18,8 @@ module.exports = {
           '@types': './src/types',
           '@navigation': './src/navigation',
           '@styles': './src/styles',
+          '@storage': './src/storage',
+          '@context': './src/context',
         },
       },
     ],

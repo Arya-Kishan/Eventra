@@ -3,6 +3,9 @@ import counterReducer from './reducers/counterSlice'
 import eventReducer from './reducers/eventSlice'
 import userReducer from './reducers/userSlice'
 import venueReducer from './reducers/venueSlice'
+import postReducer from './reducers/postSlice'
+import productReducer from './reducers/productSlice'
+import chatReducer from './reducers/chatSlice'
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +13,9 @@ export const store = configureStore({
         event: eventReducer,
         user: userReducer,
         venue: venueReducer,
+        post: postReducer,
+        product: productReducer,
+        chat: chatReducer,
     },
     devTools: true
 })

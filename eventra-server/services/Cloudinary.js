@@ -25,7 +25,7 @@ const getAudioUrl = async (file) => {
 export const uploadFileToCloudinary = async (fileType, file) => {
 
     if (fileType == "image") {
-        return getImageUrl(file.pic[0])
+        return getImageUrl(file.image[0])
     }
 
     if (fileType == "video") {
