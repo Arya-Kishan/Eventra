@@ -1,21 +1,20 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import CustomText from '@components/global/CustomText'
-import { s, vs } from 'react-native-size-matters'
-import { AppConstants } from '@constants/AppConstants'
-import VenueCard from '@components/venue/VenueCard'
-import { AppTemporaryContants } from '@constants/AppTemporaryConstants'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
-import RoundedBox from '@components/global/RoundedBox'
-import Icon from '@components/global/Icon'
-import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'types/AppTypes'
-import { useAppDispatch, useAppSelector } from '@store/hooks'
 import CustomLoader from '@components/global/CustomLoader'
-import { getAllVenueApi } from '@services/VenueServices'
-import { setAllVenues, setVenueLoader } from '@store/reducers/venueSlice'
+import CustomText from '@components/global/CustomText'
 import EmptyData from '@components/global/EmptyData'
+import Icon from '@components/global/Icon'
+import RoundedBox from '@components/global/RoundedBox'
+import VenueCard from '@components/venue/VenueCard'
+import { AppConstants } from '@constants/AppConstants'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { useNavigation } from '@react-navigation/native'
+import { getAllVenueApi } from '@services/VenueServices'
+import { useAppDispatch, useAppSelector } from '@store/hooks'
+import { setAllVenues, setVenueLoader } from '@store/reducers/venueSlice'
+import React, { useEffect } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { s } from 'react-native-size-matters'
+import { NavigationProps } from 'types/AppTypes'
 
 const VenueScreen = () => {
 
@@ -43,9 +42,7 @@ const VenueScreen = () => {
 
             <View style={{ backgroundColor: AppConstants.redColor, padding: s(15), flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CustomText style={{ fontWeight: "800", fontSize: s(25), color: AppConstants.whiteColor }}>Venue</CustomText>
-                <RoundedBox size={s(30)} viewStyle={{ backgroundColor: "transparent" }} onPress={() => { navigation.navigate('CreateVenueScreen', { venue: null, method: "create" }) }}>
-                    <Icon icon='plus' iconType='Feather' size={s(25)} />
-                </RoundedBox>
+                <Icon onPress={() => { navigation.navigate('CreateVenueScreen', { venue: null, method: "create" }) }} icon='plus' iconType='Feather' size={s(25)} />
             </View>
 
             {

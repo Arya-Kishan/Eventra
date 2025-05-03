@@ -42,10 +42,11 @@ export type userType = {
     email: string,
     password: string,
     bio: string,
-    profilePic: string,
+    profilePic: { url: string, public_id: string },
     role: "admin" | "user",
     FCMToken: string,
     _id: string,
+    chats: userType[];
 }
 
 type location = { latitude: string, longitude: string };
@@ -171,4 +172,10 @@ export type OrderType = {
     orderStatus: 'processing' | 'shipped' | 'delivered' | 'cancelled',
     shippingAddress: UserAddressType,
     paymentMethod: 'UPI' | 'COD'
+}
+
+export type MessageType = {
+    sender: userType,
+    receiver: userType,
+    message: { value: string, type: string }
 }

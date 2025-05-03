@@ -9,6 +9,7 @@ import { AppConstants } from '@constants/AppConstants'
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants'
 import { useNavigation } from '@react-navigation/native'
 import { getUpcomingEventsApi } from '@services/EventService'
+import { requestUserPermission } from '@services/firebaseService'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import { setUpcomingEvents } from '@store/reducers/eventSlice'
 import React, { useEffect } from 'react'
@@ -22,6 +23,7 @@ const HomeScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation<NavigationProps<'Main'>>();
   const { upcomingEvents } = useAppSelector(store => store.event);
+  const { loggedInUser } = useAppSelector(store => store.user);
 
   const fetchData = async () => {
     const { data, success } = await getUpcomingEventsApi();
@@ -29,8 +31,14 @@ const HomeScreen = () => {
     success ? dispatch(setUpcomingEvents(data.data)) : navigate.navigate("ErrorScreen");
   }
 
+  const getNotificationPermission = async () => {
+    console.log("ASKING FOR PUSH NOTIFICATION")
+    await requestUserPermission(loggedInUser!);
+  }
+
   useEffect(() => {
     fetchData();
+    getNotificationPermission();
   }, [])
 
   return (

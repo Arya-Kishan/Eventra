@@ -7,22 +7,25 @@ import { CustomImage } from '@components/global/CustomImage'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from 'types/AppTypes'
 import RoundedBox from '@components/global/RoundedBox'
+import { useAppSelector } from '@store/hooks'
 
 const HomeHeader = () => {
     const navigation = useNavigation<NavigationProps<'Main'>>();
+    const { loggedInUser } = useAppSelector(store => store.user);
+    const { name, bio, profilePic } = loggedInUser!;
+
     return (
         <View style={styles.headerContainer}>
 
             {/* avatar */}
             <Pressable onPress={() => navigation.navigate("ProfileScreen")} style={styles.avatarContainer}>
 
-                <CustomImage width={s(38)} height={s(38)} source='https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg' />
+                <CustomImage width={s(38)} height={s(38)} source={`${profilePic.url !== "" ? profilePic.url : "https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg"}`} />
 
                 <View>
-                    <Text style={{ fontWeight: "600", fontSize: s(16) }}>Hello Arya</Text>
-                    <Text style={{ color: "#5D5D5DFF" }}>Explore The Events</Text>
+                    <Text style={{ fontWeight: "600", fontSize: s(16) }}>Hello {name}</Text>
+                    <Text style={{ color: "#5D5D5DFF" }}>{`${bio !== "" ? bio : " Explore The Events"}`}</Text>
                 </View>
-
 
             </Pressable>
 

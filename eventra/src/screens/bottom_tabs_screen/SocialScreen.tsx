@@ -33,8 +33,6 @@ const SocialScreen = () => {
     fetchAllPosts();
   }, [])
 
-  console.log("ALL POSTS: ", allPosts)
-
   return (
     <SafeAreaView style={{ flex: 1, gap: vs(10) }}>
 
@@ -42,9 +40,7 @@ const SocialScreen = () => {
 
         <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Social</CustomText>
 
-        <Pressable onPress={() => navigation.navigate("ChatDashboardScreen")}>
-          <Icon icon='chat' iconType='MaterialCommunityIcons' />
-        </Pressable>
+        <Icon icon='chat' iconType='MaterialCommunityIcons' onPress={() => navigation.navigate("ChatDashboardScreen")} />
 
       </View>
 

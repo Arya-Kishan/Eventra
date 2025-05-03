@@ -24,7 +24,7 @@ const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
-    let globalSocket: Socket | any = null;
+    const [globalSocket, setGlobalSocket] = useState<Socket | null>(null)
     const [onlineUsers, setOnlineUsers] = useState<string[]>([])
     const [isSocketConnected, setIsSocketConnected] = useState("connecting");
     const { loggedInUser } = useAppSelector(store => store.user)
@@ -62,31 +62,32 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
             console.log("SOCKET BACKEND URL : ", AppConstants.socketBaseUrl)
 
-            globalSocket = io(AppConstants.socketBaseUrl, {
+            const socket = io(AppConstants.socketBaseUrl, {
                 query: {
                     userId: loggedInUser._id,
                 }
             });
+            setGlobalSocket(socket);
 
-            globalSocket.on("connect", () => {
+            socket.on("connect", () => {
                 setIsSocketConnected("connected");
             })
 
-            globalSocket.on("receive-notification", ({ category, message }: { category: string, message: string }) => {
+            socket.on("receive-notification", ({ category, message }: { category: string, message: string }) => {
 
             })
 
-            globalSocket.on("onlineUsers", (data: any) => {
+            socket.on("onlineUsers", (data: any) => {
                 setOnlineUsers(data);
                 (data);
             })
 
             // THIS IS RELATED TO CHAT TO LET USER KNOW SOMEONE MESSAGED HIM
-            globalSocket.on("someone-messaged", ({ sender, receiver, message }: { sender: string, receiver: string, message: string }) => {
+            socket.on("someone-messaged", ({ sender, receiver, message }: { sender: string, receiver: string, message: string }) => {
 
             })
 
-            globalSocket.on("connect_error", (error: any) => {
+            socket.on("connect_error", (error: any) => {
                 console.log("not connected to socket error occured");
                 console.log(error);
                 setIsSocketConnected("errorInConnecting")

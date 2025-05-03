@@ -22,7 +22,7 @@ export const createUser = AsyncHandler(async (req, res) => {
 
 export const loginUser = AsyncHandler(async (req, res) => {
     // finding and updating users online time
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).populate({ path: "chats" });
 
     if (req.body.password == user.password) {
         return res.status(200).json({ data: user, message: "User Found - Logined", success: true });
@@ -53,23 +53,44 @@ export const getSingleUser = AsyncHandler(async (req, res) => {
 }, "error in getting single user")
 
 export const updateUser = AsyncHandler(async (req, res) => {
-    console.log(req.body);
-    console.log(req.query);
 
-    if (req.body.new_chat) {
-        await User.findByIdAndUpdate(req.params.id, { $push: { mychats: req.body.new_chat } }, { new: true });
-        await User.findByIdAndUpdate(req.body.new_chat, { $push: { mychats: req.params.id } }, { new: true });
-        res.status(200).json({ data: "new user added to mychats", message: "Success" });
-        return 1;
+    console.log("BODY : ", req.body)
+    console.log("FILES : ", req.files)
+
+    const normalUpdates = ["name", "email", "password", "bio", "role", "FCMToken"];
+    const pushUpdates = ["chats"];
+    const parsedUpdates = ["address", "location"]
+
+    const DoUpdateNormal = {};
+    const DoUpdatePush = {};
+
+    for (let key in req.body) {
+        if (normalUpdates.includes(key)) {
+            DoUpdateNormal[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
+        } else {
+            DoUpdatePush[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
+        }
     }
 
-    if (req.body.delete_chat) {
-        await User.findByIdAndUpdate(req.params.id, { $pull: { mychats: req.body.delete_chat } }, { new: true });
-        await User.findByIdAndUpdate(req.body.delete_chat, { $pull: { mychats: req.params.id } }, { new: true });
-        res.status(200).json({ data: "delete from mychats", message: "Success" });
-        return 1;
+    if (req.files.pic !== undefined) {
+
+        const picUrl = await uploadFileToCloudinary(type, req.files);
+        console.log("PIC URL : ", picUrl)
+        if (picUrl.success == false) {
+            throw Error("Error in Uploading Image to Cloudinary !!");
+        }
+
+        DoUpdateNormal.profilePic = picUrl;
     }
 
-    const doc = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.status(200).json({ data: doc, message: "Success" });
+    const newUpdates = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: DoUpdateNormal,
+            $push: DoUpdatePush
+        },
+        { new: true }
+    )
+
+    res.status(200).json({ data: newUpdates, message: "Success" });
 }, 'error in updating task')

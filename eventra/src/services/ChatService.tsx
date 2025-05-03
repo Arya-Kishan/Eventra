@@ -6,7 +6,7 @@ import { AppConstants } from "@constants/AppConstants";
 
 const getConversationApi = async ({ sender, receiver }: { sender: string, receiver: string }): Promise<ApiReturnType> => {
     try {
-        const { data } = await axios.get(`${AppConstants.socketBaseUrl}/socket/message?sender=${sender}&receiver=${receiver}`);
+        const { data } = await axios.get(`${AppConstants.socketBaseUrl}/socket/message/getMessages?sender=${sender}&receiver=${receiver}`);
         return { data: data, message: "Events Fetched", success: true, error: null };  // Return the response data
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -18,10 +18,10 @@ const getConversationApi = async ({ sender, receiver }: { sender: string, receiv
 const createMessageApi = async ({ sender, receiver, message }: { sender: string, receiver: string, message: { type: string, value: string } }): Promise<ApiReturnType> => {
 
     try {
-        const { data } = await axiosInstance.post(`${AppConstants.socketBaseUrl}/socket/message`, { sender, receiver, message });
+        const { data } = await axios.post(`${AppConstants.socketBaseUrl}/socket/message/send`, { sender, receiver, message });
         return { data: data, message: "Message Created", success: true, error: null };  // Return the response data
     } catch (error) {
-        console.error('Error creating user data:', error);
+        console.error('Error creating message data:', error);
         return { data: null, message: "Error in Message creating", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
     }
 

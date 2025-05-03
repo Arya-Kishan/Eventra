@@ -9,6 +9,7 @@ import postRoutes from './routes/postRoute.js'
 import productRoute from './routes/productRoute.js'
 import postCommentRoute from './routes/PostCommentRoute.js'
 import orderRoute from './routes/orderRoute.js'
+import sendNotificationFCM from './services/FirebaseFCM.js'
 
 const server = express();
 
@@ -29,6 +30,8 @@ server.use("/product", productRoute)
 server.use("/order", orderRoute)
 
 server.get("/", (req, res) => {
+    const token = "eQg8te-sSrqWGqyXEnzzaU:APA91bEHBBTS6Nik_13ETKvd34voHgrmQWc-L1zmVZ6F5w6fdzxRvIDa26qZLhYOu1ji45IAAYP4QaPn1n7kcZv13gzCnc3ZFUyMs22urApgwySjPBH3oR8"
+    sendNotificationFCM(token, "Test", "Hii Its All Good");
     res.json({ name: "MADE BY ARYA KISHAN WEBBOOK MULTI SAGA" });
 })
 

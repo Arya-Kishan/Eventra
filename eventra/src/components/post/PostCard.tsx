@@ -52,7 +52,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                     typeof post.user !== 'string'
                     &&
                     <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
-                        <CustomImage source={typeof post.user !== 'string' ? post.user.profilePic : "https://i.pinimg.com/474x/ef/9f/4c/ef9f4c5f75111da91ed81c859b34f4ac.jpg"} width={s(40)} height={s(40)} style={{ aspectRatio: 1 / 1, objectFit: "cover" }} />
+                        <CustomImage source={"https://i.pinimg.com/474x/ef/9f/4c/ef9f4c5f75111da91ed81c859b34f4ac.jpg"} width={s(40)} height={s(40)} style={{ aspectRatio: 1 / 1, objectFit: "cover" }} />
                         <View>
                             <CustomText variant='h4'>{post.user.name}</CustomText>
                             <CustomText variant='subtitle1'>{post.user.bio}</CustomText>

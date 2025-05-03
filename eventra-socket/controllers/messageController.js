@@ -6,6 +6,8 @@ import { UnseenMessage } from "../models/unseenMessageModel.js";
 
 export const createMessage = async (req, res) => {
 
+    console.log("BODY : ", req.body)
+
     try {
         let { sender, receiver, message } = req.body;
 
@@ -25,8 +27,13 @@ export const createMessage = async (req, res) => {
 
         // SOCKET IO
         const receiverSocketId = getSocketIdByUserId(receiver);
+        console.log("receiverSocketId : ", receiverSocketId)
         if (receiverSocketId) {
             io.to(receiverSocketId).emit("newMessage", newMessage);
+        } else {
+            console.log("USER IS OFFLINE");
+            let doc = await UnseenMessage.create({ sender, receiver, message: message })
+            doc = await doc.save();
         }
 
 

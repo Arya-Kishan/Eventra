@@ -6,17 +6,21 @@ import { Provider } from 'react-redux';
 import { SocketProvider } from "./src/context/SocketContext";
 import AppNavigation from './src/navigation/AppNavigation';
 import { store } from './src/store/store';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   console.log("Config.API_URL ENV : ", Config.API_URL);
   console.log("BASE_URL ENV : ", Config.BASE_URL);
+
   return (
-    <Provider store={store}>
-      <SocketProvider>
-        <AppNavigation />
-      </SocketProvider>
-      <Toast />
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <SocketProvider>
+          <AppNavigation />
+        </SocketProvider>
+        <Toast />
+      </Provider>
+    </SafeAreaProvider>
   )
 }
 

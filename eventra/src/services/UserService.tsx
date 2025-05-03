@@ -49,7 +49,7 @@ const loginUserApi = async (user: any): Promise<ApiReturnType> => {
 
 }
 
-const updateuserApi = async (user: FormData, id: string): Promise<ApiReturnType> => {
+const updateUserApi = async (user: FormData, id: string): Promise<ApiReturnType> => {
 
     console.log(user)
 
@@ -67,4 +67,4 @@ const updateuserApi = async (user: FormData, id: string): Promise<ApiReturnType>
 
 }
 
-export { createUserApi, getAlluserApi, getSingleuserApi, loginUserApi, updateuserApi };
+export { createUserApi, getAlluserApi, getSingleuserApi, loginUserApi, updateUserApi };

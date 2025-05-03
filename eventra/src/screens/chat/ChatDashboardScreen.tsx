@@ -8,13 +8,18 @@ import CustomText from '@components/global/CustomText'
 import { formatDate } from '@utils/Helper'
 import RoundedBox from '@components/global/RoundedBox'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'types/AppTypes'
+import { NavigationProps, userType } from 'types/AppTypes'
 import { useAppSelector } from '@store/hooks'
 
 const ChatDashboardScreen = () => {
 
     const navigation = useNavigation<NavigationProps<"ChatDashboardScreen">>();
     const { loggedInUser } = useAppSelector(store => store.user);
+    const { unOpenedMessages } = useAppSelector(store => store.chat);
+
+    console.log("LOGGED IN USER : ", loggedInUser)
+    const { chats } = loggedInUser!;
+    console.log("unOpenedMessages : ", unOpenedMessages)
 
 
     return (
@@ -23,19 +28,19 @@ const ChatDashboardScreen = () => {
             <BackHeader title='Messages' />
 
             <FlatList
-                data={[1, 2, 3, 4, 5, 6, 7, 8]}
-                renderItem={() => (
+                data={chats}
+                renderItem={({ item }: { item: userType }) => (
                     <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={() => navigation.navigate("ChatScreen", { user: loggedInUser! })}
+                        onPress={() => navigation.navigate("ChatScreen", { user: item })}
                         style={{ flexDirection: "row", gap: s(4), justifyContent: "space-between", alignItems: "center" }}>
 
-                        <CustomImage source={AppConstants.fallbackProfilePic} width={s(50)} height={s(50)} />
+                        <CustomImage source={item?.profilePic?.url !== undefined ? item?.profilePic?.url : AppConstants.fallbackProfilePic} width={s(50)} height={s(50)} />
 
                         <View style={{ flex: 1, flexDirection: "row", gap: s(4), justifyContent: "space-between" }}>
 
                             <View style={{ justifyContent: "space-between", gap: s(10) }}>
-                                <CustomText variant='h4'>Arya </CustomText>
+                                <CustomText variant='h4'>{item.name}</CustomText>
                                 <CustomText>Arya is op I know</CustomText>
                             </View>
 

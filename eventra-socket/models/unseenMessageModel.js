@@ -14,7 +14,10 @@ const unseenMessageModel = new mongoose.Schema({
     message: {
         type: { type: String, default: "text" },
         value: { type: String, default: "" },
-    }
+    },
+    timestamp: { type: Date, default: Date.now },
+    status: { type: String, default: "sent", enum: ["sent", "delivered"] },
+    read: { type: Boolean, default: false }
 }, { timestamps: true });
 
 export const UnseenMessage = mongoose.model("UnseenMessage", unseenMessageModel);

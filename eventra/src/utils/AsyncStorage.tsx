@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userType } from 'types/AppTypes';
 
 const auth = '@user_data';
+const TOKEN_KEY = 'fcmToken';
 
 // Create/Update
 export const AsyncSetData = async (value: userType) => {
@@ -35,3 +36,21 @@ export const AsyncDeleteData = async () => {
         return false;
     }
 };
+
+export const AsyncGetFCMToken = async () => {
+    try {
+        const storedToken = await AsyncStorage.getItem(TOKEN_KEY);
+        return storedToken;
+    } catch (error) {
+        console.error('Error deleting data:', error);
+    }
+}
+
+export const AsyncSetFCMToken = async (token: string) => {
+    try {
+        await AsyncStorage.setItem(TOKEN_KEY, token);
+    } catch (error) {
+        console.error('Error deleting data:', error);
+
+    }
+}

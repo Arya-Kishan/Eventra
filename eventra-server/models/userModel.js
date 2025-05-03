@@ -27,7 +27,8 @@ const userSchema = new Schema({
         },
         _id: false
     },
-    location: { type: { latitude: String, longitude: String }, default: { latitude: "", longitude: "" }, _id: false }
+    location: { type: { latitude: String, longitude: String }, default: { latitude: "", longitude: "" }, _id: false },
+    chats: { type: [mongoose.Schema.Types.ObjectId], ref: 'User' }
 }, { timestamps: true })
 
 export const User = mongoose.model("User", userSchema);

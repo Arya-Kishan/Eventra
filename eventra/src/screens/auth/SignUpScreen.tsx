@@ -15,7 +15,7 @@ import { NavigationProps } from 'types/AppTypes'
 import { useAppDispatch } from '@store/hooks'
 import { setLoggedInUser } from '@store/reducers/userSlice'
 import { showToast } from '@utils/Helper'
-import { AsyncSetData } from '@utils/AsyncStorage'
+import { AsyncGetFCMToken, AsyncSetData } from '@utils/AsyncStorage'
 
 const SignUpScreen = () => {
   const [name, setName] = useState<string>("");
@@ -31,7 +31,8 @@ const SignUpScreen = () => {
   const handleSignUp = async () => {
 
     setLoader(true);
-    const newUser = { name, email, password, role };
+    const FCMToken = await AsyncGetFCMToken() ?? "";
+    const newUser = { name, email, password, role, FCMToken };
     console.log("CREATING NEW USER")
     const { data, success } = await createUserApi(newUser);
     console.log("NEW USER : ", data.data);
