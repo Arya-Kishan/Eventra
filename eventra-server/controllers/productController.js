@@ -1,4 +1,4 @@
-import { Product } from '../models/ProductModel.js'
+import { Product } from '../models/productModel.js'
 import { uploadFileToCloudinary } from '../services/Cloudinary.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 

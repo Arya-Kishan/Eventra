@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/userModel.js';
 import { sendMail } from '../services/NodeMailer.js';
-// import { getNewUserNotificationHtml, signUpTemplate } from '../services/Template.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 const jwtSecret = process.env.JWT_SECRET
 

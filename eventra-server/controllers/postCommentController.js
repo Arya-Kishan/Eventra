@@ -1,7 +1,6 @@
 import { PostComment } from '../models/postCommentModel.js'
 import { Post } from '../models/postModel.js'
 import AsyncHandler from '../utils/AsyncHandler.js';
-import { updatePost } from './postController.js';
 
 export const createPostComment = AsyncHandler(async (req, res) => {
     const { post } = req.body;

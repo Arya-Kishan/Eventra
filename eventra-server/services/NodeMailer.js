@@ -1,6 +1,4 @@
 import nodemailer from 'nodemailer'
-// import { getTaskNotificationHtml } from './Template.js';
-// import { TaskNotification } from '../models/notifications/taskNotificationModel.js';
 
 // Create a transporter using SMTP transport
 const transporter = nodemailer.createTransport({
@@ -12,14 +10,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_NODEMAILER,
     },
 });
-
-const customPromise = () => {
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            res("arya")
-        }, 5000);
-    })
-}
 
 
 export const sendMail = async (email, subject, text, html) => {
@@ -45,8 +35,5 @@ export const sendMail = async (email, subject, text, html) => {
 export const sendingTaskMail = async (task) => {
     console.log("SENDING NOTIFICATIONS");
     // await sendMail(`${task.email}`, "WebBook Task", "Hii User", `${getTaskNotificationHtml(task.title, task.description)}`)
-
-    // deleting notification from databse
-    // await TaskNotification.findByIdAndDelete(task._id)
     return task;
 }
