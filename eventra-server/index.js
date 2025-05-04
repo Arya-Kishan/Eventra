@@ -7,7 +7,7 @@ import eventRoutes from './routes/eventRoute.js'
 import venueRoutes from './routes/venueRoute.js'
 import postRoutes from './routes/postRoute.js'
 import productRoute from './routes/productRoute.js'
-import postCommentRoute from './routes/PostCommentRoute.js'
+import postCommentRoute from './routes/postCommentRoute.js'
 import orderRoute from './routes/orderRoute.js'
 import sendNotificationFCM from './services/FirebaseFCM.js'
 
