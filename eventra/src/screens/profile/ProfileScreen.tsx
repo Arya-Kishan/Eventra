@@ -60,17 +60,17 @@ const ProfileScreen = () => {
 
     }
 
-    const fetchUserDetail = async () => {
+    const fetchUserDetail = async (userId: string) => {
         setLoader(true);
-        const { success: userSuccess, data: userData } = await getSingleuserApi(params.userId);
-        const { success: postsSuccess, data: postsData } = await getUserPostsApi(params.userId);
+        const { success: userSuccess, data: userData } = await getSingleuserApi(userId);
+        const { success: postsSuccess, data: postsData } = await getUserPostsApi(userId);
         setUserDetail(userData.data);
         setUserPosts(postsData.data);
         setLoader(false);
     }
 
     useEffect(() => {
-        fetchUserDetail();
+        fetchUserDetail(params == undefined ? loggedInUser?._id! : params.userId);
     }, [])
 
     return (
@@ -88,16 +88,18 @@ const ProfileScreen = () => {
                         <ScrollView style={{ flex: 1, backgroundColor: "orange" }}>
 
                             <LinearGradient
-                                colors={['#090909FF', '#B60000FF', '#8E0000FF']}
+                                colors={['#FF0000FF', '#7C0000FF']}
                                 style={{ height: vs(300), backgroundColor: "blue", padding: AppConstants.screenPadding, gap: vs(50) }}>
 
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                    <Icon icon='person' iconType='MaterialIcons' size={s(25)} />
+                                    <Icon icon='settings' iconType='MaterialIcons' size={s(25)} />
                                     <CustomText variant='h3' style={{ color: AppConstants.whiteColor }}>Eventra</CustomText>
                                     {
                                         loggedInUser?._id == userDetail._id
                                             ?
-                                            <Icon icon='edit' iconType='Feather' />
+                                            <TouchableOpacity activeOpacity={0.6} onPress={() => handleLogout()}>
+                                                <Icon icon='logout' iconType='MaterialIcons' />
+                                            </TouchableOpacity>
                                             :
                                             <TouchableOpacity activeOpacity={0.6} onPress={() => handleChatClick()}>
                                                 <Icon icon='chat' iconType='MaterialCommunityIcons' />
@@ -164,12 +166,6 @@ const ProfileScreen = () => {
                             </View>
 
                         </ScrollView>
-            }
-
-            {
-                userDetail && userDetail?._id == loggedInUser?._id
-                &&
-                <RoundedButton title='LOGOUT' onPress={handleLogout} />
             }
 
         </SafeAreaView>

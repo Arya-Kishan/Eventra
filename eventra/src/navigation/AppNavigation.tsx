@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getSingleuserApi, updateUserApi } from '@services/UserService';
 import NetInfo from '@react-native-community/netinfo';
 import BottomTabBar from '@components/navigation/BottomTabBar';
+import VenueScreen from '@screens/Venue/VenueScreen';
 
 
 const TOKEN_KEY = 'fcmToken';
@@ -138,6 +139,7 @@ const AppNavigation = () => {
 
               <Stack.Screen name="EventDetailScreen" component={EventDetailScreen} />
               <Stack.Screen name="VenueDetailScreen" component={VenueDetailScreen} />
+              <Stack.Screen name="VenueScreen" component={VenueScreen} />
               <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} />
 
               <Stack.Screen name="CreateEventScreen" component={CreateEventScreen} />

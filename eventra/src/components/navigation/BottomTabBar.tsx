@@ -1,19 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { FC } from 'react'
 import EventScreen from '@screens/bottom_tabs_screen/EventScreen';
 import HomeScreen from '@screens/bottom_tabs_screen/HomeScreen';
 import SocialScreen from '@screens/bottom_tabs_screen/SocialScreen';
 import StoreScreen from '@screens/bottom_tabs_screen/StoreScreen';
-import VenueScreen from '@screens/bottom_tabs_screen/VenueScreen';
+import React, { FC } from 'react';
+import { StyleSheet } from 'react-native';
 
 import CustomTabBar from '@components/global/CustomTabBar';
 import { s } from 'react-native-size-matters';
 
 
-import Feather from 'react-native-vector-icons/Feather';
 import { AppConstants } from '@constants/AppConstants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TabProfileScreen from '@screens/bottom_tabs_screen/TabProfileScreen';
 import { useAppSelector } from '@store/hooks';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ const BottomTabBar: FC = () => {
 
             <Tab.Screen name="Store" component={StoreScreen} options={{ tabBarBadge: "", tabBarIcon: ({ focused }) => <Feather size={s(20)} name='shopping-bag' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
 
-            <Tab.Screen name="Venue" component={VenueScreen} options={{ tabBarBadge: "", tabBarIcon: ({ focused }) => <Feather size={s(20)} name='map' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
+            <Tab.Screen name="Profile" component={TabProfileScreen} options={{ tabBarBadge: "", tabBarIcon: ({ focused }) => <Feather size={s(20)} name='user' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
 
         </Tab.Navigator>
     )

@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
 app.use("/socket/message", messageRouter)
 
 app.get("/", (req, res) => {
-    res.json({ heading: 'SOCKET FOR WEB BOOK' })
+    res.json({ heading: 'SOCKET FOR EVENTRA' })
 })
 
 

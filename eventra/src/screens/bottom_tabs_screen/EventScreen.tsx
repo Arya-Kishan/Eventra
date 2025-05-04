@@ -10,7 +10,7 @@ import { getAllEvent } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setAllEvents, setEventLoader } from '@store/reducers/eventSlice';
 import React, { useEffect } from 'react';
-import { FlatList, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { s, vs } from 'react-native-size-matters';
 import { NavigationProps } from 'types/AppTypes';
@@ -41,8 +41,10 @@ const EventScreen = () => {
 
         <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
           <CustomText style={{ fontWeight: "800", fontSize: s(24), color: AppConstants.whiteColor, width: "80%" }} numberOfLines={2}>Explore the amazing Events near you</CustomText>
-          
-          <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(30)} />
+
+          <TouchableOpacity onPress={() => navigation.navigate("VenueScreen")}>
+            <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(30)} />
+          </TouchableOpacity>
 
         </View>
 

@@ -19,8 +19,9 @@ export type RootStackParamList = {
     ChatDashboardScreen: undefined;
     ChatScreen: { user: userType };
     ProfileScreen: { userId: string };
+    VenueScreen: undefined;
     Details: { userId: number; userName: string };
-    BottomTabBar:undefined
+    BottomTabBar: undefined
 };
 
 // Generic helpers

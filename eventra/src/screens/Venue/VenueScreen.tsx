@@ -2,10 +2,8 @@ import CustomLoader from '@components/global/CustomLoader'
 import CustomText from '@components/global/CustomText'
 import EmptyData from '@components/global/EmptyData'
 import Icon from '@components/global/Icon'
-import RoundedBox from '@components/global/RoundedBox'
 import VenueCard from '@components/venue/VenueCard'
 import { AppConstants } from '@constants/AppConstants'
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { useNavigation } from '@react-navigation/native'
 import { getAllVenueApi } from '@services/VenueServices'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
@@ -18,7 +16,6 @@ import { NavigationProps } from 'types/AppTypes'
 
 const VenueScreen = () => {
 
-    const tabBarHeight = useBottomTabBarHeight();
     const navigation = useNavigation<NavigationProps<'Main'>>();
 
     const dispatch = useAppDispatch();
