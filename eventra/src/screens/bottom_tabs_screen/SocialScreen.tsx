@@ -8,18 +8,19 @@ import { useNavigation } from '@react-navigation/native'
 import { getAllPostApi } from '@services/PostService'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import { setAllPost } from '@store/reducers/postSlice'
-import React, { useEffect, useState } from 'react'
-import { FlatList, Pressable, StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { FlatList, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { vs } from 'react-native-size-matters'
+import { s, vs } from 'react-native-size-matters'
 import { NavigationProps, PostType } from 'types/AppTypes'
 
 const SocialScreen = () => {
 
   const [loader, setLoader] = useState<boolean>(false);
 
-  const navigation = useNavigation<NavigationProps<'CreatePostScreen'>>();
+  const navigation = useNavigation<NavigationProps<'Main'>>();
   const { allPosts } = useAppSelector(store => store.post);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const fetchAllPosts = async () => {
@@ -28,6 +29,13 @@ const SocialScreen = () => {
     success ? dispatch(setAllPost(data.data)) : navigation.navigate("ErrorScreen");
     setLoader(false);
   }
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    const { data, success } = await getAllPostApi();
+    success ? dispatch(setAllPost(data.data)) : navigation.navigate("ErrorScreen");
+    setRefreshing(false);
+  }, []);
 
   useEffect(() => {
     fetchAllPosts();
@@ -40,7 +48,13 @@ const SocialScreen = () => {
 
         <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Social</CustomText>
 
-        <Icon icon='chat' iconType='MaterialCommunityIcons' onPress={() => navigation.navigate("ChatDashboardScreen")} />
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("ChatDashboardScreen")}>
+          <Icon icon='chat' iconType='MaterialCommunityIcons' />
+        </TouchableOpacity>
+
+        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("CreatePostScreen", { method: "create", post: null })}>
+          <Icon icon='plus' iconType='MaterialCommunityIcons' />
+        </TouchableOpacity>
 
       </View>
 
@@ -60,7 +74,9 @@ const SocialScreen = () => {
                 renderItem={({ item }: { item: PostType }) => (
                   <PostCard post={item} />
                 )}
-                contentContainerStyle={{ paddingHorizontal: AppConstants.screenPadding, gap: vs(20) }}
+                contentContainerStyle={{ paddingHorizontal: AppConstants.screenPadding, gap: vs(20), paddingBottom: s(20) }}
+                onRefresh={onRefresh}
+                refreshing={refreshing}
               />
         }
 

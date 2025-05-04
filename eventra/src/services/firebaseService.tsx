@@ -24,7 +24,6 @@ export const requestUserPermission = async (user: userType): Promise<void> => {
             authStatus === AuthorizationStatus.PROVISIONAL;
 
         if (enabled) {
-            console.log('Authorization status:', authStatus);
             await getFcmToken(user);
         }
     } catch (err) {
@@ -41,11 +40,8 @@ export const getFcmToken = async (user: userType): Promise<void> => {
 
         const token = await getToken(messaging);
         const storedToken = await AsyncGetFCMToken();
-        console.log('ALREADY EXISTING TOKEN :', token);
-        console.log('LOGGED IN USER fcm TOKEN :', user.FCMToken);
 
         if (token && (token !== storedToken || user.FCMToken == "")) {
-            console.log('New FCM Token:', token);
             await AsyncSetFCMToken(token);
             const formdata = new FormData();
             formdata.append("FCMToken", storedToken);
@@ -54,7 +50,7 @@ export const getFcmToken = async (user: userType): Promise<void> => {
             // 🔁 Send token to your backend here
             // await sendTokenToBackend(token);
         } else {
-            console.log('FCM token unchanged or already stored');
+            // console.log('FCM token unchanged or already stored');
         }
 
     } catch (err) {

@@ -27,12 +27,10 @@ const HomeScreen = () => {
 
   const fetchData = async () => {
     const { data, success } = await getUpcomingEventsApi();
-    console.log("UPCOMING DATA : ", data.data)
     success ? dispatch(setUpcomingEvents(data.data)) : navigate.navigate("ErrorScreen");
   }
 
   const getNotificationPermission = async () => {
-    console.log("ASKING FOR PUSH NOTIFICATION")
     await requestUserPermission(loggedInUser!);
   }
 

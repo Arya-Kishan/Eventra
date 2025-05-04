@@ -1,11 +1,13 @@
 // SocketContext.tsx
 import { AppConstants } from '@constants/AppConstants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { addUnOpendedMessages } from '@store/reducers/chatSlice';
+import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 
 
 import { io, Socket } from "socket.io-client";
+import { MessageType } from 'types/AppTypes';
 
 
 type User = {
@@ -28,7 +30,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     const [onlineUsers, setOnlineUsers] = useState<string[]>([])
     const [isSocketConnected, setIsSocketConnected] = useState("connecting");
     const { loggedInUser } = useAppSelector(store => store.user)
+    const { selectedOppoentUser } = useAppSelector(store => store.chat)
     const dispatch = useAppDispatch();
+    const selectedOppoentUserRef = useRef(selectedOppoentUser);
 
     const isUserOnline = (receiverId: string) => {
         if (onlineUsers.includes(receiverId)) {
@@ -60,8 +64,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
         if (loggedInUser) {
 
-            console.log("SOCKET BACKEND URL : ", AppConstants.socketBaseUrl)
-
             const socket = io(AppConstants.socketBaseUrl, {
                 query: {
                     userId: loggedInUser._id,
@@ -83,8 +85,14 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
             })
 
             // THIS IS RELATED TO CHAT TO LET USER KNOW SOMEONE MESSAGED HIM
-            socket.on("someone-messaged", ({ sender, receiver, message }: { sender: string, receiver: string, message: string }) => {
-
+            socket.on("someone-messaged", (someoneMessaged: MessageType) => {
+                const { sender, receiver } = someoneMessaged;
+                console.log("selectedOppoentUser : ", selectedOppoentUserRef.current)
+                console.log("message : ", { sender, receiver })
+                if (selectedOppoentUserRef.current?._id !== sender._id) {
+                    console.log("SAVING MESSAGE TO UNOPNED MESSAGE")
+                    dispatch(addUnOpendedMessages(someoneMessaged));
+                }
             })
 
             socket.on("connect_error", (error: any) => {
@@ -101,6 +109,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     }, [loggedInUser])
 
+    useEffect(() => {
+        selectedOppoentUserRef.current = selectedOppoentUser;
+    }, [selectedOppoentUser]);
 
     return (
         <SocketContext.Provider value={{ onlineUsers, globalSocket, sendSocketNotification, isSocketConnected, setOnlineUsers }}>

@@ -1,5 +1,5 @@
+import MessageBox from '@components/chat/MessageBox'
 import { CustomImage } from '@components/global/CustomImage'
-import CustomLoader from '@components/global/CustomLoader'
 import CustomText from '@components/global/CustomText'
 import EmptyData from '@components/global/EmptyData'
 import Icon from '@components/global/Icon'
@@ -7,11 +7,13 @@ import { AppConstants } from '@constants/AppConstants'
 import { useSocket } from '@context/SocketContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { createMessageApi, getConversationApi } from '@services/ChatService'
+import { updateUserApi } from '@services/UserService'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
-import { setUnOpendedMessages } from '@store/reducers/chatSlice'
-import { showToast } from '@utils/Helper'
+import { setSelectedOpponentUser } from '@store/reducers/chatSlice'
+import { setLoggedInUser } from '@store/reducers/userSlice'
+import { getRelativeTimeFromNow, showToast } from '@utils/Helper'
 import React, { useEffect, useRef, useState } from 'react'
-import { FlatList, StyleSheet, TextInput, View } from 'react-native'
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s } from 'react-native-size-matters'
 import { MessageType, NavigationProps, RouteProps, userType } from 'types/AppTypes'
@@ -19,12 +21,13 @@ import { MessageType, NavigationProps, RouteProps, userType } from 'types/AppTyp
 const ChatScreen = () => {
 
     const [text, setText] = useState<string>("");
-    const [messageLoading, setMessageLoading] = useState(true);
-    const [messages, setMessages] = useState<any>([]);
+    const [messageLoading, setMessageLoading] = useState(false);
     const { loggedInUser } = useAppSelector(store => store.user);
+    const [messages, setMessages] = useState<any>([]);
+    const flatListRef = useRef<FlatList<any>>(null);
     const { params: { user } } = useRoute<RouteProps<'ChatScreen'>>();
     const navigation = useNavigation<NavigationProps<"ChatScreen">>();
-    const opponentUser = user;
+    let opponentUser = user;
     const dispatch = useAppDispatch();
 
     const { globalSocket, onlineUsers } = useSocket();
@@ -32,8 +35,8 @@ const ChatScreen = () => {
     const fetchConversationMessages = async () => {
         setMessageLoading(true);
         const { data, success } = await getConversationApi({ sender: loggedInUser?._id!, receiver: opponentUser._id });
-        success ? setMessages(data.data.messages) : "";
         setMessageLoading(false);
+        success ? setMessages(data.data.messages) : "";
     }
 
     const handleSend = async () => {
@@ -45,7 +48,10 @@ const ChatScreen = () => {
         const newMessage = {
             sender: { _id: loggedInUser?._id!, name: loggedInUser?.name },
             receiver: { _id: opponentUser._id, name: opponentUser.name },
-            message: { type: 'text', value: text }
+            message: { type: 'text', value: text },
+            timestamp: Date.now().toString(),
+            status: "sent",
+            read: false
         }
 
         setMessages((prev: any) => ([...prev, newMessage]))
@@ -67,18 +73,33 @@ const ChatScreen = () => {
 
     }
 
+    const isOpponentOnline = (): boolean => {
+        return onlineUsers.includes(opponentUser._id);
+    }
+
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+            dispatch(setSelectedOpponentUser(null));
+            console.log("USER GOES BACK ----------")
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
     useEffect(() => {
 
+        fetchConversationMessages()
+
         // RECEIVING MESSAGE
-        globalSocket.on("receive-message", ({ sender, receiver, message }: { sender: userType, receiver: userType, message: string }) => {
-            console.log("RECEIVED MESSAGE : ", { sender, receiver, message });
+        globalSocket.on("receive-message", (receivedMessage: any) => {
+            console.log("RECEIVED MESSAGE : ", receivedMessage);
+            const { sender, receiver } = receivedMessage;
 
             // ONLY SHOW MESSAGES WHEN OPPONENT USER IS SAME AS RECEIVER USER
             if (opponentUser?._id == sender._id) {
-                setMessages((prev: any) => ([...prev, { sender, receiver, message }]))
-                globalSocket.emit("delivered", { sender, receiver, message })
-            } else {
-                dispatch(setUnOpendedMessages({ sender, receiver, message }))
+                setMessages((prev: any) => ([...prev, receivedMessage]))
+                globalSocket.emit("delivered", receivedMessage)
             }
 
         })
@@ -87,33 +108,6 @@ const ChatScreen = () => {
 
     }, [])
 
-    const isOpponentOnline = (): boolean => {
-        return onlineUsers.includes(opponentUser._id);
-    }
-
-    useEffect(() => {
-        fetchConversationMessages()
-    }, [])
-
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-            setMessages([]);
-        });
-
-        return unsubscribe;
-    }, [navigation]);
-
-
-    // TO MAKE SCROLL TO END
-    const flatListRef = useRef<FlatList<any>>(null);
-
-    // Auto scroll to bottom when messages change
-    useEffect(() => {
-        if (flatListRef.current && messages.length > 0) {
-            flatListRef.current.scrollToEnd({ animated: true });
-        }
-    }, [messages]);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -127,7 +121,12 @@ const ChatScreen = () => {
 
                         <View style={{ justifyContent: "space-between", gap: s(0) }}>
                             <CustomText variant='h4'>{opponentUser.name}</CustomText>
-                            <CustomText variant='overline' fontWeight='800' style={{ color: isOpponentOnline() ? AppConstants.greenColor : AppConstants.whiteColor }}>{isOpponentOnline() ? "Online" : "Offline"}</CustomText>
+                            <CustomText
+                                variant='overline'
+                                fontWeight='800'
+                                style={{ color: isOpponentOnline() ? AppConstants.greenColor : AppConstants.whiteColor }}>
+                                {isOpponentOnline() ? "Online" : getRelativeTimeFromNow(opponentUser?.active!)}
+                            </CustomText>
                         </View>
 
                         <Icon icon='dots-vertical' iconType='MaterialCommunityIcons' />
@@ -140,7 +139,7 @@ const ChatScreen = () => {
                 {
                     messageLoading
                         ?
-                        <EmptyData title='Loading Messages' showBtn={false} />
+                        <EmptyData title='Loading Messages ...' showBtn={false} />
                         :
                         messages.length == 0
                             ?
@@ -149,28 +148,22 @@ const ChatScreen = () => {
                             <FlatList
                                 data={messages}
                                 ref={flatListRef}
-                                renderItem={({ item }: { item: MessageType }) => {
-                                    const isMySelf = loggedInUser?._id == item.sender._id;
-                                    return <View style={{ padding: s(10), alignItems: isMySelf ? "flex-end" : "flex-start" }}>
-
-                                        <View style={{ width: "50%", backgroundColor: isMySelf ? AppConstants.redColor : AppConstants.grayColor, padding: s(10), borderRadius: s(10) }}>
-                                            <CustomText style={{ textAlign: isMySelf ? "right" : "left" }}>{item.message.value}</CustomText>
-                                        </View>
-
-                                    </View>
-                                }}
-                                contentContainerStyle={{ gap: s(10) }}
+                                renderItem={({ item }: { item: MessageType }) => <MessageBox message={item} />}
+                                contentContainerStyle={{ gap: s(0) }}
                                 onContentSizeChange={() =>
                                     flatListRef.current?.scrollToEnd({ animated: true })
                                 }
+                                keyExtractor={(item, index) => `${item.timestamp}`}
                             />
                 }
 
-                <View style={{ width: "100%", height: s(50), padding: s(4), position: "absolute", bottom: s(0), left: 0, flexDirection: "row", backgroundColor: AppConstants.whiteColor, alignItems: "center", gap: s(10) }}>
+                <View style={{ width: "100%", height: s(50), padding: s(4), paddingHorizontal: s(20), position: "absolute", bottom: s(0), left: 0, flexDirection: "row", backgroundColor: AppConstants.whiteColor, alignItems: "center", gap: s(10) }}>
 
-                    <TextInput placeholder='Write a message....' value={text} onChangeText={setText} style={{ flex: 1, backgroundColor: AppConstants.whiteColor, padding: s(10), fontSize: s(15), borderRadius: s(10), gap: s(2) }} />
+                    <TextInput placeholder='Write a message....' value={text} onChangeText={setText} style={{ flex: 1, backgroundColor: AppConstants.whiteColor, fontSize: s(15), borderRadius: s(10), gap: s(2) }} />
 
-                    <Icon icon='send' iconType='Feather' onPress={handleSend} color={AppConstants.redColor} />
+                    <TouchableOpacity activeOpacity={0.5} onPress={handleSend}>
+                            <Icon icon='send' iconType='Feather' color={AppConstants.redColor} />
+                    </TouchableOpacity>
 
                 </View>
 

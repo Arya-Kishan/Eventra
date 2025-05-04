@@ -1,20 +1,19 @@
-import { FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import { useAppSelector } from '@store/hooks';
-import { useNavigation } from '@react-navigation/native';
-import { AssetType, EventType, NavigationProps, VenueType } from 'types/AppTypes';
-import { showToast } from '@utils/Helper';
-import { createPostApi } from '@services/PostService';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import RoundedButton from '@components/global/RoundedButton';
 import CustomText from '@components/global/CustomText';
-import { AppConstants } from '@constants/AppConstants';
-import { s, vs } from 'react-native-size-matters';
-import { launchImageLibrary } from 'react-native-image-picker';
-import RoundedBox from '@components/global/RoundedBox';
 import Icon from '@components/global/Icon';
-import BackHeader from '@components/global/BackHeader';
+import RoundedBox from '@components/global/RoundedBox';
+import RoundedButton from '@components/global/RoundedButton';
 import SmallEventCard from '@components/home/SmallEventCard';
+import { AppConstants } from '@constants/AppConstants';
+import { useNavigation } from '@react-navigation/native';
+import { createPostApi } from '@services/PostService';
+import { useAppSelector } from '@store/hooks';
+import { showToast } from '@utils/Helper';
+import React, { useState } from 'react';
+import { FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { s, vs } from 'react-native-size-matters';
+import { AssetType, EventType, NavigationProps } from 'types/AppTypes';
 
 const CreatePostScreen = () => {
 
@@ -105,7 +104,10 @@ const CreatePostScreen = () => {
     return (
         <SafeAreaView>
 
-            <BackHeader title='Create Post' />
+            <View style={{ backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding, flexDirection: "row", gap: s(10), alignItems: "center" }}>
+                <Pressable onPress={() => navigation.goBack()}><Icon icon='arrow-left' iconType='FontAwesome5' size={s(20)} /></Pressable>
+                <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Create Post</CustomText>
+            </View>
 
             <ScrollView>
 

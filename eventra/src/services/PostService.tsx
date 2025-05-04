@@ -12,9 +12,9 @@ const getAllPostApi = async (): Promise<ApiReturnType> => {
     }
 };
 
-const getSinglePostApi = async (id: string): Promise<ApiReturnType> => {
+const getUserPostsApi = async (id: string): Promise<ApiReturnType> => {
     try {
-        const { data } = await axiosInstance.get(`/post/single/${id}`);
+        const { data } = await axiosInstance.get(`/post/user/${id}`);
         return { data: data, message: "posts Fetched", success: true, error: null };  // Return the response data
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -91,4 +91,4 @@ const deletePostCommentApi = async (id: string): Promise<ApiReturnType> => {
 
 }
 
-export { createPostApi, getAllPostApi, updatePostApi, getSinglePostApi, getCommentsOfSinglePostApi, createCommentPostApi, deletePostCommentApi };
+export { createPostApi, getAllPostApi, updatePostApi, getUserPostsApi, getCommentsOfSinglePostApi, createCommentPostApi, deletePostCommentApi };

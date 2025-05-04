@@ -127,7 +127,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({ isCreatingEvent = false 
               <FlatList
                 data={venueDetail!.reviews}
                 renderItem={({ item }: { item: CommentType }) => (
-                  <VenueReviewCard createAt={item.createdAt} name={item.user.name} profilePic={item.user.profilePic} review={item.comment} star={Number(item.star)} />
+                  <VenueReviewCard createAt={item.createdAt} name={item.user.name} profilePic={item.user.profilePic.url} review={item.comment} star={Number(item.star)} />
                 )}
                 scrollEnabled={false}
                 ListEmptyComponent={() => (<View><Text>NO REVIEWS</Text></View>)}

@@ -21,13 +21,14 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         // Use the PayloadAction type to declare the contents of `action.payload`
+        resetLogout: (state) => initialState,
         setLoggedInUser: (state, action: PayloadAction<userType | null>) => {
             state.loggedInUser = action.payload
         },
     },
 })
 
-export const { setLoggedInUser } = userSlice.actions
+export const { setLoggedInUser, resetLogout } = userSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.user.value

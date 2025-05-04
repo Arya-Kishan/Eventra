@@ -28,7 +28,8 @@ export const createPost = AsyncHandler(async (req, res) => {
 }, "error in making new post")
 
 export const getUserPosts = AsyncHandler(async (req, res) => {
-    const doc = await Post.find({ userId: req.params.id }).populate({
+    console.log("GETTING ALL USER POSTS", req.params)
+    const doc = await Post.find({ user: req.params.id }).populate({
         path: 'user',
     }).populate({
         path: 'likes',

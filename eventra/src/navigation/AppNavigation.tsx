@@ -1,18 +1,10 @@
 import CustomLoader from '@components/global/CustomLoader';
-import Icon from '@components/global/Icon';
-import { AppConstants } from '@constants/AppConstants';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthScreen from '@screens/auth/AuthScreen';
 import ForgotPasswordScreen from '@screens/auth/ForgotPasswordScreen';
 import LoginScreen from '@screens/auth/LoginScreen';
 import SignUpScreen from '@screens/auth/SignUpScreen';
-import EventScreen from '@screens/bottom_tabs_screen/EventScreen';
-import HomeScreen from '@screens/bottom_tabs_screen/HomeScreen';
-import SocialScreen from '@screens/bottom_tabs_screen/SocialScreen';
-import StoreScreen from '@screens/bottom_tabs_screen/StoreScreen';
-import VenueScreen from '@screens/bottom_tabs_screen/VenueScreen';
 import ChatDashboardScreen from '@screens/chat/ChatDashboardScreen';
 import ChatScreen from '@screens/chat/ChatScreen';
 import ErrorScreen from '@screens/ErrorScreen';
@@ -34,35 +26,29 @@ import { getApp } from '@react-native-firebase/app';
 import { FirebaseMessagingTypes, getInitialNotification, getMessaging, onMessage, onNotificationOpenedApp, onTokenRefresh } from '@react-native-firebase/messaging';
 import { showLocalAlert } from '@services/firebaseService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { updateUserApi } from '@services/UserService';
+import { getSingleuserApi, updateUserApi } from '@services/UserService';
+import NetInfo from '@react-native-community/netinfo';
+import BottomTabBar from '@components/navigation/BottomTabBar';
+
+
 const TOKEN_KEY = 'fcmToken';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator();
 
 const AppNavigation = () => {
 
-  const BottomTabs = () => {
-    return (
-      <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: AppConstants.redColor }}>
-        <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ focused }) => <Icon iconType='Feather' icon='home' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
-        <Tab.Screen name="Social" component={SocialScreen} options={{ tabBarIcon: ({ focused }) => <Icon iconType='FontAwesome5' icon='shapes' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
-        <Tab.Screen name="Event" component={EventScreen} options={{ tabBarIcon: ({ focused }) => <Icon iconType='Feather' icon='aperture' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
-        <Tab.Screen name="Store" component={StoreScreen} options={{ tabBarIcon: ({ focused }) => <Icon iconType='Feather' icon='shopping-bag' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
-        <Tab.Screen name="Venue" component={VenueScreen} options={{ tabBarIcon: ({ focused }) => <Icon iconType='Entypo' icon='address' color={focused ? AppConstants.redColor : AppConstants.grayColor} /> }} />
-      </Tab.Navigator>
-    )
-  }
-
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(true);
+  const [isConnected, setIsConnected] = useState<boolean>(true);
   const { loggedInUser } = useAppSelector(store => store.user);
 
   const checkAuth = async () => {
     const user = await AsyncGetData();
 
     if (user) {
-      dispatch(setLoggedInUser(JSON.parse(user)));
+      // dispatch(setLoggedInUser(JSON.parse(user)));
+      const { data } = await getSingleuserApi(JSON.parse(user)._id);
+      dispatch(setLoggedInUser(data.data));
     } else {
       dispatch(setLoggedInUser(null));
     }
@@ -74,6 +60,14 @@ const AppNavigation = () => {
   useEffect(() => {
     checkAuth();
   }, [])
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      state.isConnected && setIsConnected(state.isConnected);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
 
   // BELOW USEEFFECT FOR FCM NOTIFICATIONS
@@ -140,7 +134,7 @@ const AppNavigation = () => {
             </>
             :
             <>
-              <Stack.Screen name="Main" component={BottomTabs} />
+              <Stack.Screen name="Main" component={BottomTabBar} />
 
               <Stack.Screen name="EventDetailScreen" component={EventDetailScreen} />
               <Stack.Screen name="VenueDetailScreen" component={VenueDetailScreen} />

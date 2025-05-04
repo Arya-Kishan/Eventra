@@ -9,8 +9,6 @@ import { store } from './src/store/store';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
-  console.log("Config.API_URL ENV : ", Config.API_URL);
-  console.log("BASE_URL ENV : ", Config.BASE_URL);
 
   return (
     <SafeAreaProvider>

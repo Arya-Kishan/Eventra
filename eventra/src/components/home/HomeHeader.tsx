@@ -18,7 +18,7 @@ const HomeHeader = () => {
         <View style={styles.headerContainer}>
 
             {/* avatar */}
-            <Pressable onPress={() => navigation.navigate("ProfileScreen")} style={styles.avatarContainer}>
+            <Pressable onPress={() => navigation.navigate("ProfileScreen", { userId: loggedInUser?._id! })} style={styles.avatarContainer}>
 
                 <CustomImage width={s(38)} height={s(38)} source={`${profilePic.url !== "" ? profilePic.url : "https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg"}`} />
 

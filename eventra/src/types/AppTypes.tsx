@@ -18,8 +18,9 @@ export type RootStackParamList = {
     ForgotPasswordScreen: undefined;
     ChatDashboardScreen: undefined;
     ChatScreen: { user: userType };
-    ProfileScreen: undefined;
+    ProfileScreen: { userId: string };
     Details: { userId: number; userName: string };
+    BottomTabBar:undefined
 };
 
 // Generic helpers
@@ -47,6 +48,7 @@ export type userType = {
     FCMToken: string,
     _id: string,
     chats: userType[];
+    active: string
 }
 
 type location = { latitude: string, longitude: string };
@@ -177,5 +179,8 @@ export type OrderType = {
 export type MessageType = {
     sender: userType,
     receiver: userType,
-    message: { value: string, type: string }
+    message: { value: string, type: string },
+    timestamp: string,
+    status: string
+    read: boolean
 }

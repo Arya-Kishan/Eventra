@@ -85,7 +85,6 @@ export const getAllEvents = AsyncHandler(async (req, res) => {
 }, "error in getting all Events")
 
 export const getAllUpcomingEvents = AsyncHandler(async (req, res) => {
-    console.log("GETTING ALL UPCOMING EVENTS")
     const now = new Date();
     const futureEvents = await Event.find({ date: { $gt: now } }).sort({ date: 1 }).populate({
         path: 'venue'

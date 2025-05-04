@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomText from '@components/global/CustomText'
@@ -72,9 +72,13 @@ const SignUpScreen = () => {
           {
             !showPassword
               ?
-              <Icon onPress={() => { setShowPassword(true) }} icon='eye' iconType='Feather' color={AppConstants.redColor} />
+              <TouchableOpacity activeOpacity={0.6} onPress={() => { setShowPassword(true) }}>
+                <Icon icon='eye' iconType='Feather' color={AppConstants.redColor} />
+              </TouchableOpacity>
               :
-              <Icon onPress={() => { setShowPassword(false) }} icon='eye-off' iconType='Feather' color={AppConstants.redColor} />
+              <TouchableOpacity activeOpacity={0.6} onPress={() => { setShowPassword(false) }}>
+                <Icon icon='eye-off' iconType='Feather' color={AppConstants.redColor} />
+              </TouchableOpacity>
           }
           <TextInput value={password} onChangeText={setPassword} placeholder='Password...' secureTextEntry={showPassword} style={{ flex: 1, fontSize: s(14) }} />
         </View>

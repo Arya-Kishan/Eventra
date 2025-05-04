@@ -210,7 +210,7 @@ const CreateVenueScreen: FC = () => {
 
                     <CustomText variant='h6'>Location</CustomText>
 
-                    <BasicMap />
+                    {/* <BasicMap /> */}
 
                     <View style={{ flexDirection: "row", gap: s(20), justifyContent: "space-between" }}>
                         <TextInput style={styles.timeBox} value={location.latitude} placeholder='latitude' onChangeText={(val) => (setLocation((prev) => ({ ...prev, latitude: val })))} />

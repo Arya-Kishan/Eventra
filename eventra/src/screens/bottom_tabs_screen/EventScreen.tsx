@@ -32,7 +32,6 @@ const EventScreen = () => {
     fetchAllEvents();
   }, [])
 
-  console.log("eventLoader : ", eventLoader)
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
@@ -40,13 +39,21 @@ const EventScreen = () => {
 
       <View style={{ gap: vs(30), backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding, borderBottomLeftRadius: s(30), borderBottomRightRadius: s(30) }}>
 
-        <CustomText style={{ fontWeight: "800", fontSize: s(24), color: AppConstants.whiteColor }} numberOfLines={2}>Explore the amazing Events near you</CustomText>
-        {/* INPUT AND SEARCH BTN */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
+          <CustomText style={{ fontWeight: "800", fontSize: s(24), color: AppConstants.whiteColor, width: "80%" }} numberOfLines={2}>Explore the amazing Events near you</CustomText>
+          
+          <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(30)} />
+
+        </View>
+
         <View style={{ backgroundColor: "white", borderRadius: s(20), paddingHorizontal: s(10), paddingVertical: s(6), alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
+
           <TextInput value='' onChangeText={() => { }} placeholder='Search Event' style={{ flex: 1 }} />
+
           <RoundedBox size={s(30)} viewStyle={{ backgroundColor: AppConstants.grayLightColor }}>
             <Icon iconType='Feather' icon='search' color={"black"} size={s(18)} />
           </RoundedBox>
+
         </View>
 
       </View>
@@ -73,7 +80,6 @@ const EventScreen = () => {
             />
       }
 
-      {/* <RoundedButton onPress={() => { navigation.navigate("EventDetailScreen", { eventId: 12 }) }} title='Event Detail' /> */}
     </SafeAreaView>
   )
 }

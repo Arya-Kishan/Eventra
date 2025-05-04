@@ -11,7 +11,7 @@ import { getAllVenueApi } from '@services/VenueServices'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import { setAllVenues, setVenueLoader } from '@store/reducers/venueSlice'
 import React, { useEffect } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s } from 'react-native-size-matters'
 import { NavigationProps } from 'types/AppTypes'
@@ -42,7 +42,9 @@ const VenueScreen = () => {
 
             <View style={{ backgroundColor: AppConstants.redColor, padding: s(15), flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CustomText style={{ fontWeight: "800", fontSize: s(25), color: AppConstants.whiteColor }}>Venue</CustomText>
-                <Icon onPress={() => { navigation.navigate('CreateVenueScreen', { venue: null, method: "create" }) }} icon='plus' iconType='Feather' size={s(25)} />
+                <TouchableOpacity onPress={() => { navigation.navigate('CreateVenueScreen', { venue: null, method: "create" }) }}>
+                    <Icon icon='plus' iconType='Feather' size={s(25)} />
+                </TouchableOpacity>
             </View>
 
             {

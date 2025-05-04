@@ -2,13 +2,14 @@ import { CustomImage } from '@components/global/CustomImage'
 import CustomText from '@components/global/CustomText'
 import Icon from '@components/global/Icon'
 import { AppConstants } from '@constants/AppConstants'
+import { useNavigation } from '@react-navigation/native'
 import { updatePostApi } from '@services/PostService'
 import { useAppSelector } from '@store/hooks'
 import React, { FC, Suspense, useEffect, useState } from 'react'
 import { Modal, Pressable, StyleSheet, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
 import Video from 'react-native-video'
-import { PostType } from 'types/AppTypes'
+import { NavigationProps, PostType } from 'types/AppTypes'
 const PostComment = React.lazy(() => import('./PostComment'));
 
 interface PostCardProps {
@@ -23,6 +24,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
     const [commentLength, setCommentLength] = useState<number>(post.comments.length);
     const [likesLength, setLikesLength] = useState<number>(post.likes!.length);
     const { loggedInUser } = useAppSelector(store => store.user);
+    const { navigate } = useNavigation<NavigationProps<'Main'>>();
 
     const handleLike = async () => {
         setIsLiked(isLiked ? false : true)
@@ -35,6 +37,10 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
     const checkIsLiked = () => {
         const bool = post.likes?.some((item) => (item._id == loggedInUser?._id));
         setIsLiked(bool!);
+    }
+
+    const handleNameClicked = () => {
+        typeof post.user !== "string" && navigate("ProfileScreen", { userId: post.user._id })
     }
 
     useEffect(() => {
@@ -51,13 +57,13 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                 {
                     typeof post.user !== 'string'
                     &&
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
+                    <Pressable onPress={handleNameClicked} style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
                         <CustomImage source={"https://i.pinimg.com/474x/ef/9f/4c/ef9f4c5f75111da91ed81c859b34f4ac.jpg"} width={s(40)} height={s(40)} style={{ aspectRatio: 1 / 1, objectFit: "cover" }} />
                         <View>
                             <CustomText variant='h4'>{post.user.name}</CustomText>
                             <CustomText variant='subtitle1'>{post.user.bio}</CustomText>
                         </View>
-                    </View>
+                    </Pressable>
 
                 }
                 <CustomText>:</CustomText>
@@ -86,7 +92,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
 
                     {/* comment */}
-                    <Pressable onPress={() => setShowCommentModal(true)} style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
+                    <Pressable onPress={() => setShowCommentModal(true)} style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }} >
                         <Icon icon='comment-o' iconType='FontAwesome' color={AppConstants.darkGrayColor} />
                         <CustomText>{`${commentLength}`}</CustomText>
                     </Pressable>

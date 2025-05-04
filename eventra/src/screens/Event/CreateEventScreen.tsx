@@ -1,5 +1,4 @@
 import SelectVenueModal from '@components/event/SelectVenueModal';
-import BackHeader from '@components/global/BackHeader';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
 import Icon from '@components/global/Icon';
@@ -103,7 +102,10 @@ const CreateEventScreen: FC = () => {
             <StatusBar hidden={false} backgroundColor={AppConstants.redColor} />
 
             {/* BACK HEADER */}
-            <BackHeader title='Create Event' />
+            <View style={{ backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding, flexDirection: "row", gap: s(10), alignItems: "center" }}>
+                <Pressable onPress={() => navigation.goBack()}><Icon icon='arrow-left' iconType='FontAwesome5' size={s(20)} /></Pressable>
+                <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Create Event</CustomText>
+            </View>
 
             <ScrollView>
                 <View style={{ flex: 1, paddingHorizontal: AppConstants.screenPadding, gap: vs(10), paddingBottom: vs(70), paddingTop: vs(10) }}>

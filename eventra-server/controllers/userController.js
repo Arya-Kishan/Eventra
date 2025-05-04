@@ -45,9 +45,8 @@ export const getAllUser = AsyncHandler(async (req, res) => {
 }, "error in getting all user")
 
 export const getSingleUser = AsyncHandler(async (req, res) => {
-    const doc = await User.findById(req.params.userId).populate({
-        path: 'mychats',
-        select: ["name", "online"]
+    const doc = await User.findByIdAndUpdate(req.params.userId, { active: new Date().toISOString() }).populate({
+        path: 'chats',
     });
     res.status(200).json({ data: doc, message: "Success" });
 }, "error in getting single user")

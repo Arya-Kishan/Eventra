@@ -32,7 +32,7 @@ const PostCommentCard: FC<PostCommentCardProps> = ({ item, comments, setComments
 
             <View style={{ flexDirection: "row", gap: s(10) }}>
 
-                <CustomImage width={s(35)} height={s(35)} source={typeof item.user !== "string" ? item.user.profilePic : AppConstants.fallbackProfilePic} />
+                <CustomImage width={s(35)} height={s(35)} source={typeof item.user !== "string" ? item.user.profilePic.url : AppConstants.fallbackProfilePic} />
 
                 <View style={{ justifyContent: "space-between" }}>
                     <CustomText variant='h5'>{typeof item.user !== "string" ? item.user.name : "User"}</CustomText>

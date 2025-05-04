@@ -67,7 +67,7 @@ const PostComment: FC<PostCommentProps> = ({ setShow, postId, setCommentLength, 
         <View style={{ flex: 1, backgroundColor: "#000000D6", justifyContent: "flex-end", alignItems: "center", gap: vs(10) }}>
 
             <RoundedBox size={s(49)} viewStyle={{ backgroundColor: AppConstants.redColor }} onPress={() => { setShow(false) }}>
-                <Icon icon='x' iconType='Feather' size={s(30)} />
+                    <Icon icon='x' iconType='Feather' size={s(30)} />
             </RoundedBox>
 
             <View style={{ width: "100%", backgroundColor: AppConstants.whiteColor, padding: s(15), borderRadius: s(20), gap: vs(10), height: vs(350) }}>

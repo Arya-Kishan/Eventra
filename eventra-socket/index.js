@@ -1,11 +1,10 @@
-import express from "express"
-import 'dotenv/config'
-import { Server } from 'socket.io'
-import { createServer } from 'http'
 import cors from "cors"
-import userRouter from "./routes/userRoute.js"
-import messageRouter from "./routes/messageRoute.js"
+import 'dotenv/config'
+import express from "express"
+import { createServer } from 'http'
+import { Server } from 'socket.io'
 import { dbConnection } from "./database.js"
+import messageRouter from "./routes/messageRoute.js"
 const PORT = 7000;
 
 const app = express();
@@ -49,10 +48,11 @@ io.on("connection", (socket) => {
         io.to(receiverSocketId).emit("receive-notification", { category, message })
     })
 
-    socket.on("send-message", ({ sender, receiver, message }) => {
+    socket.on("send-message", (newMessage) => {
+        const { sender, receiver } = newMessage;
         const receiverSocketId = userSocketMap[receiver._id];
-        io.to(receiverSocketId).emit("receive-message", { sender, receiver, message })
-        io.to(receiverSocketId).emit("someone-messaged", { sender, receiver, message })
+        io.to(receiverSocketId).emit("receive-message", newMessage)
+        io.to(receiverSocketId).emit("someone-messaged", newMessage)
     })
 
     socket.on("delivered", ({ sender, receiver, message }) => {
@@ -94,7 +94,6 @@ io.on("connection", (socket) => {
 
 })
 
-app.use("/socket/user", userRouter)
 app.use("/socket/message", messageRouter)
 
 app.get("/", (req, res) => {

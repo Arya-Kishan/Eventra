@@ -27,4 +27,14 @@ const createMessageApi = async ({ sender, receiver, message }: { sender: string,
 
 }
 
-export { createMessageApi, getConversationApi };
+const unseenMessageApi = async ({ body, type }: { body: any, type: "get" | "delete" }): Promise<ApiReturnType> => {
+    try {
+        const { data } = await axios.post(`${AppConstants.socketBaseUrl}/socket/message/unseenMessages?type=${type}`, body);
+        return { data: data, message: "Events Fetched", success: true, error: null };  // Return the response data
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return { data: null, message: "Error in events Fetching", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+};
+
+export { createMessageApi, getConversationApi,unseenMessageApi };

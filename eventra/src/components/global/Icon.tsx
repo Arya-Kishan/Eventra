@@ -12,30 +12,29 @@ interface IconType {
     icon: string;
     size?: number;
     color?: string;
-    onPress?: () => void;
 }
 
-const Icon: FC<IconType> = ({ color = "#FFFFFF", icon = "home", iconType = "Feather", size = 24, onPress = () => { } }) => {
+const Icon: FC<IconType> = ({ color = "#FFFFFF", icon = "home", iconType = "Feather", size = 24 }) => {
 
     return (
         <>
             {
-                iconType == "Entypo" && <Entypo onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "Entypo" && <Entypo name={icon} size={size} color={color} />
             }
             {
-                iconType == "Feather" && <Feather onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "Feather" && <Feather name={icon} size={size} color={color} />
             }
             {
-                iconType == "FontAwesome" && <FontAwesome onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "FontAwesome" && <FontAwesome name={icon} size={size} color={color} />
             }
             {
-                iconType == "FontAwesome5" && <FontAwesome5 onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "FontAwesome5" && <FontAwesome5 name={icon} size={size} color={color} />
             }
             {
-                iconType == "MaterialCommunityIcons" && <MaterialCommunityIcons onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "MaterialCommunityIcons" && <MaterialCommunityIcons name={icon} size={size} color={color} />
             }
             {
-                iconType == "MaterialIcons" && <MaterialIcons onPress={onPress} name={icon} size={size} color={color} />
+                iconType == "MaterialIcons" && <MaterialIcons name={icon} size={size} color={color} />
             }
         </>
     )

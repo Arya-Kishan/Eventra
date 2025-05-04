@@ -36,7 +36,6 @@ export const createMessage = async (req, res) => {
             doc = await doc.save();
         }
 
-
         return res.status(200).json({ message: "NEW CONVERSATION OR MESSAGE ADDED CREATED", data: newMessage })
 
     } catch (error) {
@@ -85,16 +84,15 @@ export const unseenMessage = async (req, res) => {
         console.log(req.body);
         console.log(req.query);
 
-        if (req.query.type == 'add') {
+        if (req.query.type == 'get') {
 
-            let doc = await UnseenMessage.create(req.body)
-            doc = await doc.save();
-
-            return res.status(200).json({ message: "NEW UNSEEN MESSAGE ADDED", data: doc })
-
-        } else if (req.query.type == 'get') {
-
-            let doc = await UnseenMessage.find({ receiver: req.body.receiver })
+            let doc = await UnseenMessage.find({ receiver: req.body.receiver }).populate({
+                path: 'sender',
+                select: ["name", "email", "bio", "profilePic"]
+            }).populate({
+                path: 'receiver',
+                select: ["name", "email", "bio", "profilePic"]
+            });;
 
             return res.status(200).json({ message: "GETTING UNSEEN MESSAGE ", data: doc })
 
@@ -102,9 +100,7 @@ export const unseenMessage = async (req, res) => {
 
             console.log(req.body);
 
-            req.body.forEach(async (e) => {
-                await UnseenMessage.findByIdAndDelete(e._id)
-            })
+            await UnseenMessage.deleteMany({ receiver: req.body.receiver });
 
             return res.status(200).json({ message: "DELETED UNSEEN MESSAGE FROM BACKEND", data: "apple" })
 
