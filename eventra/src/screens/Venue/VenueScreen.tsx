@@ -57,6 +57,7 @@ const VenueScreen = () => {
                             data={allVenues}
                             renderItem={({ item, index }) => (<VenueCard item={item} index={index} />)}
                             contentContainerStyle={{ flex: 1, padding: AppConstants.screenPadding, gap: AppConstants.defaultGap }}
+                            keyExtractor={(item) => `${item._id}`}
                         />
             }
 

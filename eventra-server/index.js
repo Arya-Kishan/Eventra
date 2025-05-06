@@ -30,9 +30,7 @@ server.use("/product", productRoute)
 server.use("/order", orderRoute)
 
 server.get("/", (req, res) => {
-    const token = "eQg8te-sSrqWGqyXEnzzaU:APA91bEHBBTS6Nik_13ETKvd34voHgrmQWc-L1zmVZ6F5w6fdzxRvIDa26qZLhYOu1ji45IAAYP4QaPn1n7kcZv13gzCnc3ZFUyMs22urApgwySjPBH3oR8"
-    sendNotificationFCM(token, "Test", "Hii Its All Good");
-    res.json({ name: "MADE BY ARYA KISHAN WEBBOOK MULTI SAGA" });
+    res.json({ owner: "MADE BY ARYA KISHAN EVENTRA BACKEND SERVER FOR REACT NATIVE APP EVENTRA 😊💕" });
 })
 
 server.use((err, req, res, next) => {

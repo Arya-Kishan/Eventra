@@ -66,8 +66,6 @@ const ChatScreen = () => {
             }
         });
 
-
-
         // USED FOR CLEANING INPUT
         setText("");
 
@@ -107,6 +105,8 @@ const ChatScreen = () => {
         return () => globalSocket?.off("receive-message");
 
     }, [])
+
+    console.log("USER : ", user)
 
 
     return (
@@ -162,7 +162,7 @@ const ChatScreen = () => {
                     <TextInput placeholder='Write a message....' value={text} onChangeText={setText} style={{ flex: 1, backgroundColor: AppConstants.whiteColor, fontSize: s(15), borderRadius: s(10), gap: s(2) }} />
 
                     <TouchableOpacity activeOpacity={0.5} onPress={handleSend}>
-                            <Icon icon='send' iconType='Feather' color={AppConstants.redColor} />
+                        <Icon icon='send' iconType='Feather' color={AppConstants.redColor} />
                     </TouchableOpacity>
 
                 </View>

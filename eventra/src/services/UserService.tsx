@@ -22,6 +22,16 @@ const getSingleuserApi = async (id: string): Promise<ApiReturnType> => {
     }
 };
 
+const getLoggedInUserApi = async (id: string): Promise<ApiReturnType> => {
+    try {
+        const { data } = await axiosInstance.get(`/user/loggedIn/${id}`);
+        return { data: data, message: "users Fetched", success: true, error: null };  // Return the response data
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return { data: null, message: "Error in users Fetching", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+};
+
 const createUserApi = async (user: any): Promise<ApiReturnType> => {
 
     console.log("user : ", user)
@@ -67,4 +77,16 @@ const updateUserApi = async (user: FormData, id: string): Promise<ApiReturnType>
 
 }
 
-export { createUserApi, getAlluserApi, getSingleuserApi, loginUserApi, updateUserApi };
+const searchUserApi = async (word: string): Promise<ApiReturnType> => {
+
+    try {
+        const { data } = await axiosInstance.get(`/user/search?word=${word}`);
+        return { data: data, message: "users created", success: true, error: null };  // Return the response data
+    } catch (error) {
+        console.error('Error login user:', error);
+        return { data: null, message: "Error in users login", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+
+}
+
+export { createUserApi, getAlluserApi, getSingleuserApi, loginUserApi, updateUserApi, getLoggedInUserApi, searchUserApi };

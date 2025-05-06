@@ -109,15 +109,7 @@ export const getSearchedVenue = AsyncHandler(async (req, res) => {
 
     const regex = new RegExp('^' + word, 'i');
 
-    const Venues = await Venue.find({ title: { $regex: regex } }).populate({
-        path: 'venue'
-    }).populate({
-        path: 'participants',
-        select: ["name", "email", "bio", "profilePic"]
-    }).populate({
-        path: 'host',
-        select: ["name", "email", "bio", "profilePic"]
-    });
+    const Venues = await Venue.find({ title: { $regex: regex } });
 
     res.status(200).json({ data: Venues, message: "Success" });
 

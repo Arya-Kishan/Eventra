@@ -26,10 +26,12 @@ import { getApp } from '@react-native-firebase/app';
 import { FirebaseMessagingTypes, getInitialNotification, getMessaging, onMessage, onNotificationOpenedApp, onTokenRefresh } from '@react-native-firebase/messaging';
 import { showLocalAlert } from '@services/firebaseService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getSingleuserApi, updateUserApi } from '@services/UserService';
+import { getLoggedInUserApi, getSingleuserApi, updateUserApi } from '@services/UserService';
 import NetInfo from '@react-native-community/netinfo';
 import BottomTabBar from '@components/navigation/BottomTabBar';
 import VenueScreen from '@screens/Venue/VenueScreen';
+import SearchScreen from '@screens/SearchScreen';
+import NotificationScreen from '@screens/NotificationScreen';
 
 
 const TOKEN_KEY = 'fcmToken';
@@ -48,7 +50,7 @@ const AppNavigation = () => {
 
     if (user) {
       // dispatch(setLoggedInUser(JSON.parse(user)));
-      const { data } = await getSingleuserApi(JSON.parse(user)._id);
+      const { data } = await getLoggedInUserApi(JSON.parse(user)._id);
       dispatch(setLoggedInUser(data.data));
     } else {
       dispatch(setLoggedInUser(null));
@@ -153,6 +155,8 @@ const AppNavigation = () => {
               <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
               <Stack.Screen name="ChatScreen" component={ChatScreen} />
               <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+              <Stack.Screen name="SearchScreen" component={SearchScreen} />
+              <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
             </>
         }
 

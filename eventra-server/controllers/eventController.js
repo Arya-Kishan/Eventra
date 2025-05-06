@@ -1,4 +1,5 @@
 import { Event } from '../models/eventModel.js'
+import { User } from '../models/userModel.js';
 import { Venue } from '../models/venueModel.js'
 import { uploadFileToCloudinary } from '../services/Cloudinary.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
@@ -40,8 +41,43 @@ export const createEvent = AsyncHandler(async (req, res) => {
 }, "error in creating Event")
 
 export const updateEvent = AsyncHandler(async (req, res) => {
-    const { participants } = req.body;
-    const doc = await Event.findByIdAndUpdate(req.params.id, { ...req.body, participants: JSON.parse(participants) }, { new: true }).populate({
+
+    console.log(req.body);
+
+    const normalUpdates = ["title", "description", "date", "host", "headcount", "status", "price", "category"];
+    const pushUpdates = ["participants"];
+    const parsedUpdates = ["time"]
+
+    const DoUpdateNormal = {};
+    const DoUpdatePush = {};
+
+    for (let key in req.body) {
+        if (normalUpdates.includes(key)) {
+            DoUpdateNormal[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
+        } else {
+            DoUpdatePush[key] = parsedUpdates.includes(key) ? JSON.parse(req.body[key]) : req.body[key];
+        }
+    }
+
+    if (req.files.pic !== undefined) {
+
+        const picUrl = await uploadFileToCloudinary(type, req.files);
+        console.log("PIC URL : ", picUrl)
+        if (picUrl.success == false) {
+            throw Error("Error in Uploading Image to Cloudinary !!");
+        }
+
+        DoUpdateNormal.profilePic = picUrl;
+    }
+
+    const newUpdates = await Event.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: DoUpdateNormal,
+            $push: DoUpdatePush
+        },
+        { new: true }
+    ).populate({
         path: 'venue'
     }).populate({
         path: 'participants',
@@ -50,7 +86,9 @@ export const updateEvent = AsyncHandler(async (req, res) => {
         path: 'host',
         select: ["name", "email", "bio", "profilePic"]
     });
-    res.status(200).json({ data: doc, message: "Success" });
+
+    res.status(200).json({ data: newUpdates, message: "Success" });
+
 }, 'error in updating Event')
 
 export const deleteEvent = AsyncHandler(async (req, res) => {
@@ -117,15 +155,7 @@ export const getSearchedEvent = AsyncHandler(async (req, res) => {
 
     const regex = new RegExp('^' + word, 'i');
 
-    const events = await Event.find({ title: { $regex: regex } }).populate({
-        path: 'venue'
-    }).populate({
-        path: 'participants',
-        select: ["name", "email", "bio", "profilePic"]
-    }).populate({
-        path: 'host',
-        select: ["name", "email", "bio", "profilePic"]
-    });
+    const events = await Event.find({ title: { $regex: regex } });
 
     res.status(200).json({ data: events, message: "Success" });
 

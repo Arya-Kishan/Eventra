@@ -1,4 +1,5 @@
 import EventCard from '@components/event/EventCard';
+import EventHeader from '@components/event/EventHeader';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
 import EmptyData from '@components/global/EmptyData';
@@ -10,9 +11,9 @@ import { getAllEvent } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setAllEvents, setEventLoader } from '@store/reducers/eventSlice';
 import React, { useEffect } from 'react';
-import { FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { s, vs } from 'react-native-size-matters';
+import { s } from 'react-native-size-matters';
 import { NavigationProps } from 'types/AppTypes';
 
 
@@ -37,28 +38,7 @@ const EventScreen = () => {
 
       <StatusBar backgroundColor={AppConstants.redColor} translucent={false} hidden={false} />
 
-      <View style={{ gap: vs(30), backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding, borderBottomLeftRadius: s(30), borderBottomRightRadius: s(30) }}>
-
-        <View style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10), alignItems: "center" }}>
-          <CustomText style={{ fontWeight: "800", fontSize: s(24), color: AppConstants.whiteColor, width: "80%" }} numberOfLines={2}>Explore the amazing Events near you</CustomText>
-
-          <TouchableOpacity onPress={() => navigation.navigate("VenueScreen")}>
-            <Icon icon='fireplace-off' iconType='MaterialCommunityIcons' size={s(30)} />
-          </TouchableOpacity>
-
-        </View>
-
-        <View style={{ backgroundColor: "white", borderRadius: s(20), paddingHorizontal: s(10), paddingVertical: s(6), alignItems: "center", flexDirection: "row", justifyContent: "space-between" }}>
-
-          <TextInput value='' onChangeText={() => { }} placeholder='Search Event' style={{ flex: 1 }} />
-
-          <RoundedBox size={s(30)} viewStyle={{ backgroundColor: AppConstants.grayLightColor }}>
-            <Icon iconType='Feather' icon='search' color={"black"} size={s(18)} />
-          </RoundedBox>
-
-        </View>
-
-      </View>
+      <EventHeader/>
 
       {
         eventLoader == "idle" || eventLoader == "loading"
@@ -72,13 +52,16 @@ const EventScreen = () => {
             <FlatList
               data={allEvents}
               renderItem={({ item, index }) => (<EventCard item={item} index={index} />)}
-              contentContainerStyle={{ padding: AppConstants.screenPadding, gap: AppConstants.defaultGap }}
               ListHeaderComponent={() => (<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                 <CustomText variant='h4'>Events</CustomText>
                 <RoundedBox size={s(25)} onPress={() => navigation.navigate("CreateEventScreen", { event: null, method: "create" })}>
                   <Icon icon='plus' iconType='Feather' />
                 </RoundedBox>
               </View>)}
+              numColumns={2}
+              columnWrapperStyle={{ gap: AppConstants.defaultGap }}
+              contentContainerStyle={{ padding: AppConstants.screenPadding, gap: AppConstants.screenPadding }}
+              keyExtractor={(item) => `${item._id}`}
             />
       }
 

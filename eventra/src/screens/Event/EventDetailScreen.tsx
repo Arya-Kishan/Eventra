@@ -17,6 +17,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
 import { EventType, NavigationProps, RootStackParamList } from 'types/AppTypes'
+import { updateUserApi } from '@services/UserService'
 
 type EventDetailsScreenRouteProp = RouteProp<RootStackParamList, 'EventDetailScreen'>;
 
@@ -41,11 +42,13 @@ const EventDetailScreen = () => {
 
     const handleJoin = async () => {
 
+        if (eventDetail?.headcount == eventDetail?.participants.length) {
+            return showToast({ title: "Sit is Full !" })
+        }
+
         setLoader(true);
         const formData = new FormData();
-        const newParticipants = eventDetail!.participants.length == 0 ? [loggedInUser?._id] : [...eventDetail!.participants.map((item: any) => item._id), loggedInUser?._id]
-        formData.append('participants', JSON.stringify(newParticipants));
-        formData.append('headcount', eventDetail!.headcount + 1);
+        formData.append('participants', loggedInUser?._id);
         const { success, data } = await updateEventApi(formData, eventDetail!._id);
         if (success) {
             setEventDetail(data.data)
@@ -53,6 +56,11 @@ const EventDetailScreen = () => {
         } else {
             showToast({ title: "Not Joined", description: "Didn't join The Event", type: "error" })
         }
+
+        const userFormData = new FormData();
+        userFormData.append('joinedEvents', eventDetail!._id);
+        const { error } = await updateUserApi(userFormData, loggedInUser?._id!);
+
         setLoader(false);
 
     }
@@ -62,9 +70,20 @@ const EventDetailScreen = () => {
         success ? setEventDetail(data.data) : navigation.navigate("ErrorScreen")
     }
 
-    const isJoined = () => {
+    const eventStatus = (): { isBookingAllowed: boolean, title: string } => {
+
+        if (eventDetail?.headcount == eventDetail?.participants.length) {
+            return { isBookingAllowed: false, title: "Filled" }
+        }
+
         const userIdArr = eventDetail?.participants.map((item: EventType) => (item._id))
-        return userIdArr?.includes(loggedInUser?._id!);
+
+        if (userIdArr?.includes(loggedInUser?._id!)) {
+            return { isBookingAllowed: false, title: "Joined" }
+        }
+
+        return { isBookingAllowed: true, title: "Join" }
+
     }
 
     useEffect(() => {
@@ -109,11 +128,26 @@ const EventDetailScreen = () => {
                                 {/* EVENT DETAILS DATE,TIME, HOST INFO */}
                                 <View style={{ gap: AppConstants.defaultGap }}>
 
-                                    <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title={`${formatDate(eventDetail.date)}`} subTitle={`${formatISODate(eventDetail.date).day} ${formatTime(eventDetail.time.start)} - ${formatTime(eventDetail.time.start)}`} />
+                                    <DetailCard1
+                                        icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />}
+                                        title={`${formatDate(eventDetail.date)}`}
+                                        subTitle={`${formatISODate(eventDetail.date).day} ${formatTime(eventDetail.time.start)} - ${formatTime(eventDetail.time.start)}`}
+                                    />
 
-                                    <DetailCard1 icon={<Icon iconType='FontAwesome' icon='map-marker' color={AppConstants.redColor} />} title='Gala Convention Center' subTitle='34 GB Road, Near Kaushal Enterprise, Patna' />
+                                    <DetailCard1
+                                        icon={<Icon iconType='FontAwesome' icon='map-marker' color={AppConstants.redColor}
+                                        />}
+                                        title='Gala Convention Center'
+                                        subTitle='34 GB Road, Near Kaushal Enterprise, Patna' />
 
-                                    <DetailCard1 icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />} title={typeof eventDetail.host !== 'string' ? `${eventDetail.host.name}` : "Host Of The Event"} subTitle={typeof eventDetail.host !== 'string' ? eventDetail.host.bio : "Enjoy the Event"} isPic={true} picUrl={typeof eventDetail.host !== 'string' ? `${eventDetail.host.profilePic}` : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'} showBtn={true} />
+                                    <DetailCard1
+                                        icon={<Icon iconType='MaterialIcons' icon='calendar-month' color={AppConstants.redColor} />}
+                                        title={typeof eventDetail.host !== 'string' ? `${eventDetail.host.name}` : "Host Of The Event"}
+                                        subTitle={typeof eventDetail.host !== 'string' ? eventDetail.host.bio : "Enjoy the Event"}
+                                        isPic={true}
+                                        picUrl={typeof eventDetail.host !== 'string' ? `${eventDetail.host.profilePic.url}` : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'}
+                                        showBtn={true}
+                                    />
 
                                 </View>
 
@@ -144,7 +178,13 @@ const EventDetailScreen = () => {
 
                             <Text style={{ fontWeight: "800", fontSize: s(18) }}>$120</Text>
 
-                            <RoundedButton onPress={handleJoin} title={isJoined() ? "Joined" : "Join Now"} style={{ paddingVertical: s(8), width: s(130) }} loading={loader} disabled={isJoined()} />
+                            <RoundedButton
+                                onPress={handleJoin}
+                                title={eventStatus().title}
+                                style={{ paddingVertical: s(8), width: s(130) }}
+                                loading={loader}
+                                disabled={!eventStatus().isBookingAllowed}
+                            />
 
                         </View>
                     </>

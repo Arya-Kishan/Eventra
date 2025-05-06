@@ -16,13 +16,13 @@ const getAllVenueApi = async (): Promise<ApiReturnType> => {
 
 const getSingleVenueApi = async (id: string): Promise<ApiReturnType> => {
     try {
-      const { data } = await axiosInstance.get(`/venue/single/${id}`);
-      return { data: data, message: "Venues Fetched", success: true, error: null };  // Return the response data
+        const { data } = await axiosInstance.get(`/venue/single/${id}`);
+        return { data: data, message: "Venues Fetched", success: true, error: null };  // Return the response data
     } catch (error) {
-      console.error('Error fetching user data:', error);
-      return { data: null, message: "Error in Venues Fetching", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+        console.error('Error fetching user data:', error);
+        return { data: null, message: "Error in Venues Fetching", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
     }
-  };
+};
 
 const createVenueApi = async (venue: VenueType | FormData): Promise<ApiReturnType> => {
 
@@ -62,4 +62,16 @@ const updateVenueApi = async (venue: FormData, id: string): Promise<ApiReturnTyp
 
 }
 
-export { createVenueApi, getAllVenueApi, updateVenueApi,getSingleVenueApi };
+const searchVenueApi = async (word: string): Promise<ApiReturnType> => {
+
+    try {
+        const { data } = await axiosInstance.get(`/venue/search?word=${word}`);
+        return { data: data, message: "search venue fetched", success: true, error: null };  // Return the response data
+    } catch (error) {
+        console.error('Error in venue searching:', error);
+        return { data: null, message: "Error in search venue", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+    }
+
+}
+
+export { createVenueApi, getAllVenueApi, updateVenueApi, getSingleVenueApi, searchVenueApi };

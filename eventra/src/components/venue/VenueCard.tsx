@@ -4,6 +4,7 @@ import { AppConstants } from '@constants/AppConstants'
 import { useNavigation } from '@react-navigation/native'
 import React, { FC } from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
+import Animated, { FadeIn } from 'react-native-reanimated'
 import { s } from 'react-native-size-matters'
 import { NavigationProps, VenueType } from 'types/AppTypes'
 
@@ -18,20 +19,22 @@ const VenueCard: FC<VenueCardProps> = ({ item, index }) => {
     const navigation = useNavigation<NavigationProps<'Main'>>();
 
     return (
-        <Pressable onPress={() => { navigation.navigate("VenueDetailScreen", { venueId: item._id }) }} key={index} style={styles.main}>
+        <Animated.View entering={FadeIn}>
+            <Pressable onPress={() => { navigation.navigate("VenueDetailScreen", { venueId: item._id }) }} key={index} style={styles.main}>
 
-            <Image source={{ uri: item.pic.url }} style={styles.image} />
+                <Image source={{ uri: item.pic.url }} style={styles.image} />
 
-            <View style={{ width: "100%", gap: s(5), padding: s(8), position: "absolute", bottom: 0, left: 0, backgroundColor: "#FFFFFFB9" }}>
-                <CustomText style={styles.title}>{item.title}</CustomText>
+                <View style={{ width: "100%", gap: s(5), padding: s(8), position: "absolute", bottom: 0, left: 0, backgroundColor: "#FFFFFFB9" }}>
+                    <CustomText style={styles.title}>{item.title}</CustomText>
 
-                <View style={styles.address}>
-                    <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.redColor} size={s(16)} />
-                    <CustomText style={styles.city}>{`${item.address.city},${item.address.state}`}</CustomText>
+                    <View style={styles.address}>
+                        <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.redColor} size={s(16)} />
+                        <CustomText style={styles.city}>{`${item.address.city},${item.address.state}`}</CustomText>
+                    </View>
                 </View>
-            </View>
 
-        </Pressable>
+            </Pressable>
+        </Animated.View>
     )
 }
 

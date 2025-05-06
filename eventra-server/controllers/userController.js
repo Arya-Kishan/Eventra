@@ -44,7 +44,7 @@ export const getAllUser = AsyncHandler(async (req, res) => {
 }, "error in getting all user")
 
 export const getSingleUser = AsyncHandler(async (req, res) => {
-    const doc = await User.findByIdAndUpdate(req.params.userId, { active: new Date().toISOString() }).populate({
+    const doc = await User.findById(req.params.userId).populate({
         path: 'chats',
     });
     res.status(200).json({ data: doc, message: "Success" });
@@ -56,7 +56,7 @@ export const updateUser = AsyncHandler(async (req, res) => {
     console.log("FILES : ", req.files)
 
     const normalUpdates = ["name", "email", "password", "bio", "role", "FCMToken"];
-    const pushUpdates = ["chats"];
+    const pushUpdates = ["chats","joinedEvents"];
     const parsedUpdates = ["address", "location"]
 
     const DoUpdateNormal = {};
@@ -92,3 +92,25 @@ export const updateUser = AsyncHandler(async (req, res) => {
 
     res.status(200).json({ data: newUpdates, message: "Success" });
 }, 'error in updating task')
+
+
+export const getLoggedInUser = AsyncHandler(async (req, res) => {
+    const doc = await User.findByIdAndUpdate(req.params.userId, { active: new Date().toISOString() }).populate({
+        path: 'chats',
+    });
+    res.status(200).json({ data: doc, message: "Success" });
+}, "error in getting single user")
+
+export const getSearchedUser = AsyncHandler(async (req, res) => {
+
+    console.log(req.query);
+
+    const { word } = req.query;
+
+    const regex = new RegExp('^' + word, 'i');
+
+    const Users = await User.find({ name: { $regex: regex } });
+
+    res.status(200).json({ data: Users, message: "success" });
+
+}, "error in getting searched Product")

@@ -1,23 +1,22 @@
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { CustomImage } from '@components/global/CustomImage'
+import CustomLoader from '@components/global/CustomLoader'
+import CustomText from '@components/global/CustomText'
+import EmptyData from '@components/global/EmptyData'
+import Icon from '@components/global/Icon'
+import BottomModal from '@components/global/Modals/BottomModal'
+import ProfileHeader from '@components/profile/ProfileHeader'
+import SettingModal from '@components/profile/SettingModal'
+import { AppConstants } from '@constants/AppConstants'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { getUserPostsApi } from '@services/PostService'
+import { getSingleuserApi } from '@services/UserService'
+import { useAppDispatch, useAppSelector } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
+import { Modal } from 'react-native'
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
-import LinearGradient from 'react-native-linear-gradient'
-import Icon from '@components/global/Icon'
-import CustomText from '@components/global/CustomText'
-import { AppConstants } from '@constants/AppConstants'
-import { CustomImage } from '@components/global/CustomImage'
-import RoundedButton from '@components/global/RoundedButton'
-import { useDispatch } from 'react-redux'
-import { useAppDispatch, useAppSelector } from '@store/hooks'
-import { resetLogout, setLoggedInUser } from '@store/reducers/userSlice'
-import { AsyncDeleteData } from '@utils/AsyncStorage'
-import { useNavigation, useRoute } from '@react-navigation/native'
 import { NavigationProps, PostType, RouteProps, userType } from 'types/AppTypes'
-import { getSingleuserApi, updateUserApi } from '@services/UserService'
-import CustomLoader from '@components/global/CustomLoader'
-import EmptyData from '@components/global/EmptyData'
-import { getUserPostsApi } from '@services/PostService'
 
 const ProfileScreen = () => {
 
@@ -30,35 +29,8 @@ const ProfileScreen = () => {
     const [userDetail, setUserDetail] = useState<userType | null>(null);
     const [userPosts, setUserPosts] = useState<PostType[] | null>(null);
     const { loggedInUser } = useAppSelector(store => store.user);
+    const [showSetting, setShowSetting] = useState<boolean>(false);
 
-    const handleLogout = async () => {
-        dispatch(setLoggedInUser(null));
-        await AsyncDeleteData();
-        dispatch(resetLogout());
-    }
-
-    const handleChatClick = async () => {
-
-        navigate("ChatScreen", { user: userDetail! });
-
-        const chatUserIds = loggedInUser?.chats.map((item) => (item._id));
-
-        if (!chatUserIds?.includes(userDetail!._id)) {
-            const formdata = new FormData();
-            formdata.append("chats", userDetail!._id);
-            const { success } = await updateUserApi(formdata, loggedInUser?._id!);
-            success && dispatch(setLoggedInUser({ ...loggedInUser!, chats: [...loggedInUser?.chats!, userDetail!] }));
-        }
-
-        const opponentUserIds = userDetail?.chats.map((item) => (item._id));
-
-        if (!opponentUserIds?.includes(loggedInUser?._id!)) {
-            const formdata = new FormData();
-            formdata.append("chats", loggedInUser?._id!);
-            const { success } = await updateUserApi(formdata, userDetail?._id!);
-        }
-
-    }
 
     const fetchUserDetail = async (userId: string) => {
         setLoader(true);
@@ -87,33 +59,7 @@ const ProfileScreen = () => {
                         :
                         <ScrollView style={{ flex: 1, backgroundColor: "orange" }}>
 
-                            <LinearGradient
-                                colors={['#FF0000FF', '#7C0000FF']}
-                                style={{ height: vs(300), backgroundColor: "blue", padding: AppConstants.screenPadding, gap: vs(50) }}>
-
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                                    <Icon icon='settings' iconType='MaterialIcons' size={s(25)} />
-                                    <CustomText variant='h3' style={{ color: AppConstants.whiteColor }}>Eventra</CustomText>
-                                    {
-                                        loggedInUser?._id == userDetail._id
-                                            ?
-                                            <TouchableOpacity activeOpacity={0.6} onPress={() => handleLogout()}>
-                                                <Icon icon='logout' iconType='MaterialIcons' />
-                                            </TouchableOpacity>
-                                            :
-                                            <TouchableOpacity activeOpacity={0.6} onPress={() => handleChatClick()}>
-                                                <Icon icon='chat' iconType='MaterialCommunityIcons' />
-                                            </TouchableOpacity>
-                                    }
-                                </View>
-
-                                <View style={{ gap: vs(10) }}>
-                                    <CustomText variant='h1' style={{ fontSize: s(40), color: AppConstants.whiteColor }} >{userDetail.name}</CustomText>
-                                    <CustomText variant='body1' style={{ color: AppConstants.whiteColor }} >{userDetail.bio}</CustomText>
-                                </View>
-
-
-                            </LinearGradient>
+                            <ProfileHeader userDetail={userDetail} setShowSetting={setShowSetting} />
 
                             <View
                                 style={{ minHeight: AppConstants.screenHeight - vs(260), height: "100%", backgroundColor: AppConstants.whiteColor, transform: [{ translateY: -vs(40) }], borderTopLeftRadius: s(30), borderTopRightRadius: s(30), padding: AppConstants.screenPadding, gap: AppConstants.screenPadding, paddingTop: vs(70) }}>
@@ -125,12 +71,12 @@ const ProfileScreen = () => {
                                 <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
 
                                     <View style={{ width: s(70), height: s(70), elevation: 10, backgroundColor: AppConstants.whiteColor, borderRadius: s(20), justifyContent: "center", alignItems: "center" }}>
-                                        <CustomText variant='h4'>120</CustomText>
-                                        <CustomText variant='subtitle2'>Apple</CustomText>
+                                        <CustomText variant='h4'>{`${userPosts?.length}`}</CustomText>
+                                        <CustomText variant='subtitle2'>Posts</CustomText>
                                     </View>
                                     <View style={{ width: s(70), height: s(70), elevation: 10, backgroundColor: AppConstants.whiteColor, borderRadius: s(20), justifyContent: "center", alignItems: "center" }}>
-                                        <CustomText variant='h4'>120</CustomText>
-                                        <CustomText variant='subtitle2'>Apple</CustomText>
+                                        <CustomText variant='h4'>{`${loggedInUser?.joinedEvents.length}`}</CustomText>
+                                        <CustomText variant='subtitle2'>Events</CustomText>
                                     </View>
                                     <View style={{ width: s(70), height: s(70), elevation: 10, backgroundColor: AppConstants.whiteColor, borderRadius: s(20), justifyContent: "center", alignItems: "center" }}>
                                         <CustomText variant='h4'>120</CustomText>
@@ -167,6 +113,16 @@ const ProfileScreen = () => {
 
                         </ScrollView>
             }
+
+
+            <Modal
+                visible={showSetting}
+                transparent={true}
+                animationType='slide'
+                onRequestClose={() => setShowSetting(false)}
+            >
+                <SettingModal setShowSettings={setShowSetting} />
+            </Modal>
 
         </SafeAreaView>
     )

@@ -32,13 +32,14 @@ const HomeHeader = () => {
             {/* ICON BOX */}
             <View style={{ gap: AppConstants.defaultGap, flexDirection: "row" }}>
 
-                <RoundedBox size={s(35)} >
+                <RoundedBox size={s(35)} onPress={() => navigation.navigate("SearchScreen", { type: "event" })} >
                     <Icon iconType='Feather' icon='search' color='black' />
                 </RoundedBox>
 
-                <RoundedBox size={s(35)} onPress={() => navigation.navigate("ErrorScreen")} >
+                <RoundedBox size={s(35)} onPress={() => navigation.navigate("NotificationScreen")} >
                     <Icon iconType='Feather' icon='bell' color='black' />
                 </RoundedBox>
+
             </View>
 
         </View>

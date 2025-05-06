@@ -68,4 +68,16 @@ const getSingleEvent = async (id: string): Promise<ApiReturnType> => {
   }
 };
 
-export { createEventApi, getAllEvent, updateEventApi, getSingleEvent, getUpcomingEventsApi };
+const searchEventApi = async (word: string): Promise<ApiReturnType> => {
+
+  try {
+    const { data } = await axiosInstance.get(`/event/search?word=${word}`);
+    return { data: data, message: "search event fetched", success: true, error: null };  // Return the response data
+  } catch (error) {
+    console.error('Error in event searching:', error);
+    return { data: null, message: "Error in search event", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
+  }
+
+}
+
+export { createEventApi, getAllEvent, updateEventApi, getSingleEvent, getUpcomingEventsApi, searchEventApi };

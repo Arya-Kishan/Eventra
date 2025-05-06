@@ -20,6 +20,8 @@ export type RootStackParamList = {
     ChatScreen: { user: userType };
     ProfileScreen: { userId: string };
     VenueScreen: undefined;
+    SearchScreen: { type: SearchType };
+    NotificationScreen: undefined;
     Details: { userId: number; userName: string };
     BottomTabBar: undefined
 };
@@ -39,6 +41,8 @@ export type ApiReturnType = {
     error: string | null
 }
 
+export type SearchType = "user" | "venue" | "event";
+
 export type userType = {
     name: string,
     email: string,
@@ -49,7 +53,8 @@ export type userType = {
     FCMToken: string,
     _id: string,
     chats: userType[];
-    active: string
+    active: string,
+    joinedEvents: string[] | EventType[],
 }
 
 type location = { latitude: string, longitude: string };
@@ -63,7 +68,7 @@ export type EventType = {
     time: { start: string, end: string },
     date: string,
     pic: any,
-    host: { name: string, _id: number, profilePic: string, bio: string } | string,
+    host: userType | string,
     participants: [],
     venue: VenueType | string,
     headcount: string,

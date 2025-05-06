@@ -14,7 +14,9 @@ interface DetailCard1Type {
     showBtn?: boolean
 }
 
-const DetailCard1: FC<DetailCard1Type> = ({ icon, subTitle = "Tuesday 04:00 PM - 06:00 PM", title = "14 Decmber, 2024", isPic, picUrl = "https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg", showBtn = false }) => {
+const DetailCard1: FC<DetailCard1Type> = ({ icon, subTitle = "", title = "", isPic, picUrl = "", showBtn = false }) => {
+
+
     return (
         <View style={styles.main}>
 
@@ -30,7 +32,7 @@ const DetailCard1: FC<DetailCard1Type> = ({ icon, subTitle = "Tuesday 04:00 PM -
                 </View>
 
                 {
-                    showBtn && <RoundedButton onPress={() => { }} title='Follow' style={{ paddingVertical: 2, paddingHorizontal: s(14), borderRadius: s(8) }} textStyle={{ fontSize: s(11) }} />
+                    showBtn && <RoundedButton onPress={() => { }} title='Host' style={{ paddingVertical: 2, paddingHorizontal: s(14), borderRadius: s(8) }} textStyle={{ fontSize: s(11) }} />
                 }
 
             </View>
