@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomText from '@components/global/CustomText'
@@ -97,7 +97,9 @@ const SignUpScreen = () => {
 
       <View style={{ position: "absolute", bottom: 0, left: AppConstants.screenPadding, width: "100%", justifyContent: "center", alignItems: "center", padding: AppConstants.screenPadding, flexDirection: "row" }}>
         <CustomText variant='h6'>Don't have an account, </CustomText>
-        <CustomText variant='h6' style={{ color: AppConstants.whiteColor }}>SignUp</CustomText>
+        <Pressable onPress={() => { navigate("LoginScreen") }}>
+          <CustomText variant='h6' style={{ color: AppConstants.whiteColor }}>SignUp</CustomText>
+        </Pressable>
       </View>
 
 

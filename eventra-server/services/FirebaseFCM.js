@@ -10,6 +10,16 @@ admin.initializeApp({
 
 const sendNotificationFCM = async (deviceToken, title, body) => {
 
+    // FIRST SAVING THE USER NOTIFICATION
+    // const notification = new Notification({
+    //     user: userId,
+    //     type: type,
+    //     message: { title: title, description: description },
+    //     link: link,
+    // });
+
+    // await notification.save();
+
     const message = {
         notification: {
             title, body

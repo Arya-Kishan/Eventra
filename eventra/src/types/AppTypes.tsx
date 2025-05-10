@@ -190,3 +190,11 @@ export type MessageType = {
     status: string
     read: boolean
 }
+
+export type NotificationType = {
+    user: string,
+    type: "like" | "comment" | "booking",
+    message: { title: String, description: String },
+    link?: string,
+    isRead?: boolean
+}

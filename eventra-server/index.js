@@ -2,13 +2,14 @@ import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import { dbConnection } from './config/database.js'
-import userRoutes from './routes/userRoute.js'
 import eventRoutes from './routes/eventRoute.js'
-import venueRoutes from './routes/venueRoute.js'
+import orderRoute from './routes/orderRoute.js'
+import postCommentRoute from './routes/postCommentRoute.js'
 import postRoutes from './routes/postRoute.js'
 import productRoute from './routes/productRoute.js'
-import postCommentRoute from './routes/postCommentRoute.js'
-import orderRoute from './routes/orderRoute.js'
+import userRoutes from './routes/userRoute.js'
+import venueRoutes from './routes/venueRoute.js'
+import notificationRoute from './routes/notificationRoute.js'
 import sendNotificationFCM from './services/FirebaseFCM.js'
 
 const server = express();
@@ -28,8 +29,10 @@ server.use("/post", postRoutes)
 server.use("/postComment", postCommentRoute)
 server.use("/product", productRoute)
 server.use("/order", orderRoute)
+server.use("/notification", notificationRoute)
 
 server.get("/", (req, res) => {
+    sendNotificationFCM("cBfhRS4lSCKMsfP2k0sxvv:APA91bFY3KtD0sjCoT4MUU8wRL413jDd0uwOY6N4GkCQviJcPlw_Nmt-0onwQRs2lJbmfcUjlZWFK92SAZkxr56xZhLkRkAoVIrMcbe7Np_vJM8LvTBZAbw", "Hello", "I AM ARYA KISHAN")
     res.json({ owner: "MADE BY ARYA KISHAN EVENTRA BACKEND SERVER FOR REACT NATIVE APP EVENTRA 😊💕" });
 })
 

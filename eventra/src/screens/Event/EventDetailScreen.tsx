@@ -9,7 +9,7 @@ import RoundedButton from '@components/global/RoundedButton'
 import ThreeDotBottomModal from '@components/global/ThreeDotBottomModal'
 import { AppConstants } from '@constants/AppConstants'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import { getSingleEvent, updateEventApi } from '@services/EventService'
+import { bookEventApi, getSingleEvent, updateEventApi } from '@services/EventService'
 import { useAppSelector } from '@store/hooks'
 import { formatDate, formatISODate, formatTime, showToast } from '@utils/Helper'
 import React, { useEffect, useState } from 'react'
@@ -47,19 +47,13 @@ const EventDetailScreen = () => {
         }
 
         setLoader(true);
-        const formData = new FormData();
-        formData.append('participants', loggedInUser?._id);
-        const { success, data } = await updateEventApi(formData, eventDetail!._id);
+        const { success, data } = await bookEventApi({ participant: loggedInUser?._id }, eventDetail!._id);
         if (success) {
             setEventDetail(data.data)
             showToast({ title: "Joined", description: "You joined The Event", type: "success" })
         } else {
             showToast({ title: "Not Joined", description: "Didn't join The Event", type: "error" })
         }
-
-        const userFormData = new FormData();
-        userFormData.append('joinedEvents', eventDetail!._id);
-        const { error } = await updateUserApi(userFormData, loggedInUser?._id!);
 
         setLoader(false);
 
@@ -90,7 +84,6 @@ const EventDetailScreen = () => {
         fetchSingleEvent();
     }, [])
 
-    console.log("event detail : ", eventDetail)
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

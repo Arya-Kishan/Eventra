@@ -1,7 +1,6 @@
-import { ApiReturnType } from "types/AppTypes";
-import axiosInstance from "../api/axiosInstance";
-import axios from "axios";
 import { AppConstants } from "@constants/AppConstants";
+import axios from "axios";
+import { ApiReturnType } from "types/AppTypes";
 
 
 const getConversationApi = async ({ sender, receiver }: { sender: string, receiver: string }): Promise<ApiReturnType> => {
@@ -37,4 +36,4 @@ const unseenMessageApi = async ({ body, type }: { body: any, type: "get" | "dele
     }
 };
 
-export { createMessageApi, getConversationApi,unseenMessageApi };
+export { createMessageApi, getConversationApi, unseenMessageApi };

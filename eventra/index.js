@@ -1,13 +1,13 @@
 // index.ts
-import { AppRegistry } from 'react-native';
-import { name as appName } from './app.json';
-import App from './App';
+import { getApp } from '@react-native-firebase/app';
 import {
     getMessaging,
-    setBackgroundMessageHandler,
-    FirebaseMessagingTypes,
+    setBackgroundMessageHandler
 } from '@react-native-firebase/messaging';
-import { getApp } from '@react-native-firebase/app';
+import { AppRegistry } from 'react-native';
+import App from './App';
+import { name as appName } from './app.json';
+import 'react-native-url-polyfill/auto'; // ensures linking works on all platforms
 
 const messaging = getMessaging(getApp());
 

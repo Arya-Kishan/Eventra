@@ -16,7 +16,6 @@ interface EventCardProps {
 
 const EventCard: FC<EventCardProps> = ({ item, index }) => {
     const navigation = useNavigation<NavigationProps<'Main'>>();
-    console.log(item)
 
     const getTiming = (): string => {
         const { date, day, month, time, year } = formatISODate(item.time.start)

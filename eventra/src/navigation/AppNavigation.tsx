@@ -40,6 +40,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigation = () => {
 
+  const linking = {
+    prefixes: ['myapp://', 'https://myapp.com'],
+    config: {
+      screens: {
+        Main: 'Main',
+        NotificationScreen: 'NotificationScreen/:name', // dynamic parameter example
+        ProfileScreen: 'ProfileScreen',
+      },
+    },
+  };
+
   const dispatch = useAppDispatch();
   const [loader, setLoader] = useState(true);
   const [isConnected, setIsConnected] = useState<boolean>(true);
@@ -107,9 +118,6 @@ const AppNavigation = () => {
         const formdata = new FormData();
         formdata.append("FCMToken", storedToken);
         await updateUserApi(formdata, loggedInUser._id);
-
-        // 🔁 Send refreshed token to backend
-        // await sendTokenToBackend(newToken);
       }
     });
 
@@ -124,7 +132,7 @@ const AppNavigation = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
 
         {

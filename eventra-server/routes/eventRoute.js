@@ -1,5 +1,5 @@
 import express from 'express'
-import { createEvent, deleteEvent, getAllEventByUserId, getAllEvents, getAllUpcomingEvents, getSearchedEvent, getSingleEvent, updateEvent } from '../controllers/eventController.js';
+import { bookEvent, createEvent, deleteEvent, getAllEventByUserId, getAllEvents, getAllUpcomingEvents, getSearchedEvent, getSingleEvent, updateEvent } from '../controllers/eventController.js';
 import { mixUpload } from '../middlewares/Multer.js';
 const router = express.Router();
 
@@ -11,5 +11,6 @@ router.post("/", mixUpload, createEvent)
     .get("/all/:userId", getAllEventByUserId)
     .get("/single/:id", getSingleEvent)
     .get("/search", getSearchedEvent)
+    .patch("/book/:id", bookEvent)
 
 export default router;

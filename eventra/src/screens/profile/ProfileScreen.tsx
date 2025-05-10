@@ -42,7 +42,7 @@ const ProfileScreen = () => {
     }
 
     useEffect(() => {
-        fetchUserDetail(params == undefined ? loggedInUser?._id! : params.userId);
+        fetchUserDetail(params?.userId ?? loggedInUser?._id!);
     }, [])
 
     return (

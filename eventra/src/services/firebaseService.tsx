@@ -1,18 +1,17 @@
 // firebaseService.ts
+import { getApp } from '@react-native-firebase/app';
 import {
+    AuthorizationStatus,
     getMessaging,
     getToken,
-    requestPermission,
     isDeviceRegisteredForRemoteMessages,
     registerDeviceForRemoteMessages,
-    AuthorizationStatus,
-    FirebaseMessagingTypes,
+    requestPermission
 } from '@react-native-firebase/messaging';
-import { getApp } from '@react-native-firebase/app';
-import { Alert } from 'react-native';
 import { AsyncGetFCMToken, AsyncSetFCMToken } from '@utils/AsyncStorage';
-import { updateUserApi } from './UserService';
+import { Alert } from 'react-native';
 import { userType } from 'types/AppTypes';
+import { updateUserApi } from './UserService';
 
 const messaging = getMessaging(getApp());
 

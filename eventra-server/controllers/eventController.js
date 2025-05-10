@@ -2,6 +2,7 @@ import { Event } from '../models/eventModel.js'
 import { User } from '../models/userModel.js';
 import { Venue } from '../models/venueModel.js'
 import { uploadFileToCloudinary } from '../services/Cloudinary.js';
+import sendNotificationFCM from '../services/FirebaseFCM.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createEvent = AsyncHandler(async (req, res) => {
@@ -160,3 +161,46 @@ export const getSearchedEvent = AsyncHandler(async (req, res) => {
     res.status(200).json({ data: events, message: "Success" });
 
 }, "error in getting searched Event")
+
+export const bookEvent = AsyncHandler(async (req, res) => {
+
+    console.log(req.body);
+
+    const { participant, host } = req.body;
+
+    const newUpdates = await Event.findByIdAndUpdate(
+        req.params.id,
+        {
+            $addToSet: { participants: participant }
+        },
+        { new: true }
+    ).populate({
+        path: 'venue'
+    }).populate({
+        path: 'participants',
+        select: ["name", "email", "bio", "profilePic", "FCMToken"]
+    }).populate({
+        path: 'host',
+        select: ["name", "email", "bio", "profilePic", "FCMToken"]
+    });
+
+    console.log("newUpdates : ", newUpdates)
+
+    const updateUser = await User.findByIdAndUpdate(
+        participant,
+        {
+            $addToSet: { joinedEvents: newUpdates._id }
+        },
+        { new: true }
+    )
+
+    console.log("updateUser : ", updateUser)
+
+    await Promise.all([
+        sendNotificationFCM(newUpdates.host.FCMToken, "New Booking 💕", `${updateUser.name} made a booking - ${newUpdates.title} Event`, updateUser._id, "booking"),
+        sendNotificationFCM(updateUser.FCMToken, "New Booking 💕", `You made a booking - ${newUpdates.title} Event`, updateUser._id, "booking")
+    ]);
+
+    res.status(200).json({ data: newUpdates, message: "Success" });
+
+}, 'error in updating Event')

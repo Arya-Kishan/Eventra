@@ -48,11 +48,11 @@ const HomeScreen = () => {
 
         <StatusBar translucent={false} />
 
+
+        {/* HEADER CONTAINER */}
+        <HomeHeader />
+
         <View style={styles.main}>
-
-          {/* HEADER CONTAINER */}
-          <HomeHeader />
-
 
           {/* CAROUSEL CONTAINER */}
           <HorizontalRow leftText='For You' rightText='See All' />
