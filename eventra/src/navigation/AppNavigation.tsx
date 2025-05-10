@@ -41,7 +41,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const AppNavigation = () => {
 
   const linking = {
-    prefixes: ['myapp://', 'https://myapp.com'],
+    prefixes: ['myapp://', 'https://myapp.com','https://eventra-website.vercel.app'],
     config: {
       screens: {
         Main: 'Main',
