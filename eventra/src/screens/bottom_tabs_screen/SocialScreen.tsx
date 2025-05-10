@@ -49,11 +49,7 @@ const SocialScreen = () => {
         <CustomText variant='h2' style={{ color: AppConstants.whiteColor }}>Social</CustomText>
 
         <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("ChatDashboardScreen")}>
-          <Icon icon='chat' iconType='MaterialCommunityIcons' />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate("CreatePostScreen", { method: "create", post: null })}>
-          <Icon icon='plus' iconType='MaterialCommunityIcons' />
+          <Icon icon='chat' iconType='Entypo' size={s(25)} />
         </TouchableOpacity>
 
       </View>

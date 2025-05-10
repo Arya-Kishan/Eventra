@@ -197,8 +197,23 @@ export const bookEvent = AsyncHandler(async (req, res) => {
     console.log("updateUser : ", updateUser)
 
     await Promise.all([
-        sendNotificationFCM(newUpdates.host.FCMToken, "New Booking 💕", `${updateUser.name} made a booking - ${newUpdates.title} Event`, updateUser._id, "booking"),
-        sendNotificationFCM(updateUser.FCMToken, "New Booking 💕", `You made a booking - ${newUpdates.title} Event`, updateUser._id, "booking")
+
+        sendNotificationFCM(
+            newUpdates.host.FCMToken,
+            newUpdates.host._id,
+            "New Booking 💕",
+            `${updateUser.name} made a booking - ${newUpdates.title} Event`,
+            "booking",
+            `/EventDetailScreen/${newUpdates._id}`),
+
+        sendNotificationFCM(
+            updateUser.FCMToken,
+            updateUser._id,
+            "New Booking 💕",
+            `You made a booking - ${newUpdates.title} Event`,
+            "booking",
+            `/EventDetailScreen/${newUpdates._id}`)
+
     ]);
 
     res.status(200).json({ data: newUpdates, message: "Success" });

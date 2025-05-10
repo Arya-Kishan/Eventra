@@ -2,6 +2,7 @@ import { CustomImage } from '@components/global/CustomImage'
 import CustomText from '@components/global/CustomText'
 import Icon from '@components/global/Icon'
 import { AppConstants } from '@constants/AppConstants'
+import useDevice from '@hooks/useDevice'
 import { useNavigation } from '@react-navigation/native'
 import { updatePostApi } from '@services/PostService'
 import { useAppSelector } from '@store/hooks'
@@ -25,6 +26,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
     const [likesLength, setLikesLength] = useState<number>(post.likes!.length);
     const { loggedInUser } = useAppSelector(store => store.user);
     const { navigate } = useNavigation<NavigationProps<'Main'>>();
+    const { shareLink } = useDevice();
 
     const handleLike = async () => {
         setIsLiked(isLiked ? false : true)
@@ -106,7 +108,9 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                 </View>
 
                 {/* SHARE */}
-                <Icon icon='share' iconType='FontAwesome' color={AppConstants.darkGrayColor} />
+                <Pressable onPress={() => { navigate("SinglePostScreen", { postId: post._id }) }}>
+                    <Icon icon='share' iconType='FontAwesome' color={AppConstants.darkGrayColor} />
+                </Pressable>
 
             </View>
 

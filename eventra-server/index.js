@@ -32,7 +32,14 @@ server.use("/order", orderRoute)
 server.use("/notification", notificationRoute)
 
 server.get("/", (req, res) => {
-    sendNotificationFCM("cBfhRS4lSCKMsfP2k0sxvv:APA91bFY3KtD0sjCoT4MUU8wRL413jDd0uwOY6N4GkCQviJcPlw_Nmt-0onwQRs2lJbmfcUjlZWFK92SAZkxr56xZhLkRkAoVIrMcbe7Np_vJM8LvTBZAbw", "Hello", "I AM ARYA KISHAN")
+    sendNotificationFCM(
+        "cBfhRS4lSCKMsfP2k0sxvv:APA91bFY3KtD0sjCoT4MUU8wRL413jDd0uwOY6N4GkCQviJcPlw_Nmt-0onwQRs2lJbmfcUjlZWFK92SAZkxr56xZhLkRkAoVIrMcbe7Np_vJM8LvTBZAbw",
+        "6803247f6bb78d648f11e2d9",
+        "Hello",
+        "I AM ARYA KISHAN",
+        "like",
+        "/ProfileScreen/6803247f6bb78d648f11e2d9"
+    )
     res.json({ owner: "MADE BY ARYA KISHAN EVENTRA BACKEND SERVER FOR REACT NATIVE APP EVENTRA 😊💕" });
 })
 

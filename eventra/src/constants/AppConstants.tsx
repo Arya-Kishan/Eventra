@@ -28,6 +28,7 @@ export const AppConstants = {
 
     baseUrl : Config.BASE_URL,
     socketBaseUrl : Config.SOCKET_BASE_URL,
+    appUniversalLink : Config.APP_UNIVERSAL_LINK,
 
     fallbackProfilePic:"https://i.pinimg.com/736x/7d/ef/87/7def87133b56ce7e8cb357d95cd2de4c.jpg"
 

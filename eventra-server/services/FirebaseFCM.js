@@ -1,4 +1,5 @@
 import admin from "firebase-admin"
+import { Notification } from "../models/notificationModel.js";
 
 var serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_SDK)
 
@@ -7,22 +8,30 @@ admin.initializeApp({
     databaseURL: "https://app-1dcec-default-rtdb.firebaseio.com"
 });
 
+console.log("DEEP LINK : ", process.env.APP_LINK)
 
-const sendNotificationFCM = async (deviceToken, title, body) => {
+
+const sendNotificationFCM = async (deviceToken, user, title, body, notification_type = "", link = "") => {
 
     // FIRST SAVING THE USER NOTIFICATION
-    // const notification = new Notification({
-    //     user: userId,
-    //     type: type,
-    //     message: { title: title, description: description },
-    //     link: link,
-    // });
+    const notification = new Notification({
+        user: user,
+        title: title,
+        body: body,
+        notification_type: notification_type,
+        link: `${process.env.APP_LINK}${link}`,
+    });
 
-    // await notification.save();
+    await notification.save();
 
     const message = {
         notification: {
-            title, body
+            title: title,
+            body: body
+        },
+        data: {
+            notification_type: notification_type,
+            link: `${process.env.APP_LINK}${link}`
         },
         token: deviceToken
     };

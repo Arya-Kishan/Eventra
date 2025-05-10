@@ -11,6 +11,7 @@ export type RootStackParamList = {
     CreatePostScreen: { post: PostType | null, method: "create" | "update" };
     ErrorScreen: undefined;
     CartScreen: undefined;
+    SinglePostScreen: { postId: string };
     Home: undefined;
     AuthScreen: undefined;
     LoginScreen: undefined;
@@ -192,9 +193,11 @@ export type MessageType = {
 }
 
 export type NotificationType = {
-    user: string,
-    type: "like" | "comment" | "booking",
-    message: { title: String, description: String },
+    _id: string,
+    user?: string | userType,
+    title: String,
+    body: String,
+    notification_type: "like" | "comment" | "booking",
     link?: string,
     isRead?: boolean
 }

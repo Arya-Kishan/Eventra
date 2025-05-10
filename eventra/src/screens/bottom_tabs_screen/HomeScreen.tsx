@@ -10,8 +10,10 @@ import { AppTemporaryContants } from '@constants/AppTemporaryConstants'
 import { useNavigation } from '@react-navigation/native'
 import { getUpcomingEventsApi } from '@services/EventService'
 import { requestUserPermission } from '@services/firebaseService'
+import { getAllNotificationApi } from '@services/notificationService'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import { setUpcomingEvents } from '@store/reducers/eventSlice'
+import { setAllNotifications } from '@store/reducers/userSlice'
 import React, { useEffect } from 'react'
 import { FlatList, ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -30,6 +32,11 @@ const HomeScreen = () => {
     success ? dispatch(setUpcomingEvents(data.data)) : navigate.navigate("ErrorScreen");
   }
 
+  const getAllUserNotification = async () => {
+    const { data, success } = await getAllNotificationApi(loggedInUser?._id!);
+    success ? dispatch(setAllNotifications(data.data)) : navigate.navigate("ErrorScreen");
+  }
+
   const getNotificationPermission = async () => {
     await requestUserPermission(loggedInUser!);
   }
@@ -37,6 +44,7 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchData();
     getNotificationPermission();
+    getAllUserNotification();
   }, [])
 
   return (

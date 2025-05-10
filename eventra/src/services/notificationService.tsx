@@ -2,9 +2,9 @@ import { ApiReturnType, NotificationType } from "types/AppTypes";
 import axiosInstance from "../api/axiosInstance";
 
 
-const getAllNotification = async (): Promise<ApiReturnType> => {
+const getAllNotificationApi = async (userId: string): Promise<ApiReturnType> => {
     try {
-        const { data } = await axiosInstance.get(`/notification/all`);
+        const { data } = await axiosInstance.get(`/notification/${userId}`);
         return { data: data, message: "notifications Fetched", success: true, error: null };  // Return the response data
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -12,30 +12,10 @@ const getAllNotification = async (): Promise<ApiReturnType> => {
     }
 };
 
-const createNotificationApi = async (notification: NotificationType): Promise<ApiReturnType> => {
-
-    console.log("notification : ", notification)
+const markAllNotificationReadApi = async (userId: string): Promise<ApiReturnType> => {
 
     try {
-        const { data } = await axiosInstance.post(`/notification`, notification);
-        return { data: data, message: "notifications Fetched", success: true, error: null };  // Return the response data
-    } catch (error) {
-        console.error('Error creating user data:', error);
-        return { data: null, message: "Error in notifications creating", success: false, error: JSON.stringify(error) };  // Rethrow the error to be handled by the calling function
-    }
-
-}
-
-const updateNotificationApi = async (notification: FormData, id: string): Promise<ApiReturnType> => {
-
-    console.log(notification)
-
-    try {
-        const { data } = await axiosInstance.put(`/notification/${id}`, notification, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+        const { data } = await axiosInstance.put(`/notification/markAllRead/${userId}`);
         return { data: data, message: "notifications Fetched", success: true, error: null };  // Return the response data
     } catch (error) {
         console.error('Error creating user data:', error);
@@ -45,4 +25,4 @@ const updateNotificationApi = async (notification: FormData, id: string): Promis
 }
 
 
-export { createNotificationApi, getAllNotification, updateNotificationApi };
+export { getAllNotificationApi, markAllNotificationReadApi };
