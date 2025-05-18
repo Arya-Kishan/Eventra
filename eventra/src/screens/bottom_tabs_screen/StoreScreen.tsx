@@ -7,12 +7,14 @@ import Icon from '@components/global/Icon'
 import ProductCard from '@components/store/ProductCard'
 import { AppConstants } from '@constants/AppConstants'
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants'
+import { useSocket } from '@context/SocketContext'
 import { useNavigation } from '@react-navigation/native'
 import { getCategoryProductApi } from '@services/ProductService'
 import { ensureCartFileExists } from '@storage/CartStorage'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
 import { NavigationProps, ProductType } from 'types/AppTypes'
@@ -54,6 +56,31 @@ const StoreScreen = () => {
 
   console.log("ALL PRODUCTS : ", allProducts)
 
+  // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
+  const { scrollDirection } = useSocket();
+
+  const offsetY = useSharedValue(0);
+  const direction = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      const currentOffset = event.contentOffset.y;
+
+      if (currentOffset > offsetY.value + 10) {
+        direction.value = 1; // scrolling down
+        scrollDirection.value = 1;
+      } else if (currentOffset < offsetY.value - 10) {
+        direction.value = -1; // scrolling up
+        scrollDirection.value = -1;
+      }
+
+      offsetY.value = currentOffset;
+    },
+  });
+
+  // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
@@ -64,7 +91,11 @@ const StoreScreen = () => {
         </Pressable>
       </View>
 
-      <ScrollView>
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={100}
+        style={{ flex: 1 }}
+      >
 
         <View style={{ gap: vs(10), padding: AppConstants.screenPadding }}>
 
@@ -113,7 +144,7 @@ const StoreScreen = () => {
           }
         </View>
 
-      </ScrollView>
+      </Animated.ScrollView>
 
     </SafeAreaView >
   )

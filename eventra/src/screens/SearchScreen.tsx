@@ -15,6 +15,8 @@ import CustomText from '@components/global/CustomText';
 import { CustomImage } from '@components/global/CustomImage';
 import { s } from 'react-native-size-matters';
 import VenueCard from '@components/venue/VenueCard';
+import EmptyData from '@components/global/EmptyData';
+import CustomLoader from '@components/global/CustomLoader';
 
 const SearchScreen = () => {
 
@@ -59,50 +61,59 @@ const SearchScreen = () => {
             <SearchHeader handleSearch={handleSearch} searchType={searchType} setSearchType={setSearchType} />
 
             {
-                searchType == "event"
+                loader
                     ?
-                    <FlatList
-                        data={eventData}
-                        renderItem={({ item, index }: { item: EventType, index: number }) => <EventCard item={item} index={index} />}
-                        contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
-                        numColumns={2}
-                        columnWrapperStyle={{ gap: AppConstants.defaultGap }}
-                        keyExtractor={(item) => `${item._id}`}
-                    />
+                    <CustomLoader />
                     :
-                    searchType == "venue"
+                    !eventData && !venueData && !userData
                         ?
-                        <FlatList
-                            data={venueData}
-                            renderItem={({ item, index }: { item: VenueType, index: number }) => (<VenueCard item={item} index={index} />)}
-                            contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
-                        />
+                        <EmptyData title={`Search ${type}`} showBtn={false} textStyle={{ fontSize: s(15), fontWeight: "500" }} />
                         :
-                        <FlatList
-                            data={userData}
-                            renderItem={({ item }: { item: userType }) => (
-                                <View style={{ flexDirection: "row", gap: s(20) }}>
+                        searchType == "event"
+                            ?
+                            <FlatList
+                                data={eventData}
+                                renderItem={({ item, index }: { item: EventType, index: number }) => <EventCard item={item} index={index} />}
+                                contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
+                                numColumns={2}
+                                columnWrapperStyle={{ gap: AppConstants.defaultGap }}
+                                keyExtractor={(item) => `${item._id}`}
+                                ListEmptyComponent={() => (<EmptyData title='SEARCH EVENTS' />)}
+                            />
+                            :
+                            searchType == "venue"
+                                ?
+                                <FlatList
+                                    data={venueData}
+                                    renderItem={({ item, index }: { item: VenueType, index: number }) => (<VenueCard item={item} index={index} />)}
+                                    contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
+                                />
+                                :
+                                <FlatList
+                                    data={userData}
+                                    renderItem={({ item }: { item: userType }) => (
+                                        <View style={{ flexDirection: "row", gap: s(20) }}>
 
-                                    <CustomImage source={item.profilePic.url} width={s(80)} height={s(80)} />
+                                            <CustomImage source={item.profilePic.url} width={s(80)} height={s(80)} />
 
-                                    <View style={{ justifyContent: "space-between", flex: 1 }}>
+                                            <View style={{ justifyContent: "space-between", flex: 1 }}>
 
-                                        <View>
-                                            <CustomText variant='h3'>{item.name}</CustomText>
-                                            <CustomText variant='body1'>{item.bio}</CustomText>
+                                                <View>
+                                                    <CustomText variant='h3'>{item.name}</CustomText>
+                                                    <CustomText variant='body1'>{item.bio}</CustomText>
+                                                </View>
+
+                                                <CustomText variant='overline' style={{ color: AppConstants.darkGrayColor }}>{getRelativeTimeFromNow(item.active)}</CustomText>
+
+                                            </View>
+
+                                            <Icon icon='user' iconType='Feather' color={AppConstants.redColor} />
+
                                         </View>
-
-                                        <CustomText variant='overline' style={{ color: AppConstants.darkGrayColor }}>{getRelativeTimeFromNow(item.active)}</CustomText>
-
-                                    </View>
-
-                                    <Icon icon='user' iconType='Feather' color={AppConstants.redColor} />
-
-                                </View>
-                            )}
-                            keyExtractor={(item) => `${item._id}`}
-                            contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
-                        />
+                                    )}
+                                    keyExtractor={(item) => `${item._id}`}
+                                    contentContainerStyle={{ gap: s(10), padding: AppConstants.screenPadding }}
+                                />
             }
 
         </SafeAreaView>

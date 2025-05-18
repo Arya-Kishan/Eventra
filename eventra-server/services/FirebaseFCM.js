@@ -1,5 +1,6 @@
 import admin from "firebase-admin"
 import { Notification } from "../models/notificationModel.js";
+import axios from "axios";
 
 var serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_SDK)
 
@@ -8,42 +9,38 @@ admin.initializeApp({
     databaseURL: "https://app-1dcec-default-rtdb.firebaseio.com"
 });
 
-console.log("DEEP LINK : ", process.env.APP_LINK)
-
-
-const sendNotificationFCM = async (deviceToken, user, title, body, notification_type = "", link = "") => {
-
-    // FIRST SAVING THE USER NOTIFICATION
-    const notification = new Notification({
-        user: user,
-        title: title,
-        body: body,
-        notification_type: notification_type,
-        link: `${process.env.APP_LINK}${link}`,
-    });
-
-    await notification.save();
-
-    const message = {
-        notification: {
-            title: title,
-            body: body
-        },
-        data: {
-            notification_type: notification_type,
-            link: `${process.env.APP_LINK}${link}`
-        },
-        token: deviceToken
-    };
+const sendNotification = async (deviceToken, user, title, body, notification_type = "", link = "") => {
 
     try {
-        const response = await admin.messaging().send(message);
-        return { success: true, result: response, message: 'notification sent' };
+
+        // FIRST SAVING THE USER NOTIFICATION
+        const notification = new Notification({
+            user: user,
+            title: title,
+            body: body,
+            notification_type: notification_type,
+            link: `${process.env.APP_LINK}${link}`,
+        });
+
+        await notification.save();
+
+        const { data } = await axios.post(`${process.env.SOCKET_BASE_URL}/sendNotification`, {
+            user: user,
+            title: title,
+            body: body,
+            notification_type: notification_type,
+            link: `${process.env.APP_LINK}${link}`,
+            isRead: false,
+            deviceToken: deviceToken
+        })
+
+        console.log("SENDING NOTIFICATION SERVER TO SOCKET SEND : ")
+
     } catch (error) {
+        console.log("ERROR IN SAVING NOTIFICATION OR TALKING TO OTHER SOCKET SERVER");
         console.log(error);
-        return { success: false, result: error, message: 'notification not sent' };
     }
 
 }
 
-export default sendNotificationFCM;
+export default sendNotification;

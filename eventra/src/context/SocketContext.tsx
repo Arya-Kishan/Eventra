@@ -2,12 +2,14 @@
 import { AppConstants } from '@constants/AppConstants';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { addUnOpendedMessages } from '@store/reducers/chatSlice';
+import { addNotification } from '@store/reducers/userSlice';
 import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
 
 
 
 import { io, Socket } from "socket.io-client";
-import { MessageType } from 'types/AppTypes';
+import { MessageType, NotificationType } from 'types/AppTypes';
 
 
 type User = {
@@ -17,9 +19,9 @@ type User = {
 type SocketContextType = {
     onlineUsers: any;
     setOnlineUsers: (val: any) => void;
-    sendSocketNotification: (val: any) => void;
     globalSocket: Socket | any;
-    isSocketConnected: string
+    isSocketConnected: string,
+    scrollDirection: SharedValue<number>
 };
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -33,30 +35,13 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     const { selectedOppoentUser } = useAppSelector(store => store.chat)
     const dispatch = useAppDispatch();
     const selectedOppoentUserRef = useRef(selectedOppoentUser);
+    const scrollDirection = useSharedValue(0);
 
     const isUserOnline = (receiverId: string) => {
         if (onlineUsers.includes(receiverId)) {
             return true;
         }
         return false;
-    }
-
-    const sendSocketNotification = ({ to, message, category, cardId, action }: { to: string, message: string, category: string, cardId: string, action: string }) => {
-
-        // WHY WOULD I WILL SEND LIKE NOTIFICATION TO MYSELF FOR MY POST
-        if (to == loggedInUser?._id) {
-            return null;
-        }
-
-        if (isUserOnline(to)) {
-            globalSocket!.emit("send-notification", { receiverId: to, category: category, message: message })
-            return null;
-        }
-
-        if (!isUserOnline(to)) {
-            // saveNotificationDatabase({ to, message, category, cardId, action })
-        }
-
     }
 
 
@@ -75,8 +60,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
                 setIsSocketConnected("connected");
             })
 
-            socket.on("receive-notification", ({ category, message }: { category: string, message: string }) => {
-
+            socket.on("receive-notification", (notification: NotificationType) => {
+                console.log("RECEIVES NEW NOTIFICATION : ", notification);
+                dispatch(addNotification(notification));
             })
 
             socket.on("onlineUsers", (data: any) => {
@@ -114,7 +100,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     }, [selectedOppoentUser]);
 
     return (
-        <SocketContext.Provider value={{ onlineUsers, globalSocket, sendSocketNotification, isSocketConnected, setOnlineUsers }}>
+        <SocketContext.Provider value={{ onlineUsers, globalSocket, isSocketConnected, setOnlineUsers, scrollDirection }}>
             {children}
         </SocketContext.Provider>
     );

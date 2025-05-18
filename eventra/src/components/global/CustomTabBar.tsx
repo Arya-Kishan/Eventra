@@ -1,12 +1,26 @@
 import { AppConstants } from '@constants/AppConstants';
+import { useSocket } from '@context/SocketContext';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 
 const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
-    
+
+
+    // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
+    const { scrollDirection } = useSocket();
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        height: scrollDirection.value === 1 ? withTiming(0) : withTiming(60),
+        transform: [{ translateY: scrollDirection.value === 1 ? withTiming(60) : withTiming(0) }],
+    }))
+
+    // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
     return (
-        <View style={styles.container}>
+        <Animated.View style={[styles.container, animatedStyle]}>
             {state.routes.map((route, index) => {
                 const { options } = descriptors[route.key];
                 const label = options.tabBarLabel ?? route.name;
@@ -50,7 +64,7 @@ const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, n
                     </TouchableOpacity>
                 );
             })}
-        </View>
+        </Animated.View>
     );
 };
 

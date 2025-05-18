@@ -10,7 +10,8 @@ import productRoute from './routes/productRoute.js'
 import userRoutes from './routes/userRoute.js'
 import venueRoutes from './routes/venueRoute.js'
 import notificationRoute from './routes/notificationRoute.js'
-import sendNotificationFCM from './services/FirebaseFCM.js'
+import spotlightRoute from './routes/spotlightRoute.js'
+import sendNotification from './services/FirebaseFCM.js'
 
 const server = express();
 
@@ -30,11 +31,12 @@ server.use("/postComment", postCommentRoute)
 server.use("/product", productRoute)
 server.use("/order", orderRoute)
 server.use("/notification", notificationRoute)
+server.use("/spotLight", spotlightRoute)
 
 server.get("/", (req, res) => {
-    sendNotificationFCM(
+    sendNotification(
         "cBfhRS4lSCKMsfP2k0sxvv:APA91bFY3KtD0sjCoT4MUU8wRL413jDd0uwOY6N4GkCQviJcPlw_Nmt-0onwQRs2lJbmfcUjlZWFK92SAZkxr56xZhLkRkAoVIrMcbe7Np_vJM8LvTBZAbw",
-        "6803247f6bb78d648f11e2d9",
+        "68027b81ecf0300d691eaf8a",
         "Hello",
         "I AM ARYA KISHAN",
         "like",

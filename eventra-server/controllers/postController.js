@@ -1,7 +1,7 @@
 import { Post } from '../models/postModel.js';
 import { User } from '../models/userModel.js';
 import { deleteFileFromCloudinary, uploadFileToCloudinary } from '../services/Cloudinary.js';
-import sendNotificationFCM from '../services/FirebaseFCM.js';
+import sendNotification from '../services/FirebaseFCM.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createPost = AsyncHandler(async (req, res) => {
@@ -30,7 +30,6 @@ export const createPost = AsyncHandler(async (req, res) => {
 }, "error in making new post")
 
 export const getUserPosts = AsyncHandler(async (req, res) => {
-    console.log("GETTING ALL USER POSTS", req.params)
     const doc = await Post.find({ user: req.params.id }).populate({
         path: 'user',
     }).populate({
@@ -165,31 +164,28 @@ export const deletePost = AsyncHandler(async (req, res) => {
     }
 }, "error in deleting post")
 
-const fileUrl = async (fileType, file) => {
 
-    if (fileType == "image") {
-        return uploadFileToCloudinary(file.image[0], "image")
+const sendNotificationLiked = async (user, likedBy, postId) => {
+
+    console.log("SENDING NOTIFICATION SERVER : ")
+
+    try {
+        const gotLikedUser = await User.findById(user);
+        const likedByUser = await User.findById(likedBy);
+
+        const now = new Date();
+        sendNotification(
+            gotLikedUser.FCMToken,
+            gotLikedUser._id,
+            `${likedByUser.name} liked your post`,
+            `${now.toISOString()}`,
+            "like",
+            `/SinglePostScreen/${postId}`
+        );
+    } catch (error) {
+        console.log("ERROR IN NOTIFICATION OF LIKED");
+        console.log(error);
+
     }
-
-    if (fileType == "video") {
-        return uploadFileToCloudinary(file.video[0], "video")
-    }
-
-    if (fileType == "audio") {
-        return uploadFileToCloudinary(file.audio[0], "audio")
-    }
-
-}
-
-const sendNotificationLiked = async (user,likedBy, postId) => {
-
-    const gotLikedUser = await User.findById(user);
-    const likedByUser = await User.findById(likedBy);
-
-    console.log("gotLikedUser : ", gotLikedUser);
-    console.log("likedByUser : ", likedByUser);
-
-    const now = new Date();
-    sendNotificationFCM(gotLikedUser.FCMToken, gotLikedUser._id, `${likedByUser.name} liked your post`, `${now.toISOString()}`, "like", `/SinglePostScreen/${postId}`);
 
 }

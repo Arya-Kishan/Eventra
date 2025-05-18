@@ -27,6 +27,7 @@
     "lodash": "^4.17.21",
     "react": "19.0.0",
     "react-native": "0.79.1",
+    "react-native-code-push": "^9.0.1",
     "react-native-config": "^1.5.5",
     "react-native-element-dropdown": "^2.12.4",
     "react-native-fs": "^2.20.0",

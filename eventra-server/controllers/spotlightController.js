@@ -4,6 +4,11 @@ import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createSpotlight = AsyncHandler(async (req, res) => {
 
+    console.log(req.body);
+    console.log(req.files);
+
+    // return res.status(200).json({ data: "arya", message: "Success" });
+
     const picUrl = await uploadFileToCloudinary("image", req.files);
     if (picUrl.success == false) {
         throw Error("Error in Uploading Image to Cloudinary !!");
@@ -65,11 +70,6 @@ export const deleteSpotlight = AsyncHandler(async (req, res) => {
 }, "error in deleting Spotlight")
 
 export const getAllSpotlights = AsyncHandler(async (req, res) => {
-    const doc = await Spotlight.find().populate({
-        path: 'host'
-    }).populate({
-        path: 'bookedEvents',
-        select: ["name", "email", "bio", "profilePic"]
-    });
+    const doc = await Spotlight.find();
     res.status(200).json({ data: doc, message: "Success" });
 }, "error in getting all Spotlights")

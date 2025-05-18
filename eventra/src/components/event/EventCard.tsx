@@ -29,7 +29,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
 
                 <Image source={{ uri: item.pic.url }} style={styles.image} />
 
-                <View style={{ gap: s(10), padding: s(8), }}>
+                <View style={{ gap: s(6), padding: s(8), }}>
 
                     <View>
                         <CustomText style={styles.title}>{item.title}</CustomText>
@@ -41,7 +41,7 @@ const EventCard: FC<EventCardProps> = ({ item, index }) => {
                             <Icon icon='map-marker' iconType='MaterialCommunityIcons' color={AppConstants.redColor} size={s(16)} />
                             <CustomText style={styles.city}>{typeof item.venue !== 'string' ? `${item.venue.address.city},${item.venue.address.state}` : ""}</CustomText>
                         </View>
-                        <Icon icon='bookmark' iconType='Feather' color={AppConstants.black} size={s(20)} />
+                        <Icon icon='bookmark' iconType='Feather' color={AppConstants.black} size={s(15)} />
                     </View>
                 </View>
 
@@ -54,12 +54,12 @@ export default EventCard
 
 const styles = StyleSheet.create({
     main: { width: (AppConstants.screenWidth - AppConstants.screenPadding * 3) / 2, backgroundColor: AppConstants.whiteColor, elevation: 2, borderRadius: s(10), overflow: "hidden" },
-    image: { width: "100%", height: s(200), objectFit: "cover" },
-    title: { fontSize: s(17), flexWrap: "wrap", fontWeight: "500" },
+    image: { width: "100%", height: s(150), objectFit: "cover" },
+    title: { fontSize: s(14), flexWrap: "wrap", fontWeight: "500" },
     addressContainer: { flexDirection: "row", justifyContent: "space-between" },
     address: { flexDirection: "row", gap: s(2), alignItems: "center" },
-    time: { fontSize: s(13), flexWrap: "wrap", fontWeight: "500", color: AppConstants.redColor },
-    city: { fontSize: s(12), flexWrap: "wrap", fontWeight: "400", color: AppConstants.grayColor },
+    time: { fontSize: s(12), flexWrap: "wrap", fontWeight: "500", color: AppConstants.redColor },
+    city: { fontSize: s(10), flexWrap: "wrap", fontWeight: "400", color: AppConstants.grayColor },
     btn: { paddingVertical: 2, paddingHorizontal: 8, borderRadius: s(8) }
 
 })

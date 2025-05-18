@@ -7,10 +7,12 @@ import { useNavigation } from '@react-navigation/native'
 import { updatePostApi } from '@services/PostService'
 import { useAppSelector } from '@store/hooks'
 import React, { FC, Suspense, useEffect, useState } from 'react'
-import { Modal, Pressable, StyleSheet, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import { s, vs } from 'react-native-size-matters'
 import Video from 'react-native-video'
-import { NavigationProps, PostType } from 'types/AppTypes'
+import { NavigationProps, NotificationType, PostType } from 'types/AppTypes'
+import PostLike from './PostLike'
+import { useSocket } from '@context/SocketContext'
 const PostComment = React.lazy(() => import('./PostComment'));
 
 interface PostCardProps {
@@ -20,6 +22,8 @@ interface PostCardProps {
 const PostCard: FC<PostCardProps> = ({ post }) => {
 
     const [showCommentModal, setShowCommentModal] = useState(false);
+    const [showLikeModal, setShowLikeModal] = useState(false);
+    const { globalSocket } = useSocket();
 
     const [isLiked, setIsLiked] = useState<boolean>(false);
     const [commentLength, setCommentLength] = useState<number>(post.comments.length);
@@ -33,7 +37,18 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
         setLikesLength(isLiked ? likesLength - 1 : likesLength + 1);
         const formdata = new FormData();
         formdata.append("likes", loggedInUser?._id);
+
         const { data, success } = await updatePostApi(formdata, post._id, `category=likes&type=${isLiked ? "delete" : "add"}`)
+
+        const newNotification: NotificationType = {
+            body: "",
+            notification_type: "like",
+            title: `${loggedInUser?.name} liked your post`,
+            isRead: false,
+            link: `/SinglePostScreen/${post._id}`,
+            user: typeof post.user !== "string" ? post.user._id : ""
+        };
+
     }
 
     const checkIsLiked = () => {
@@ -48,7 +63,6 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
     useEffect(() => {
         checkIsLiked();
     }, [])
-
 
     return (
         <View style={{ gap: vs(10) }}>
@@ -87,6 +101,11 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                 }
             </View>
 
+                <Text style={{ gap: s(6) }}>
+                    <CustomText variant='h6'>{`${post.title}`}</CustomText>
+                    <CustomText numberOfLines={3} style={{ fontSize: s(13) }}>{` ${post.description}`}</CustomText>
+                </Text>
+
             {/* COMMENT,LIKES,SHARE */}
             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
 
@@ -102,13 +121,15 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                     {/* likes */}
                     <Pressable onPress={handleLike} style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
                         <Icon icon='heart' iconType={`${isLiked ? "FontAwesome" : "Feather"}`} color={`${isLiked ? AppConstants.redColor : AppConstants.grayColor}`} />
+                    </Pressable>
+                    <Pressable onPress={handleLike} style={{ flexDirection: "row", justifyContent: "space-between", gap: s(10) }}>
                         <CustomText>{`${likesLength}`}</CustomText>
                     </Pressable>
 
                 </View>
 
                 {/* SHARE */}
-                <Pressable onPress={() => { navigate("SinglePostScreen", { postId: post._id }) }}>
+                <Pressable onPress={() => { shareLink(`/SinglePostScreen/${post._id}`) }}>
                     <Icon icon='share' iconType='FontAwesome' color={AppConstants.darkGrayColor} />
                 </Pressable>
 
@@ -125,6 +146,21 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
                 {showCommentModal && (
                     <Suspense fallback={<CustomText>Loading...</CustomText>}>
                         <PostComment postId={post._id} setShow={setShowCommentModal} setCommentLength={setCommentLength} commentLength={commentLength} />
+                    </Suspense>
+                )}
+
+            </Modal>
+
+            <Modal
+                visible={showLikeModal}
+                animationType='slide'
+                transparent={true}
+                onRequestClose={() => setShowLikeModal(false)}
+            >
+
+                {showLikeModal && (
+                    <Suspense fallback={<CustomText>Loading...</CustomText>}>
+                        <PostLike postId={post._id} setShow={setShowCommentModal} setCommentLength={setCommentLength} commentLength={commentLength} />
                     </Suspense>
                 )}
 

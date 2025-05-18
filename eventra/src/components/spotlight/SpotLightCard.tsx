@@ -10,17 +10,17 @@ interface SpotlightCardType {
     index: number
 }
 
-const SpotlightCard: FC<SpotlightCardType> = ({ item, index }) => {
+const SpotLightCard: FC<SpotlightCardType> = ({ item, index }) => {
     return (
         <View style={styles.main}>
-            <Image source={{ uri: item.pic }} style={styles.image} />
+            <Image source={{ uri: item.pic.url }} style={styles.image} />
             <CustomText numberOfLines={1}>{item.title}</CustomText>
-            <CustomText numberOfLines={1}>{item.subTitle}</CustomText>
+            <CustomText numberOfLines={1}>{item.description}</CustomText>
         </View>
     )
 }
 
-export default SpotlightCard
+export default SpotLightCard
 
 const styles = StyleSheet.create({
     main: { width: s(120), height: vs(200), borderRadius: AppConstants.borderRadius, overflow: "hidden" },

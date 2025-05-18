@@ -7,6 +7,7 @@ import BottomModal from '@components/global/Modals/BottomModal'
 import ProfileHeader from '@components/profile/ProfileHeader'
 import SettingModal from '@components/profile/SettingModal'
 import { AppConstants } from '@constants/AppConstants'
+import { useSocket } from '@context/SocketContext'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { getUserPostsApi } from '@services/PostService'
 import { getSingleuserApi } from '@services/UserService'
@@ -14,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks'
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-native'
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { s, vs } from 'react-native-size-matters'
 import { NavigationProps, PostType, RouteProps, userType } from 'types/AppTypes'
@@ -45,6 +47,32 @@ const ProfileScreen = () => {
         fetchUserDetail(params?.userId ?? loggedInUser?._id!);
     }, [])
 
+
+    // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
+    const { scrollDirection } = useSocket();
+
+    const offsetY = useSharedValue(0);
+    const direction = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler({
+        onScroll: (event) => {
+            const currentOffset = event.contentOffset.y;
+
+            if (currentOffset > offsetY.value + 10) {
+                direction.value = 1; // scrolling down
+                scrollDirection.value = 1;
+            } else if (currentOffset < offsetY.value - 10) {
+                direction.value = -1; // scrolling up
+                scrollDirection.value = -1;
+            }
+
+            offsetY.value = currentOffset;
+        },
+    });
+
+    // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
 
@@ -57,7 +85,11 @@ const ProfileScreen = () => {
                         ?
                         <EmptyData title='NO DATA' showBtn={false} />
                         :
-                        <ScrollView style={{ flex: 1, backgroundColor: "orange" }}>
+                        <Animated.ScrollView
+                            style={{ flex: 1, backgroundColor: "orange" }}
+                            onScroll={scrollHandler}
+                            scrollEventThrottle={100}
+                        >
 
                             <ProfileHeader userDetail={userDetail} setShowSetting={setShowSetting} />
 
@@ -111,7 +143,7 @@ const ProfileScreen = () => {
 
                             </View>
 
-                        </ScrollView>
+                        </Animated.ScrollView>
             }
 
 

@@ -84,7 +84,7 @@ const SearchHeader: FC<SearchHeaderProps> = ({ searchType, handleSearch, setSear
                     <Logo width={s(30)} height={s(30)} />
                 </View>
                 <TouchableOpacity activeOpacity={0.5} onPress={() => handleAnimate(true)}>
-                    <Icon iconType='Feather' icon='menu' color={AppConstants.grayColor} />
+                    <Icon iconType='Feather' icon='menu' color={AppConstants.whiteColor} />
                 </TouchableOpacity>
             </View>
 

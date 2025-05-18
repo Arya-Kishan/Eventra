@@ -6,10 +6,10 @@ const useDevice = () => {
 
     const { top: statusBarHeight, bottom } = useSafeAreaInsets();
 
-    const shareLink = async ({ link = "" }: { link: string }) => {
+    const shareLink = async (link: string) => {
         try {
             const result = await Share.share({
-                message: `${AppConstants.appUniversalLink}/${link}`,
+                message: `${AppConstants.appUniversalLink}${link}`,
             });
 
             if (result.action === Share.sharedAction) {

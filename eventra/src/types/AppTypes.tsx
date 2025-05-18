@@ -1,8 +1,17 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
+import { NavigatorScreenParams, RouteProp } from '@react-navigation/native';
+
+export type TabParamList = {
+    Home: undefined;
+    Social: undefined; // example param
+    Event: undefined;
+    Store: undefined;
+    Profile: { userId?: string };
+};
+
 
 export type RootStackParamList = {
-    Main: undefined;
+    Main: NavigatorScreenParams<TabParamList>;
     EventDetailScreen: { eventId: string };
     VenueDetailScreen: { venueId: string };
     ProductDetailScreen: { productId: string };
@@ -25,6 +34,7 @@ export type RootStackParamList = {
     NotificationScreen: undefined;
     Details: { userId: number; userName: string };
     BottomTabBar: undefined
+    PracticeScreen: undefined
 };
 
 // Generic helpers
@@ -76,12 +86,6 @@ export type EventType = {
     category: string,
     status?: "pending" | "rejected" | "accepted",
     _id: string
-}
-
-export type SpotLightType = {
-    title: string,
-    subTitle: string,
-    pic: string
 }
 
 export type slotType = {
@@ -193,11 +197,19 @@ export type MessageType = {
 }
 
 export type NotificationType = {
-    _id: string,
+    _id?: string,
     user?: string | userType,
     title: String,
     body: String,
     notification_type: "like" | "comment" | "booking",
     link?: string,
     isRead?: boolean
+}
+
+export type SpotLightType = {
+    title: string,
+    description: string,
+    pic: { url: string, public_id: string },
+    category: "event" | "venue" | "product" | "post",
+    categoryId: string
 }

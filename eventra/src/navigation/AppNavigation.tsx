@@ -27,8 +27,9 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setLoggedInUser } from '@store/reducers/userSlice';
 import { AsyncGetData } from '@utils/AsyncStorage';
 import React, { useEffect, useState } from 'react';
-import SplashScreen from 'react-native-splash-screen';
 import { RootStackParamList } from 'types/AppTypes';
+import PracticeScreen from '../screens/PracticeScreen';
+import SplashScreen from 'react-native-splash-screen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -43,6 +44,7 @@ const AppNavigation = () => {
         NotificationScreen: 'NotificationScreen', // dynamic parameter example
         ProfileScreen: 'ProfileScreen/:userId',
         EventDetailScreen: 'EventDetailScreen/:eventId',
+        SinglePostScreen: 'SinglePostScreen/:postId',
       },
     },
   };
@@ -54,10 +56,12 @@ const AppNavigation = () => {
 
   const checkAuth = async () => {
     const user = await AsyncGetData();
+    console.log("ARY IS GOOD")
 
     if (user) {
       // dispatch(setLoggedInUser(JSON.parse(user)));
       const { data } = await getLoggedInUserApi(JSON.parse(user)._id);
+      console.log("USER FETCHED LATEST DETAILS")
       dispatch(setLoggedInUser(data.data));
     } else {
       dispatch(setLoggedInUser(null));
@@ -125,6 +129,8 @@ const AppNavigation = () => {
               <Stack.Screen name="SearchScreen" component={SearchScreen} />
               
               <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+
+              <Stack.Screen name="PracticeScreen" component={PracticeScreen} />
             </>
         }
 

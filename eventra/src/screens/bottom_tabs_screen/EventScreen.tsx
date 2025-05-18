@@ -6,12 +6,14 @@ import EmptyData from '@components/global/EmptyData';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import { AppConstants } from '@constants/AppConstants';
+import { useSocket } from '@context/SocketContext';
 import { useNavigation } from '@react-navigation/native';
 import { getAllEvent } from '@services/EventService';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setAllEvents, setEventLoader } from '@store/reducers/eventSlice';
 import React, { useEffect } from 'react';
 import { FlatList, StatusBar, StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { s } from 'react-native-size-matters';
 import { NavigationProps } from 'types/AppTypes';
@@ -33,12 +35,37 @@ const EventScreen = () => {
     fetchAllEvents();
   }, [])
 
+  // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
+  const { scrollDirection } = useSocket();
+
+  const offsetY = useSharedValue(0);
+  const direction = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      const currentOffset = event.contentOffset.y;
+
+      if (currentOffset > offsetY.value + 10) {
+        direction.value = 1; // scrolling down
+        scrollDirection.value = 1;
+      } else if (currentOffset < offsetY.value - 10) {
+        direction.value = -1; // scrolling up
+        scrollDirection.value = -1;
+      }
+
+      offsetY.value = currentOffset;
+    },
+  });
+
+  // BOTTOM TAB BAR HIDE ANIMATED ----------------
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
       <StatusBar backgroundColor={AppConstants.redColor} translucent={false} hidden={false} />
 
-      <EventHeader/>
+      <EventHeader offset={offsetY} />
 
       {
         eventLoader == "idle" || eventLoader == "loading"
@@ -49,7 +76,7 @@ const EventScreen = () => {
             ?
             <EmptyData title='NO EVENTS' handleAddClick={() => { }} />
             :
-            <FlatList
+            <Animated.FlatList
               data={allEvents}
               renderItem={({ item, index }) => (<EventCard item={item} index={index} />)}
               ListHeaderComponent={() => (<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -62,6 +89,8 @@ const EventScreen = () => {
               columnWrapperStyle={{ gap: AppConstants.defaultGap }}
               contentContainerStyle={{ padding: AppConstants.screenPadding, gap: AppConstants.screenPadding }}
               keyExtractor={(item) => `${item._id}`}
+              onScroll={scrollHandler}
+              scrollEventThrottle={100}
             />
       }
 

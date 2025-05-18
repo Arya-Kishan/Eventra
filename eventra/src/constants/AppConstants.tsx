@@ -26,14 +26,16 @@ export const AppConstants = {
     screenWidth: width,
     screenHeight: height,
 
-    baseUrl : Config.BASE_URL,
-    socketBaseUrl : Config.SOCKET_BASE_URL,
-    appUniversalLink : Config.APP_UNIVERSAL_LINK,
+    baseUrl: Config.BASE_URL,
+    socketBaseUrl: Config.SOCKET_BASE_URL,
+    appUniversalLink: Config.APP_UNIVERSAL_LINK,
 
-    fallbackProfilePic:"https://i.pinimg.com/736x/7d/ef/87/7def87133b56ce7e8cb357d95cd2de4c.jpg"
+    headerHeight: s(70),
+
+    fallbackProfilePic: "https://i.pinimg.com/736x/7d/ef/87/7def87133b56ce7e8cb357d95cd2de4c.jpg"
 
 }
 
 
-// COMMANDS : 
+// COMMANDS :
 // GET SHA FINGERPRINT : "keytool -list -v -keystore "$env:USERPROFILE\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android"

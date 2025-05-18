@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/create", mixUpload, createSpotlight)
     .put("/:id", mixUpload, updateSpotlight)
-    .get("/", getAllSpotlights)
+    .get("/all", getAllSpotlights)
     .delete("/:id", deleteSpotlight)
 
 export default router;

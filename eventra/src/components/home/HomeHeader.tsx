@@ -5,7 +5,7 @@ import { s, vs } from 'react-native-size-matters'
 import { AppConstants } from '@constants/AppConstants'
 import { CustomImage } from '@components/global/CustomImage'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'types/AppTypes'
+import { NavigationProps, NotificationType } from 'types/AppTypes'
 import RoundedBox from '@components/global/RoundedBox'
 import { useAppSelector } from '@store/hooks'
 import CustomText from '@components/global/CustomText'
@@ -14,6 +14,10 @@ const HomeHeader = () => {
     const navigation = useNavigation<NavigationProps<'Main'>>();
     const { loggedInUser, allNotifications } = useAppSelector(store => store.user);
     const { name, bio, profilePic } = loggedInUser!;
+
+    const getNotificationCount = (): number => {
+        return allNotifications ? allNotifications!.filter((obj: NotificationType) => obj.isRead === false).length : 0
+    }
 
     return (
         <View style={styles.headerContainer}>
@@ -31,15 +35,23 @@ const HomeHeader = () => {
             </Pressable>
 
             {/* ICON BOX */}
-            <View style={{ gap: s(6), flexDirection: "row", alignItems: "center" }}>
+            <View style={{ gap: s(0), flexDirection: "row", alignItems: "center" }}>
 
                 <RoundedBox size={s(35)} viewStyle={{ backgroundColor: "transparent" }} onPress={() => navigation.navigate("SearchScreen", { type: "event" })} >
-                    <Icon iconType='Feather' icon='search' color='black' size={s(20)} />
+                    <Icon iconType='Feather' icon='search' color='white' size={s(20)} />
                 </RoundedBox>
 
                 <RoundedBox size={s(35)} viewStyle={{ backgroundColor: "transparent", position: "relative" }} onPress={() => navigation.navigate("NotificationScreen")} >
-                    <Icon iconType='Feather' icon='bell' color='black' size={s(20)} />
-                    <CustomText style={{ position: "absolute", top: -s(1), right: s(8),color:AppConstants.whiteColor }}>{`${allNotifications?.length ?? 0}`}</CustomText>
+                    <Icon iconType='Feather' icon='bell' color='white' size={s(20)} />
+                    {
+                        getNotificationCount() == 0
+                            ?
+                            ""
+                            :
+                            <View style={styles.circular}>
+                                <CustomText variant='overline'>{`${getNotificationCount()}`}</CustomText>
+                            </View>
+                    }
                 </RoundedBox>
 
 
@@ -54,4 +66,5 @@ export default HomeHeader
 const styles = StyleSheet.create({
     headerContainer: { width: "100%", flexDirection: "row", justifyContent: "space-between", backgroundColor: AppConstants.redColor, padding: AppConstants.screenPadding },
     avatarContainer: { gap: s(10), flexDirection: "row" },
+    circular: { position: "absolute", top: -s(1), right: s(2), width: s(15), height: s(15), borderRadius: s(30), backgroundColor: AppConstants.greenColor, justifyContent: "center", alignItems: "center" }
 })

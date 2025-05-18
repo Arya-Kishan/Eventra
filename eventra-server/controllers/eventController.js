@@ -2,7 +2,7 @@ import { Event } from '../models/eventModel.js'
 import { User } from '../models/userModel.js';
 import { Venue } from '../models/venueModel.js'
 import { uploadFileToCloudinary } from '../services/Cloudinary.js';
-import sendNotificationFCM from '../services/FirebaseFCM.js';
+import sendNotification from '../services/FirebaseFCM.js';
 import AsyncHandler from '../utils/AsyncHandler.js';
 
 export const createEvent = AsyncHandler(async (req, res) => {
@@ -198,7 +198,7 @@ export const bookEvent = AsyncHandler(async (req, res) => {
 
     await Promise.all([
 
-        sendNotificationFCM(
+        sendNotification(
             newUpdates.host.FCMToken,
             newUpdates.host._id,
             "New Booking 💕",
@@ -206,7 +206,7 @@ export const bookEvent = AsyncHandler(async (req, res) => {
             "booking",
             `/EventDetailScreen/${newUpdates._id}`),
 
-        sendNotificationFCM(
+        sendNotification(
             updateUser.FCMToken,
             updateUser._id,
             "New Booking 💕",
