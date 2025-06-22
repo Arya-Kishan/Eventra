@@ -46,7 +46,7 @@ const SignUpScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: AppConstants.screenPadding, gap: vs(40), marginTop: vs(50) }}>
+    <SafeAreaView style={styles.safeAreaView}>
 
       <Blob4 width={s(700)} height={s(700)} style={{ position: "absolute", top: -s(420), right: -s(80), transform: [{ rotate: "0deg" }] }} />
       <Blob3 width={s(600)} height={s(600)} style={{ position: "absolute", bottom: -s(260), left: -s(150), transform: [{ rotate: "310deg" }] }} />
@@ -111,4 +111,6 @@ const SignUpScreen = () => {
 
 export default SignUpScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  safeAreaView:{ flex: 1, padding: AppConstants.screenPadding, gap: vs(40), marginTop: vs(50) },
+})

@@ -73,7 +73,7 @@ const CreateVenueScreen: FC = () => {
         const { data, error, success, message } = await createVenueApi(formData);
         // console.log(data.data)
         if (success) {
-            navigation.navigate("Main");
+            navigation.navigate("VenueScreen");
             showToast({ title: "Success", description: "New Venue Created", type: "success" });
             // dispatch(setAllEvents([...allEvents!]))
         }

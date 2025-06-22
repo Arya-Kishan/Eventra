@@ -73,7 +73,7 @@ const CreatePostScreen = () => {
         const { data, error, success, message } = await createPostApi(formData);
         // console.log(data.data)
         if (success) {
-            navigation.navigate("Main");
+            navigation.navigate("Main",{screen:"Social"});
             showToast({ title: "Success", description: "New Post Created", type: "success" });
         } else {
             showToast({ title: "Failed", description: "New Post Not Created", type: "error" });

@@ -56,26 +56,26 @@ const LoginScreen = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: AppConstants.screenPadding, gap: vs(40), justifyContent: "flex-end" }}>
+    <SafeAreaView style={styles.safeAreaView}>
 
-      <Blob4 width={s(700)} height={s(700)} style={{ position: "absolute", top: -s(300), right: -s(80), transform: [{ rotate: "0deg" }] }} />
-      <Blob3 width={s(600)} height={s(600)} style={{ position: "absolute", bottom: -s(220), left: -s(150), transform: [{ rotate: "310deg" }] }} />
+      <Blob4 width={s(700)} height={s(700)} style={styles.blob4} />
+      <Blob3 width={s(600)} height={s(600)} style={styles.blob3} />
 
-      <View style={{ justifyContent: "space-between", paddingTop: vs(60), height: "100%" }}>
+      <View style={styles.container}>
 
         <View>
           <CustomText variant='h1' style={{ color: AppConstants.whiteColor, fontSize: s(40) }}>Welcome</CustomText>
           <CustomText style={{ color: AppConstants.whiteColor }}>Hey Good to see you again</CustomText>
         </View>
 
-        <View style={{ gap: vs(20) }}>
+        <View style={styles.formBox}>
 
-          <View style={{ flexDirection: "row", gap: s(10), backgroundColor: AppConstants.whiteColor, padding: s(10), borderRadius: s(12) }}>
+          <View style={styles.emailBox}>
             <Icon icon='email' iconType='MaterialIcons' color={AppConstants.redColor} />
-            <TextInput value={email} onChangeText={setEmail} placeholder='Email...' keyboardType='email-address' style={{ flex: 1, fontSize: s(14) }} />
+            <TextInput value={email} onChangeText={setEmail} placeholder='Email...' keyboardType='email-address' style={styles.input} />
           </View>
 
-          <View style={{ flexDirection: "row", gap: s(10), backgroundColor: AppConstants.whiteColor, padding: s(10), borderRadius: s(12) }}>
+          <View style={styles.passwordBox}>
             {
               !showPassword
                 ?
@@ -87,17 +87,17 @@ const LoginScreen = () => {
                   <Icon icon='eye-off' iconType='Feather' color={AppConstants.redColor} />
                 </TouchableOpacity>
             }
-            <TextInput value={password} onChangeText={setPassword} placeholder='Password...' secureTextEntry={showPassword} style={{ flex: 1, fontSize: s(14) }} />
+            <TextInput value={password} onChangeText={setPassword} placeholder='Password...' secureTextEntry={showPassword} style={styles.input} />
           </View>
 
           <RoundedButton title='SIGN IN' onPress={handleLogin} disabled={loader} loading={loader} />
 
         </View>
 
-        <View style={{ width: "100%", justifyContent: "center", alignItems: "center", padding: AppConstants.screenPadding, flexDirection: "row" }}>
+        <View style={styles.elseBox}>
           <CustomText variant='h6'>Don't have an account, </CustomText>
           <Pressable onPress={() => { navigate("SignUpScreen") }}>
-            <CustomText variant='h6' style={{ color: AppConstants.whiteColor }}>SignUp</CustomText>
+            <CustomText variant='h6' style={styles.txtWhite}>SignUp</CustomText>
           </Pressable>
         </View>
 
@@ -109,4 +109,59 @@ const LoginScreen = () => {
 
 export default LoginScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
+    padding: AppConstants.screenPadding,
+    gap: vs(40),
+    justifyContent: "flex-end"
+  },
+  blob4: {
+    position: "absolute",
+    top: -s(300),
+    right: -s(80),
+    transform: [{ rotate: "0deg" }]
+  },
+  blob3: {
+    position: "absolute",
+    bottom: -s(220),
+    left: -s(150),
+    transform: [{ rotate: "310deg" }]
+  },
+  container: {
+    justifyContent: "space-between",
+    paddingTop: vs(60),
+    height: "100%"
+  },
+  formBox: {
+    gap: vs(20)
+  },
+  emailBox: {
+    flexDirection: "row",
+    gap: s(10),
+    backgroundColor: AppConstants.whiteColor,
+    padding: s(10),
+    borderRadius: s(12)
+  },
+  input: {
+    flex: 1,
+    fontSize: s(14)
+  },
+  passwordBox: {
+    flexDirection: "row",
+    gap: s(10),
+    backgroundColor: AppConstants.whiteColor,
+    padding: s(10),
+    borderRadius: s(12)
+  },
+  elseBox: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: AppConstants.screenPadding,
+    flexDirection: "row"
+  },
+  txtWhite: {
+    color: AppConstants.whiteColor
+  }
+})

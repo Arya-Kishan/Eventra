@@ -21,7 +21,7 @@ import { s, vs } from 'react-native-size-matters'
 import { NavigationProps } from 'types/AppTypes'
 
 const HomeScreen = () => {
-  
+
   const dispatch = useAppDispatch();
   const navigate = useNavigation<NavigationProps<'Main'>>();
   const { upcomingEvents } = useAppSelector(store => store.event);
@@ -72,12 +72,12 @@ const HomeScreen = () => {
   // ----------------------
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
 
       <StatusBar backgroundColor={AppConstants.redColor} translucent={false} hidden={false} />
 
       <Animated.ScrollView
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", flex: 1 }}
         onScroll={scrollHandler}
         scrollEventThrottle={100}
       >
@@ -114,7 +114,7 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-  main: { gap: vs(10), paddingVertical: AppConstants.screenPadding, paddingHorizontal: AppConstants.screenPadding },
+  main: { flex: 1, gap: vs(10), paddingVertical: AppConstants.screenPadding, paddingHorizontal: AppConstants.screenPadding },
   headerContainer: { width: "100%", flexDirection: "row", justifyContent: "space-between" },
   avatarContainer: { gap: s(10), flexDirection: "row" },
   box: { position: "absolute", bottom: s(20), right: s(20), width: s(50), height: s(50), backgroundColor: "red" }

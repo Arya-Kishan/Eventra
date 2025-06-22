@@ -1,15 +1,14 @@
 // axiosInstance.ts
-import { AppConstants } from '@constants/AppConstants';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: AppConstants.baseUrl || 'https://your-api.com/api',
+  baseURL: "http://localhost:8000",
   timeout: 20000,
 });
 
 // ✅ Request Interceptor
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async (config:any) => {
     const token = 'your-auth-token'; // Replace with your logic (AsyncStorage/Redux/Context)
 
     // Add token
@@ -24,10 +23,10 @@ axiosInstance.interceptors.request.use(
       config.headers['Content-Type'] = 'application/json';
     }
 
-    console.log('👉 Request:', config);
+    // console.log('👉 Request:', config);
     return config;
   },
-  (error) => {
+  (error:any) => {
     console.error('❌ Request Error:', error);
     return Promise.reject(error);
   }
@@ -35,11 +34,11 @@ axiosInstance.interceptors.request.use(
 
 // ✅ Response Interceptor
 axiosInstance.interceptors.response.use(
-  (response) => {
+  (response:any) => {
     // console.log('✅ Response:', response);
     return response;
   },
-  (error) => {
+  (error:any) => {
     console.error('❌ Response Error:', error.response?.data || error.message);
 
     // Global error handling (example)

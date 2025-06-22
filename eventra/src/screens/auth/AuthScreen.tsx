@@ -14,25 +14,25 @@ const AuthScreen = () => {
     const { navigate } = useNavigation<NavigationProps<'AuthScreen'>>();
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={styles.safeAreaView}>
 
-            <Blob1 width={s(800)} height={s(800)} style={{ position: "absolute", bottom: -s(200), left: -s(150) }} />
+            <Blob1 width={s(800)} height={s(800)} style={styles.blob1} />
 
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginBottom: vs(100) }}>
+            <View style={styles.svg1}>
                 <Svg width={s(300)} height={s(300)} />
             </View>
 
-            <View style={{ position: "absolute", top: 0, left: 0, width: "100%", justifyContent: "center", alignItems: "center", padding: AppConstants.screenPadding, gap: s(10) }}>
-                <CustomText variant='h1' style={{ color: AppConstants.redColor, fontSize: s(40) }}>Eventra</CustomText>
+            <View style={styles.header}>
+                <CustomText variant='h1' style={styles.headerTxt}>Eventra</CustomText>
             </View>
 
-            <View style={{ position: "absolute", bottom: 0, left: 0, width: "100%", justifyContent: "center", alignItems: "center", padding: AppConstants.screenPadding, gap: s(10) }}>
+            <View style={styles.contentBox}>
 
-                <CustomText variant='h3' style={{ color: AppConstants.whiteColor }}>Make your Booking</CustomText>
+                <CustomText variant='h3' style={styles.bookingTxt}>Make your Booking</CustomText>
 
-                <CustomText numberOfLines={2} style={{ textAlign: "center", color: AppConstants.whiteColor }}>All over the India made and enjoy the event make for equal to all party</CustomText>
+                <CustomText numberOfLines={2} style={styles.description}>All over the India made and enjoy the event make for equal to all party</CustomText>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-around", gap: s(10), marginTop: vs(20) }}>
+                <View style={styles.btnBox}>
 
                     <RoundedButton style={styles.btn1} onPress={() => { navigate("LoginScreen") }} title='LOGIN' />
                     <RoundedButton style={styles.btn} textColor={AppConstants.redColor} onPress={() => { navigate("SignUpScreen") }} title='SIGNUP' />
@@ -48,6 +48,53 @@ const AuthScreen = () => {
 export default AuthScreen
 
 const styles = StyleSheet.create({
+    safeAreaView: { flex: 1 },
+    blob1: {
+        position: "absolute",
+        bottom: -s(200),
+        left: -s(150)
+    },
+    svg1: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: vs(100)
+    },
+    header: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: AppConstants.screenPadding,
+        gap: s(10)
+    },
+    headerTxt: {
+        color: AppConstants.redColor,
+        fontSize: s(40)
+    },
+    contentBox: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: AppConstants.screenPadding,
+        gap: s(10)
+    },
+    description: {
+        textAlign: "center",
+        color: AppConstants.whiteColor
+    },
+    bookingTxt: { color: AppConstants.whiteColor },
+    btnBox: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        gap: s(10),
+        marginTop: vs(20)
+    },
     btn1: {
         width: s(140)
     },

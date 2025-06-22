@@ -1,9 +1,10 @@
+import EmptyData from '@components/global/EmptyData';
 import SpotLightCard from '@components/spotlight/SpotLightCard';
 import { AppConstants } from '@constants/AppConstants';
 import { AppTemporaryContants } from '@constants/AppTemporaryConstants';
 import { getAllSpotLightApi } from '@services/SpotLightServices';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { Button, FlatList, StyleSheet, View } from 'react-native';
 import { SpotLightType } from 'types/AppTypes';
 
 const SpotLight = () => {
@@ -12,6 +13,7 @@ const SpotLight = () => {
 
     const getAllSpotLights = async () => {
         const { data, success } = await getAllSpotLightApi();
+        console.log("SPOTLIGHT DATA : ", data)
         success ? setSpotLights(data.data) : "";
     }
 
@@ -20,19 +22,25 @@ const SpotLight = () => {
     }, [])
 
     return (
-        <View>
+        <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+            <Button title='GET' onPress={getAllSpotLights}/>
             {
-                spotLights !== null &&
-                <FlatList
-                    data={AppTemporaryContants.spotLightsArr}
-                    horizontal
-                    keyExtractor={(_, index) => `column-${index}`}
-                    renderItem={({ item, index }) => (
-                        <SpotLightCard item={item} index={index} />
-                    )}
-                    contentContainerStyle={{ gap: AppConstants.defaultGap }}
-                    showsHorizontalScrollIndicator={false}
-                />
+                spotLights !== null
+                    &&
+                    spotLights.length == 0
+                    ?
+                    <EmptyData title='NO DATA' showBtn={false} />
+                    :
+                    <FlatList
+                        data={spotLights}
+                        horizontal
+                        keyExtractor={(_, index) => `column-${index}`}
+                        renderItem={({ item, index }) => (
+                            <SpotLightCard item={item} index={index} />
+                        )}
+                        contentContainerStyle={{ gap: AppConstants.defaultGap }}
+                        showsHorizontalScrollIndicator={false}
+                    />
             }
         </View>
     )

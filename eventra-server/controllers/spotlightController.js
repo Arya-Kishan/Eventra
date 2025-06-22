@@ -70,6 +70,7 @@ export const deleteSpotlight = AsyncHandler(async (req, res) => {
 }, "error in deleting Spotlight")
 
 export const getAllSpotlights = AsyncHandler(async (req, res) => {
+    console.log("GETTING ALL SPOTLIGHTS")
     const doc = await Spotlight.find();
     res.status(200).json({ data: doc, message: "Success" });
 }, "error in getting all Spotlights")
