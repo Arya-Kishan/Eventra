@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type ApiReturnType = {
     success: boolean,
     data: any,
@@ -152,8 +153,8 @@ export type MessageType = {
 export type NotificationType = {
     _id?: string,
     user?: string | userType,
-    title: String,
-    body: String,
+    title: string,
+    body: string,
     notification_type: "like" | "comment" | "booking",
     link?: string,
     isRead?: boolean

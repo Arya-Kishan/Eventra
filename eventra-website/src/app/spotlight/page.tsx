@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { getAllEventApi } from '@/services/EventService';
@@ -52,6 +53,7 @@ const SpotLight = () => {
         console.log("formdata : ", formdata);
 
         const { data } = await createspotLightApi(formdata);
+        console.log(data)
     }
 
     useEffect(() => {

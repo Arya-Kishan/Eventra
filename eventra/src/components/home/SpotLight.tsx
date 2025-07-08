@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import EmptyData from '@components/global/EmptyData';
 import SpotLightCard from '@components/spotlight/SpotLightCard';
 import { AppConstants } from '@constants/AppConstants';
