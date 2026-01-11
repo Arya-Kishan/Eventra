@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import ProfileScreen from '@screens/profile/ProfileScreen'
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import ProfileScreen from '@screens/profile/ProfileScreen';
 
 const TabProfileScreen = () => {
   return (
     <>
-    <ProfileScreen/>
+      <ProfileScreen />
     </>
-  )
-}
+  );
+};
 
-export default TabProfileScreen
+export default TabProfileScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

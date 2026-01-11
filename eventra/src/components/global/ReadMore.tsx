@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Modal,
   Text,
@@ -29,8 +29,7 @@ const ReadMore: React.FC<Props> = ({
         <Text
           style={styles.text}
           numberOfLines={numberOfLines}
-          ellipsizeMode="tail"
-        >
+          ellipsizeMode="tail">
           {text}
         </Text>
         <TouchableOpacity onPress={() => setShowModal(true)}>
@@ -42,13 +41,14 @@ const ReadMore: React.FC<Props> = ({
         visible={showModal}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setShowModal(false)}
-      >
+        onRequestClose={() => setShowModal(false)}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>{modalTitle}</Text>
             <Text style={styles.modalText}>{text}</Text>
-            <Pressable style={styles.closeBtn} onPress={() => setShowModal(false)}>
+            <Pressable
+              style={styles.closeBtn}
+              onPress={() => setShowModal(false)}>
               <Text style={styles.closeText}>Close</Text>
             </Pressable>
           </View>

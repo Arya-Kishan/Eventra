@@ -1,14 +1,13 @@
-import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {StyleSheet} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import { Provider } from 'react-redux';
-import { SocketProvider } from "./src/context/SocketContext";
+import {Provider} from 'react-redux';
+import {SocketProvider} from './src/context/SocketContext';
 import AppNavigation from './src/navigation/AppNavigation';
-import { store } from './src/store/store';
+import {store} from './src/store/store';
 
 const App = () => {
-
-  console.log("I AM GOOD")
+  console.log('I AM GOOD');
 
   return (
     <SafeAreaProvider>
@@ -19,9 +18,9 @@ const App = () => {
         <Toast />
       </Provider>
     </SafeAreaProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

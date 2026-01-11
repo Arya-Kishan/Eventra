@@ -1,5 +1,5 @@
 // axiosInstance.ts
-import { AppConstants } from '@constants/AppConstants';
+import {AppConstants} from '@constants/AppConstants';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 
 // ✅ Request Interceptor
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  async config => {
     const token = 'your-auth-token'; // Replace with your logic (AsyncStorage/Redux/Context)
 
     // Add token
@@ -27,19 +27,19 @@ axiosInstance.interceptors.request.use(
     console.log('👉 Request:', config);
     return config;
   },
-  (error) => {
+  error => {
     console.error('❌ Request Error:', error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // ✅ Response Interceptor
 axiosInstance.interceptors.response.use(
-  (response) => {
+  response => {
     // console.log('✅ Response:', response);
     return response;
   },
-  (error) => {
+  error => {
     console.error('❌ Response Error:', error.response?.data || error.message);
 
     // Global error handling (example)
@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

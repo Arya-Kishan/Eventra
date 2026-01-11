@@ -13,43 +13,18 @@
     "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@screens/*": [
-        "screens/*"
-      ],
-      "@assets/*": [
-        "assets/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@constants/*": [
-        "constants/*"
-      ],
-      "@store/*": [
-        "store/*"
-      ],
-      "@styles/*": [
-        "styles/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@storage/*": [
-        "storage/*"
-      ],
-      "@context/*": [
-        "context/*"
-      ]
+      "@components/*": ["components/*"],
+      "@screens/*": ["screens/*"],
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+      "@constants/*": ["constants/*"],
+      "@store/*": ["store/*"],
+      "@styles/*": ["styles/*"],
+      "@hooks/*": ["hooks/*"],
+      "@storage/*": ["storage/*"],
+      "@context/*": ["context/*"]
     }
   },
-  "include": [
-    "src",
-    "declarations.d.ts"
-  ]
+  "include": ["src", "declarations.d.ts"]
 }

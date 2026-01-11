@@ -1,8 +1,8 @@
 // MapCoord.tsx
 
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import {View, StyleSheet} from 'react-native';
+import MapView, {Marker} from 'react-native-maps';
 
 const MapCoord = () => {
   const latitude = 37.78825;
@@ -17,9 +17,8 @@ const MapCoord = () => {
           longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
-        }}
-      >
-        <Marker coordinate={{ latitude, longitude }} />
+        }}>
+        <Marker coordinate={{latitude, longitude}} />
       </MapView>
     </View>
   );

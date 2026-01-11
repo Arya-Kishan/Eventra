@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 
 const useAuth = () => {
-    const [data, setData] = useState("");
-    return ({ data, setData })
-}
+  const [data, setData] = useState('');
+  return {data, setData};
+};
 
-export default useAuth
+export default useAuth;

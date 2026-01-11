@@ -1,55 +1,81 @@
-import CustomText from '@components/global/CustomText'
-import RoundedButton from '@components/global/RoundedButton'
-import { AppConstants } from '@constants/AppConstants'
-import React, { FC } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import { s } from 'react-native-size-matters'
+import CustomText from '@components/global/CustomText';
+import RoundedButton from '@components/global/RoundedButton';
+import {AppConstants} from '@constants/AppConstants';
+import React, {FC} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import {s} from 'react-native-size-matters';
 
 interface DetailCard1Type {
-    icon: any,
-    title: string,
-    subTitle: string,
-    isPic?: boolean,
-    picUrl?: string,
-    showBtn?: boolean
+  icon: any;
+  title: string;
+  subTitle: string;
+  isPic?: boolean;
+  picUrl?: string;
+  showBtn?: boolean;
 }
 
-const DetailCard1: FC<DetailCard1Type> = ({ icon, subTitle = "", title = "", isPic, picUrl = "", showBtn = false }) => {
+const DetailCard1: FC<DetailCard1Type> = ({
+  icon,
+  subTitle = '',
+  title = '',
+  isPic,
+  picUrl = '',
+  showBtn = false,
+}) => {
+  return (
+    <View style={styles.main}>
+      <View style={styles.iconBox}>
+        {isPic ? <Image source={{uri: picUrl}} style={styles.image} /> : icon}
+      </View>
 
-
-    return (
-        <View style={styles.main}>
-
-            <View style={styles.iconBox}>
-                {isPic ? <Image source={{ uri: picUrl }} style={styles.image} /> : icon}
-            </View>
-
-            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-
-                <View style={styles.textBox}>
-                    <CustomText style={styles.textBox}>{title}</CustomText>
-                    <CustomText style={styles.subTitle}>{subTitle}</CustomText>
-                </View>
-
-                {
-                    showBtn && <RoundedButton onPress={() => { }} title='Host' style={{ paddingVertical: 2, paddingHorizontal: s(14), borderRadius: s(8) }} textStyle={{ fontSize: s(11) }} />
-                }
-
-            </View>
-
-
-
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <View style={styles.textBox}>
+          <CustomText style={styles.textBox}>{title}</CustomText>
+          <CustomText style={styles.subTitle}>{subTitle}</CustomText>
         </View>
-    )
-}
 
-export default DetailCard1
+        {showBtn && (
+          <RoundedButton
+            onPress={() => {}}
+            title="Host"
+            style={{
+              paddingVertical: 2,
+              paddingHorizontal: s(14),
+              borderRadius: s(8),
+            }}
+            textStyle={{fontSize: s(11)}}
+          />
+        )}
+      </View>
+    </View>
+  );
+};
+
+export default DetailCard1;
 
 const styles = StyleSheet.create({
-    main: { flexDirection: "row", gap: s(5), width: "100%" },
-    image: { width: "100%", height: "100%", objectFit: "contain" },
-    iconBox: { width: s(40), height: s(40), justifyContent: "center", alignItems: "center", backgroundColor: AppConstants.lightRedColor, borderRadius: s(15), overflow: "hidden" },
-    textBox: { flex: 1, justifyContent: "space-between" },
-    title: { fontSize: s(14), fontWeight: "600" },
-    subTitle: { fontSize: s(12), fontWeight: "600", color: AppConstants.darkGrayColor },
-})
+  main: {flexDirection: 'row', gap: s(5), width: '100%'},
+  image: {width: '100%', height: '100%', objectFit: 'contain'},
+  iconBox: {
+    width: s(40),
+    height: s(40),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.lightRedColor,
+    borderRadius: s(15),
+    overflow: 'hidden',
+  },
+  textBox: {flex: 1, justifyContent: 'space-between'},
+  title: {fontSize: s(14), fontWeight: '600'},
+  subTitle: {
+    fontSize: s(12),
+    fontWeight: '600',
+    color: AppConstants.darkGrayColor,
+  },
+});

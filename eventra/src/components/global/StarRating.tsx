@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from './Icon';
 
 type Props = {
@@ -24,15 +24,32 @@ const StarRating: React.FC<Props> = ({
       {Array(fullStars)
         .fill(0)
         .map((_, i) => (
-          <Icon key={i} iconType='FontAwesome' icon="star" size={size} color={color} />
+          <Icon
+            key={i}
+            iconType="FontAwesome"
+            icon="star"
+            size={size}
+            color={color}
+          />
         ))}
       {hasHalfStar && (
-        <Icon iconType='FontAwesome' icon="star-half-full" size={size} color={color} />
+        <Icon
+          iconType="FontAwesome"
+          icon="star-half-full"
+          size={size}
+          color={color}
+        />
       )}
       {Array(emptyStars)
         .fill(0)
         .map((_, i) => (
-          <Icon key={i} iconType='FontAwesome' icon="star-o" size={size} color={color} />
+          <Icon
+            key={i}
+            iconType="FontAwesome"
+            icon="star-o"
+            size={size}
+            color={color}
+          />
         ))}
     </View>
   );

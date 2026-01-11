@@ -1,22 +1,26 @@
-import React, { FC, ReactNode, useState } from 'react';
-import { View, Button, Platform, Pressable, ViewStyle } from 'react-native';
+import React, {FC, ReactNode, useState} from 'react';
+import {View, Button, Platform, Pressable, ViewStyle} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RoundedButton from './RoundedButton';
 import Icon from './Icon';
 import RoundedBox from './RoundedBox';
-import { s } from 'react-native-size-matters';
-import { AppConstants } from '@constants/AppConstants';
+import {s} from 'react-native-size-matters';
+import {AppConstants} from '@constants/AppConstants';
 
 interface DateTimeSelectorType {
-  mode: "date" | "time",
-  onSet: (val: string) => void,
-  children: ReactNode,
-  viewStyle?: ViewStyle
+  mode: 'date' | 'time';
+  onSet: (val: string) => void;
+  children: ReactNode;
+  viewStyle?: ViewStyle;
 }
 
-const DateTimeSelector: FC<DateTimeSelectorType> = ({ mode = "date", onSet, children, viewStyle }) => {
+const DateTimeSelector: FC<DateTimeSelectorType> = ({
+  mode = 'date',
+  onSet,
+  children,
+  viewStyle,
+}) => {
   const [show, setShow] = useState(false);
-
 
   const onChange = (_event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || new Date();
@@ -25,8 +29,7 @@ const DateTimeSelector: FC<DateTimeSelectorType> = ({ mode = "date", onSet, chil
   };
 
   return (
-    <Pressable onPress={() => (setShow(true))} style={viewStyle}>
-
+    <Pressable onPress={() => setShow(true)} style={viewStyle}>
       {children}
 
       {show && (
