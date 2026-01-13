@@ -1,15 +1,28 @@
 import mongoose from "mongoose";
 
-const conversationModel = new mongoose.Schema({
-    participants: [{
+const conversationModel = new mongoose.Schema(
+  {
+    participants: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    }],
-    messages: [{
+        ref: "User",
+      },
+    ],
+    messages: [
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Message",
-        default:[],
-    }]
-}, { timestamps: true });
+        default: [],
+      },
+    ],
+    lastMessage: { type: String, default: "" },
+    unseenCount: {
+      type: Map,
+      of: Number,
+      default: {},
+    },
+  },
+  { timestamps: true }
+);
 
 export const Conversation = mongoose.model("Conversation", conversationModel);

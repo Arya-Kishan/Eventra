@@ -18,13 +18,7 @@ const EmptyData: FC<EmptyDataProps> = ({
   textStyle,
 }) => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: vs(20),
-      }}>
+    <View style={styles.main}>
       <Text style={textStyle}>{title}</Text>
       {showBtn && (
         <RoundedBox size={s(25)} onPress={handleAddClick}>
@@ -37,4 +31,11 @@ const EmptyData: FC<EmptyDataProps> = ({
 
 export default EmptyData;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: vs(20),
+  },
+});

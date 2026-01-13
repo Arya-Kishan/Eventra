@@ -45,15 +45,8 @@ const SocialScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1, gap: vs(10)}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: AppConstants.screenPadding,
-          backgroundColor: AppConstants.redColor,
-        }}>
+    <View style={styles.main}>
+      <View style={styles.container}>
         <CustomText variant="h2" style={{color: AppConstants.whiteColor}}>
           Social
         </CustomText>
@@ -70,10 +63,10 @@ const SocialScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{flex: 1}}>
+      <View style={styles.full}>
         {loader ? (
           <CustomLoader />
-        ) : allPosts && allPosts.length == 0 ? (
+        ) : allPosts && allPosts.length === 0 ? (
           <EmptyData title="NO POSTS" handleAddClick={() => {}} />
         ) : (
           <Animated.FlatList
@@ -89,14 +82,6 @@ const SocialScreen = () => {
           />
         )}
       </View>
-
-      <Animated.View style={[styles.bottomChat]}>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('ChatDashboardScreen')}>
-          <Icon icon="chat" iconType="Entypo" size={s(25)} />
-        </TouchableOpacity>
-      </Animated.View>
     </View>
   );
 };
@@ -104,15 +89,13 @@ const SocialScreen = () => {
 export default SocialScreen;
 
 const styles = StyleSheet.create({
-  bottomChat: {
-    position: 'absolute',
-    top: AppConstants.screenHeight - vs(120),
-    right: s(20),
-    backgroundColor: AppConstants.redColor,
-    width: s(50),
-    height: s(50),
-    justifyContent: 'center',
+  main: {flex: 1, gap: vs(10)},
+  full: {flex: 1},
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: s(30),
+    padding: AppConstants.screenPadding,
+    backgroundColor: AppConstants.redColor,
   },
 });

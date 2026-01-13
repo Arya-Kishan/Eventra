@@ -1,8 +1,13 @@
 // SocketContext.tsx
 import {AppConstants} from '@constants/AppConstants';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
-import {addUnOpendedMessages} from '@store/reducers/chatSlice';
+import {
+  updateAllConversations,
+  setUnseenMessageCount,
+  setOpponentActiveChatId,
+} from '@store/reducers/chatSlice';
 import {addNotification} from '@store/reducers/userSlice';
+import {showToast} from '@utils/Helper';
 import React, {
   createContext,
   ReactNode,
@@ -11,14 +16,9 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {SharedValue, useSharedValue} from 'react-native-reanimated';
 
 import {io, Socket} from 'socket.io-client';
-import {MessageType, NotificationType} from 'types/AppTypes';
-
-type User = {
-  name: string;
-} | null;
+import {NotificationType} from 'types/AppTypes';
 
 type SocketContextType = {
   onlineUsers: any;
@@ -37,13 +37,6 @@ export const SocketProvider = ({children}: {children: ReactNode}) => {
   const {selectedOppoentUser} = useAppSelector(store => store.chat);
   const dispatch = useAppDispatch();
   const selectedOppoentUserRef = useRef(selectedOppoentUser);
-
-  const isUserOnline = (receiverId: string) => {
-    if (onlineUsers.includes(receiverId)) {
-      return true;
-    }
-    return false;
-  };
 
   useEffect(() => {
     if (loggedInUser) {
@@ -68,24 +61,27 @@ export const SocketProvider = ({children}: {children: ReactNode}) => {
         data;
       });
 
-      socket.on('chat_status', (data: any) => {
-        console.log('CHAT STATUS : ', data);
+      // THIS IS RELATED TO CHAT TO LET USER KNOW SOMEONE MESSAGED HIM
+      socket.on('unseen-message', (someoneMessaged: any) => {
+        const {sender, receiver, conversationId} = someoneMessaged;
+        console.log('kya huwa bsdh 1');
+        dispatch(setUnseenMessageCount({count: 1, type: 'inc'}));
+        dispatch(
+          updateAllConversations({conversationId, userId: receiver._id}),
+        );
       });
 
-      // THIS IS RELATED TO CHAT TO LET USER KNOW SOMEONE MESSAGED HIM
-      socket.on('someone-messaged', (someoneMessaged: MessageType) => {
-        const {sender, receiver} = someoneMessaged;
-        console.log('selectedOppoentUser : ', selectedOppoentUserRef.current);
-        console.log('message : ', {sender, receiver});
-        if (selectedOppoentUserRef.current?._id !== sender._id) {
-          console.log('SAVING MESSAGE TO UNOPNED MESSAGE');
-          dispatch(addUnOpendedMessages(someoneMessaged));
-        }
+      socket.on('receive-active-chat', (data: any) => {
+        dispatch(setOpponentActiveChatId(data));
       });
 
       socket.on('connect_error', (error: any) => {
-        console.log('not connected to socket error occured');
-        console.log(error);
+        console.log('ERROR IN SOCKET', error);
+        showToast({
+          title: 'Socket Error',
+          description: 'Socket Not Conncted',
+          type: 'error',
+        });
         setIsSocketConnected('errorInConnecting');
       });
     }

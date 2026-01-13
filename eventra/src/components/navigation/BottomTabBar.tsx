@@ -1,28 +1,27 @@
 import EventScreen from '@screens/bottom_tabs_screen/EventScreen';
 import HomeScreen from '@screens/bottom_tabs_screen/HomeScreen';
 import SocialScreen from '@screens/bottom_tabs_screen/SocialScreen';
-import StoreScreen from '@screens/bottom_tabs_screen/StoreScreen';
 import React, {FC} from 'react';
 import {StyleSheet} from 'react-native';
 
 import CustomTabBar from '@components/global/CustomTabBar';
 import {s} from 'react-native-size-matters';
 
+import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabProfileScreen from '@screens/bottom_tabs_screen/TabProfileScreen';
+import ChatDashboardScreen from '@screens/chat/ChatDashboardScreen';
 import {useAppSelector} from '@store/hooks';
 import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabBar: FC = () => {
-  const {unOpenedMessages} = useAppSelector(store => store.chat);
+  const {unseenMessageCount} = useAppSelector(store => store.chat);
 
   const getMessageCount = (): string => {
-    return unOpenedMessages && unOpenedMessages.length == 0
-      ? ''
-      : unOpenedMessages.length.toString();
+    return unseenMessageCount === 0 ? '' : unseenMessageCount.toString();
   };
 
   return (
@@ -51,7 +50,6 @@ const BottomTabBar: FC = () => {
         name="Social"
         component={SocialScreen}
         options={{
-          tabBarBadge: getMessageCount(),
           tabBarIcon: ({focused}) => (
             <Feather
               size={s(20)}
@@ -78,14 +76,15 @@ const BottomTabBar: FC = () => {
       />
 
       <Tab.Screen
-        name="Store"
-        component={StoreScreen}
+        name="Chat"
+        component={ChatDashboardScreen}
         options={{
-          tabBarBadge: '',
+          tabBarBadge: getMessageCount(),
           tabBarIcon: ({focused}) => (
-            <Feather
+            <Icon
               size={s(20)}
-              name="shopping-bag"
+              icon="chat"
+              iconType="Entypo"
               color={focused ? AppConstants.redColor : AppConstants.grayColor}
             />
           ),

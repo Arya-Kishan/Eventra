@@ -6,7 +6,7 @@ const getAllEvent = async (): Promise<ApiReturnType> => {
     const {data} = await axiosInstance.get(`/event/all`);
     return {data: data, message: 'Events Fetched', success: true, error: null}; // Return the response data
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error fetching events data:', error);
     return {
       data: null,
       message: 'Error in events Fetching',

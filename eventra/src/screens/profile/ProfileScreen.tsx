@@ -6,17 +6,13 @@ import Icon from '@components/global/Icon';
 import ProfileHeader from '@components/profile/ProfileHeader';
 import SettingModal from '@components/profile/SettingModal';
 import {AppConstants} from '@constants/AppConstants';
-import {useSocket} from '@context/SocketContext';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {getUserPostsApi} from '@services/PostService';
 import {getSingleuserApi} from '@services/UserService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, StyleSheet, View} from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps, PostType, RouteProps, userType} from 'types/AppTypes';
 

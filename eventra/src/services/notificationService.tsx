@@ -13,7 +13,7 @@ const getAllNotificationApi = async (
       error: null,
     }; // Return the response data
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error fetching notification data:', error);
     return {
       data: null,
       message: 'Error in notifications Fetching',

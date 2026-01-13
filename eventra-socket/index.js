@@ -3,11 +3,13 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { saveMessage } from "./controllers/messageController.js";
 import { dbConnection } from "./database.js";
 import messageRouter from "./routes/messageRoute.js";
 import userRouter from "./routes/userRoute.js";
+import conversationRouter from "./routes/conversationRoute.js";
 import sendNotificationFCM from "./services/FirebaseFCM.js";
-import axios from "axios";
+import { updateConversationCount } from "./controllers/conversationController.js";
 const PORT = 9000;
 
 const app = express();
@@ -38,28 +40,46 @@ export const getSocketIdByUserId = (userId) => {
 };
 
 io.on("connection", (socket) => {
-  console.log("user connected : " + socket.id);
-
   const userId = socket.handshake.query.userId;
   if (userId !== undefined) {
     userSocketMap[userId] = socket.id;
+    userActiveChats[userId] = null;
     io.emit("onlineUsers", Object.keys(userSocketMap));
   }
 
-  console.log("USER SOCKET MAP", userSocketMap);
-
   socket.on("send-message", async (newMessage) => {
-    const { sender, receiver, message } = newMessage;
+    const { sender, receiver, message, conversationId } = newMessage;
+    const onlineUsers = Object.keys(userSocketMap);
+    const isOpponentOnline = onlineUsers.includes(receiver._id);
+    const isOpponentSeeingChat =
+      userActiveChats[receiver._id] == conversationId;
+    console.log({ isOpponentOnline, isOpponentSeeingChat });
+    const messageData = {
+      sender: sender?._id,
+      receiver: receiver._id,
+      message: {
+        type: message.type,
+        value: message.value,
+      },
+      ...(isOpponentOnline && { deliveredAt: new Date().toISOString() }),
+      ...(isOpponentSeeingChat && { seenAt: new Date().toISOString() }),
+      conversationId,
+    };
+
+    const { success } = await saveMessage(messageData);
+    if (!success) return;
+    console.log("USER ACTIVE CHAT MAP", userActiveChats);
     const receiverSocketId = userSocketMap[receiver._id];
     io.to(receiverSocketId).emit("receive-message", newMessage);
-    io.to(receiverSocketId).emit("someone-messaged", newMessage);
-    const onlineUsers = Object.keys(userSocketMap);
-    if (!onlineUsers.includes(receiver._id)) {
-      const { data } = await axios.get(
-        `${process.env.SERVER_BASE_URL}/user/single/${receiver._id}`
-      );
-      console.log("USER DETAILS", data);
-
+    if (isOpponentOnline && !isOpponentSeeingChat) {
+      io.to(receiverSocketId).emit("unseen-message", {
+        ...newMessage,
+        conversationId,
+      });
+      await updateConversationCount(conversationId, receiver._id, "count");
+    }
+    if (!isOpponentOnline) {
+      await updateConversationCount(conversationId, receiver._id, "count");
       sendNotificationFCM(
         receiver.FCMToken,
         `${sender.name} messaged you`,
@@ -68,6 +88,16 @@ io.on("connection", (socket) => {
         ""
       );
     }
+  });
+
+  socket.on("chat-mode", async (data) => {
+    const receiverSocketId = userSocketMap[data.receiverId];
+    io.to(receiverSocketId).emit("chat-mode", data);
+  });
+
+  socket.on("incognito-send-message", async (newMessage) => {
+    const receiverSocketId = userSocketMap[newMessage.receiver._id];
+    io.to(receiverSocketId).emit("incognito-receive-message", newMessage);
   });
 
   socket.on("delivered", ({ sender, receiver, message }) => {
@@ -79,15 +109,22 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("active_chat", ({ chatId, receiver, type = "active" }) => {
-    const receiverSocketId = userSocketMap[receiver._id];
-    io.to(receiverSocketId).emit("chat_status", {
-      chatId: type == "active" ? chatId : null,
-    });
-  });
+  socket.on(
+    "active_chat",
+    async ({ chatId, currentUser, receiver, type = "active" }) => {
+      userActiveChats[currentUser._id] = type == "active" ? chatId : null;
+      await updateConversationCount(chatId, currentUser._id, "seen");
+      const receiverSocketId = userSocketMap[receiver._id];
+      io.to(receiverSocketId).emit("receive-active-chat", {
+        chatId,
+        currentUser,
+        receiver,
+        type,
+      });
+    }
+  );
 
   socket.on("disconnect", () => {
-    console.log("USER DISCONNECTED : " + socket.id);
     delete userSocketMap[userId];
     delete userActiveChats[userId];
     io.emit("onlineUsers", Object.keys(userSocketMap));
@@ -96,6 +133,7 @@ io.on("connection", (socket) => {
 
 app.use("/socket/message", messageRouter);
 app.use("/user", userRouter);
+app.use("/socket/conversation", conversationRouter);
 
 app.get("/", (req, res) => {
   res.json({ heading: "SOCKET FOR EVENTRA" });

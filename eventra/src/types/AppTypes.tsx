@@ -26,7 +26,7 @@ export type RootStackParamList = {
   SignUpScreen: undefined;
   ForgotPasswordScreen: undefined;
   ChatDashboardScreen: undefined;
-  ChatScreen: {user: userType};
+  ChatScreen: {user: userType; conversationId: string};
   ProfileScreen: {userId: string};
   VenueScreen: undefined;
   SearchScreen: {type: SearchType};

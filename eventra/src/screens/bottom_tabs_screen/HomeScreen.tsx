@@ -5,20 +5,18 @@ import HomeHeader from '@components/home/HomeHeader';
 import SmallEventCard from '@components/home/SmallEventCard';
 import SpotLight from '@components/home/SpotLight';
 import {AppConstants} from '@constants/AppConstants';
-import {useSocket} from '@context/SocketContext';
 import {useNavigation} from '@react-navigation/native';
+import {getUnseenMessageCountApi} from '@services/ChatService';
 import {getAllEvent} from '@services/EventService';
 import {requestUserPermission} from '@services/firebaseService';
 import {getAllNotificationApi} from '@services/notificationService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {setUnseenMessageCount} from '@store/reducers/chatSlice';
 import {setUpcomingEvents} from '@store/reducers/eventSlice';
 import {setAllNotifications} from '@store/reducers/userSlice';
 import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
@@ -47,10 +45,19 @@ const HomeScreen = () => {
     await requestUserPermission(loggedInUser!);
   };
 
+  const fetchUnseenMessagesCount = async () => {
+    const {data, success} = await getUnseenMessageCountApi({
+      userId: loggedInUser?._id!,
+    });
+    success &&
+      dispatch(setUnseenMessageCount({count: data.totalUnseen, type: 'set'}));
+  };
+
   useEffect(() => {
     fetchData();
     getNotificationPermission();
     getAllUserNotification();
+    fetchUnseenMessagesCount();
   }, []);
 
   return (

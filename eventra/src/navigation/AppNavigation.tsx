@@ -1,5 +1,6 @@
 import CustomLoader from '@components/global/CustomLoader';
 import BottomTabBar from '@components/navigation/BottomTabBar';
+import {AppConstants} from '@constants/AppConstants';
 import NetInfo from '@react-native-community/netinfo';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,8 +18,6 @@ import CreatePostScreen from '@screens/post/CreatePostScreen';
 import SinglePostScreen from '@screens/post/SinglePostScreen';
 import ProfileScreen from '@screens/profile/ProfileScreen';
 import SearchScreen from '@screens/SearchScreen';
-import CartScreen from '@screens/store/CartScreen';
-import ProductDetailScreen from '@screens/store/ProductDetailScreen';
 import CreateVenueScreen from '@screens/Venue/CreateVenueScreen';
 import VenueDetailScreen from '@screens/Venue/VenueDetailScreen';
 import VenueScreen from '@screens/Venue/VenueScreen';
@@ -27,12 +26,11 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setLoggedInUser} from '@store/reducers/userSlice';
 import {AsyncGetData} from '@utils/AsyncStorage';
 import React, {useEffect, useState} from 'react';
+import {Platform, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import SplashScreen from 'react-native-splash-screen';
 import {RootStackParamList} from 'types/AppTypes';
 import PracticeScreen from '../screens/PracticeScreen';
-import SplashScreen from 'react-native-splash-screen';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Platform, StatusBar, StyleSheet} from 'react-native';
-import {AppConstants} from '@constants/AppConstants';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -131,11 +129,6 @@ const AppNavigation = () => {
               />
 
               <Stack.Screen
-                name="ProductDetailScreen"
-                component={ProductDetailScreen}
-              />
-
-              <Stack.Screen
                 name="CreatePostScreen"
                 component={CreatePostScreen}
               />
@@ -145,8 +138,6 @@ const AppNavigation = () => {
               />
 
               <Stack.Screen name="ErrorScreen" component={ErrorScreen} />
-
-              <Stack.Screen name="CartScreen" component={CartScreen} />
 
               <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
 

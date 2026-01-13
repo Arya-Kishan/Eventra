@@ -2,6 +2,7 @@ import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
+import {createConversationApi} from '@services/ChatService';
 import {updateUserApi} from '@services/UserService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {resetLogout, setLoggedInUser} from '@store/reducers/userSlice';
@@ -32,7 +33,16 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
   };
 
   const handleChatClick = async () => {
-    navigate('ChatScreen', {user: userDetail!});
+    const createConversationData = await createConversationApi({
+      sender: loggedInUser?._id!,
+      receiver: userDetail._id!,
+    });
+    const {data: conversationData, success} = createConversationData;
+    const {_id: conversationId} = conversationData.data;
+
+    console.log('createConversationData', conversationId);
+
+    navigate('ChatScreen', {user: userDetail!, conversationId});
 
     const chatUserIds = loggedInUser?.chats.map(item => item._id);
 
