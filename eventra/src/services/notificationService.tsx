@@ -5,7 +5,9 @@ const getAllNotificationApi = async (
   userId: string,
 ): Promise<ApiReturnType> => {
   try {
+    console.log('fethcing noti', {userId});
     const {data} = await axiosInstance.get(`/notification/${userId}`);
+    console.log('NOTI DATA', data);
     return {
       data: data,
       message: 'notifications Fetched',

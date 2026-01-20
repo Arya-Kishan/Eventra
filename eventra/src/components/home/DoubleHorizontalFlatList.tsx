@@ -22,6 +22,7 @@ function DoubleHorizontalFlatList<T>({
   renderItem,
 }: Props<T>) {
   const formattedData = chunkData(data, itemsPerColumn);
+  console.log('formattedData', formattedData);
 
   return (
     <FlatList

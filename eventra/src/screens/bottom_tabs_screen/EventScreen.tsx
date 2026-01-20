@@ -1,41 +1,54 @@
 import EventCard from '@components/event/EventCard';
 import EventHeader from '@components/event/EventHeader';
 import CustomLoader from '@components/global/CustomLoader';
-import CustomText from '@components/global/CustomText';
 import EmptyData from '@components/global/EmptyData';
-import Icon from '@components/global/Icon';
-import RoundedBox from '@components/global/RoundedBox';
 import {AppConstants} from '@constants/AppConstants';
-import {useSocket} from '@context/SocketContext';
 import {useNavigation} from '@react-navigation/native';
 import {getAllEvent} from '@services/EventService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllEvents, setEventLoader} from '@store/reducers/eventSlice';
 import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
-import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
-import {s} from 'react-native-size-matters';
-import {NavigationProps} from 'types/AppTypes';
+import Animated from 'react-native-reanimated';
+import {NavigationProps, userType} from 'types/AppTypes';
 
 const EventScreen = () => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
   const dispatch = useAppDispatch();
   const {allEvents, eventLoader} = useAppSelector(store => store.event);
+  const {loggedInUser} = useAppSelector(store => store.user);
 
-  const fetchAllEvents = async () => {
+  const fetchAllEvents = async ({
+    searchQuery = '',
+    type = 'all',
+    location = loggedInUser?.location,
+  }: {
+    searchQuery?: string;
+    type: 'all' | 'search' | 'nearBy';
+    location?: userType['location'];
+  }) => {
     dispatch(setEventLoader('loading'));
-    const {data, success} = await getAllEvent();
+    const {data, success} = await getAllEvent({
+      searchQuery,
+      type,
+      location,
+    });
     success
       ? dispatch(setAllEvents(data.data))
       : navigation.replace('ErrorScreen');
     dispatch(setEventLoader('success'));
   };
 
+  const handleChangeTab = (val: any) => {
+    fetchAllEvents({type: val});
+  };
+
+  const handleSearch = (searchQuery: string) => {
+    fetchAllEvents({type: 'search', searchQuery});
+  };
+
   useEffect(() => {
-    fetchAllEvents();
+    fetchAllEvents({type: 'all'});
   }, []);
 
   return (
@@ -46,7 +59,10 @@ const EventScreen = () => {
         hidden={false}
       />
 
-      <EventHeader />
+      <EventHeader
+        handleChangeTab={handleChangeTab}
+        handleSearch={handleSearch}
+      />
 
       {eventLoader === 'idle' || eventLoader === 'loading' ? (
         <CustomLoader />
@@ -66,21 +82,6 @@ const EventScreen = () => {
           renderItem={({item, index}) => (
             <EventCard item={item} index={index} />
           )}
-          ListHeaderComponent={() => (
-            <View style={styles.headerRow}>
-              <CustomText variant="h4">Events</CustomText>
-              <RoundedBox
-                size={s(25)}
-                onPress={() =>
-                  navigation.navigate('CreateEventScreen', {
-                    event: null,
-                    method: 'create',
-                  })
-                }>
-                <Icon icon="plus" iconType="Feather" />
-              </RoundedBox>
-            </View>
-          )}
           numColumns={2}
           columnWrapperStyle={styles.columnWrapper}
           contentContainerStyle={styles.listContent}
@@ -95,11 +96,6 @@ export default EventScreen;
 
 const styles = StyleSheet.create({
   container: {flex: 1},
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   columnWrapper: {
     gap: AppConstants.defaultGap,
   },

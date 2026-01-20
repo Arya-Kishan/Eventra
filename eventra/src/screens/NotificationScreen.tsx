@@ -12,7 +12,6 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllNotifications} from '@store/reducers/userSlice';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, NotificationType} from 'types/AppTypes';
 
@@ -32,7 +31,6 @@ const NotificationScreen = () => {
   const refetchAllUserNotification = async () => {
     setRefetchLoader(true);
     const {data, success} = await getAllNotificationApi(loggedInUser?._id!);
-    console.log('REFETCH ALL NOTIFICAITON : ', data);
     success ? dispatch(setAllNotifications(data.data)) : '';
     setRefetchLoader(false);
   };
@@ -43,19 +41,9 @@ const NotificationScreen = () => {
   }, [allNotifications]);
 
   return (
-    <View style={{flex: 1}}>
-      <View
-        style={{
-          backgroundColor: AppConstants.redColor,
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: AppConstants.screenPadding,
-          height: s(70),
-        }}>
-        <Pressable
-          onPress={() => navigation.goBack()}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={styles.flex}>
+      <View style={styles.main}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.heading}>
           <Icon icon="arrow-back-ios" iconType="MaterialIcons" />
           <CustomText variant="h3" style={{color: AppConstants.whiteColor}}>
             Notification
@@ -88,4 +76,15 @@ const NotificationScreen = () => {
 
 export default NotificationScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  main: {
+    backgroundColor: AppConstants.redColor,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: AppConstants.screenPadding,
+    height: s(70),
+  },
+  flex: {flex: 1},
+  heading: {flexDirection: 'row', alignItems: 'center'},
+});

@@ -30,7 +30,6 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   AssetType,
@@ -45,10 +44,7 @@ const CreateEventScreen: FC = () => {
   } = useRoute<RouteProps<'CreateEventScreen'>>();
   const [addLoader, setAddLoader] = useState(false);
   const navigation = useNavigation<NavigationProps<'CreateEventScreen'>>();
-  const {allVenues} = useAppSelector(store => store.venue);
-
   const [showVenues, setShowVenues] = useState(false);
-  console.log('event : ', event);
 
   const {
     category,
@@ -77,7 +73,39 @@ const CreateEventScreen: FC = () => {
     });
   };
 
+  const checkValidation = () => {
+    let error = {verified: true, message: ''};
+
+    if (title === '') {
+      error = {verified: false, message: 'Title Not Created'};
+    }
+    if (description === '') {
+      error = {verified: false, message: 'description Not Created'};
+    }
+
+    if (pic === '') {
+      error = {verified: false, message: 'pic Not selected'};
+    }
+
+    if (date === '') {
+      error = {verified: false, message: 'Date Not selected'};
+    }
+
+    if (headcount === '') {
+      error = {verified: false, message: 'Date Not selected'};
+    }
+
+    if (!(venue as VenueType).address) {
+      error = {verified: false, message: 'Venue Not Selected'};
+    }
+
+    return error;
+  };
+
   const createEvent = async () => {
+    const {verified, message: errorMessage} = checkValidation();
+    if (!verified)
+      return showToast({title: errorMessage, description: '', type: 'info'});
     setAddLoader(true);
 
     const formData = new FormData();
@@ -94,10 +122,10 @@ const CreateEventScreen: FC = () => {
     formData.append('venue', (venue as VenueType)._id);
     formData.append('headCount', headcount);
     formData.append('category', category);
+    formData.append('location', JSON.stringify((venue as VenueType).location));
+    formData.append('address', JSON.stringify((venue as VenueType).address));
 
-    console.log('formData : ', formData);
-
-    const {data, error, success, message} = await createEventApi(formData);
+    const {success} = await createEventApi(formData);
     // console.log(data.data)
     if (success) {
       navigation.navigate('Main');
@@ -156,7 +184,8 @@ const CreateEventScreen: FC = () => {
             <CustomText variant="h6">Event Name</CustomText>
             <TextInput
               value={title}
-              placeholder="Enter Event Name"
+              placeholder="Enter Event Name..."
+              placeholderTextColor={AppConstants.grayLightColor}
               onChangeText={val => dispatch(setTitle(val))}
               style={styles.input}
             />
@@ -168,7 +197,8 @@ const CreateEventScreen: FC = () => {
             <TextInput
               numberOfLines={4}
               value={description}
-              placeholder="Enter Description"
+              placeholder="Enter Description..."
+              placeholderTextColor={AppConstants.grayLightColor}
               onChangeText={val => dispatch(setDescription(val))}
               style={styles.input}
             />
@@ -185,8 +215,9 @@ const CreateEventScreen: FC = () => {
               mode="date"
               viewStyle={styles.dateSelector}>
               <TextInput
-                placeholder="Select Date"
+                placeholder="Choose Date..."
                 value={formatDate(date)}
+                placeholderTextColor={AppConstants.grayLightColor}
                 onChangeText={setDate}
                 editable={false}
                 style={styles.input}
@@ -210,7 +241,8 @@ const CreateEventScreen: FC = () => {
                 style={styles.venue}>
                 <TextInput
                   value={typeof venue !== 'string' ? venue.title : ''}
-                  placeholder="Enter Description"
+                  placeholder="Choose Venue..."
+                  placeholderTextColor={AppConstants.grayLightColor}
                   onChangeText={() => {}}
                   style={styles.input}
                   editable={false}
@@ -228,7 +260,8 @@ const CreateEventScreen: FC = () => {
             <View style={styles.timeContainer}>
               <View style={styles.timeInputWrapper}>
                 <TextInput
-                  placeholder="Select Start Time"
+                  placeholder="Start Time"
+                  placeholderTextColor={AppConstants.grayLightColor}
                   value={formatTime(time.start)}
                   onChangeText={() => {}}
                   editable={false}
@@ -243,7 +276,8 @@ const CreateEventScreen: FC = () => {
               </View>
               <View style={styles.timeInputWrapper}>
                 <TextInput
-                  placeholder="Select End Time"
+                  placeholder="End Time"
+                  placeholderTextColor={AppConstants.grayLightColor}
                   value={formatTime(time.end)}
                   onChangeText={() => {}}
                   editable={false}
@@ -260,18 +294,23 @@ const CreateEventScreen: FC = () => {
           </View>
 
           {/* PIC */}
-          <View style={styles.fieldContainer}>
+          <Pressable onPress={pickImage} style={styles.fieldContainer}>
             <CustomText variant="h6">Pic</CustomText>
-            <View style={styles.imageContainer}>
-              {pic !== '' && (
-                <Image
-                  source={{uri: pic.uri ?? pic.url}}
-                  style={styles.image}
-                />
+            <View style={styles.picContainer}>
+              {pic !== '' ? (
+                <Image source={{uri: pic.uri}} style={styles.pic} />
+              ) : (
+                <View style={styles.picWrapper}>
+                  <Icon
+                    icon="plus"
+                    iconType="Feather"
+                    size={s(20)}
+                    color={AppConstants.redColor}
+                  />
+                </View>
               )}
             </View>
-            <RoundedButton title="Choose" onPress={pickImage} />
-          </View>
+          </Pressable>
 
           {/* CATEGORY */}
           <View style={styles.fieldContainer}>
@@ -279,6 +318,7 @@ const CreateEventScreen: FC = () => {
             <TextInput
               value={category}
               placeholder="music, game, sports, party"
+              placeholderTextColor={AppConstants.grayLightColor}
               onChangeText={(val: string) => {
                 dispatch(setCategory(val));
               }}
@@ -291,7 +331,8 @@ const CreateEventScreen: FC = () => {
             <CustomText variant="h6">Number of People</CustomText>
             <TextInput
               value={headcount}
-              placeholder="Enter Description"
+              placeholder="Enter..."
+              placeholderTextColor={AppConstants.grayLightColor}
               keyboardType="numeric"
               onChangeText={val => dispatch(setHeadcount(val))}
               style={styles.input}
@@ -369,7 +410,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     width: '48%',
-    paddingVertical: s(2),
+    paddingVertical: 0,
     paddingHorizontal: s(6),
   },
   imageContainer: {
@@ -380,4 +421,11 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
   },
+  picContainer: {
+    backgroundColor: AppConstants.whiteColor,
+    flex: 1,
+    height: vs(200),
+  },
+  pic: {flex: 1},
+  picWrapper: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });

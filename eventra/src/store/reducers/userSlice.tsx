@@ -8,6 +8,7 @@ interface UserState {
   value: number;
   loggedInUser: userType | null;
   allNotifications: NotificationType[] | null;
+  pendingDeepLink: null | string;
 }
 
 // Define the initial state using that type
@@ -15,6 +16,7 @@ const initialState: UserState = {
   value: 0,
   loggedInUser: null,
   allNotifications: null,
+  pendingDeepLink: null,
 };
 
 export const userSlice = createSlice({
@@ -36,6 +38,9 @@ export const userSlice = createSlice({
     addNotification: (state, action: PayloadAction<NotificationType>) => {
       state.allNotifications?.push(action.payload);
     },
+    setPendingDeepLink: (state, action: PayloadAction<string | null>) => {
+      state.pendingDeepLink = action.payload;
+    },
   },
 });
 
@@ -44,6 +49,7 @@ export const {
   resetLogout,
   setAllNotifications,
   addNotification,
+  setPendingDeepLink,
 } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

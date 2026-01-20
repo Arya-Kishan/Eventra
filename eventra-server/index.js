@@ -3,22 +3,22 @@ import "dotenv/config";
 import express from "express";
 import { dbConnection } from "./config/database.js";
 import eventRoutes from "./routes/eventRoute.js";
+import notificationRoute from "./routes/notificationRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import otpRoute from "./routes/otpRoute.js";
 import postCommentRoute from "./routes/postCommentRoute.js";
 import postRoutes from "./routes/postRoute.js";
 import productRoute from "./routes/productRoute.js";
+import spotlightRoute from "./routes/spotlightRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import venueRoutes from "./routes/venueRoute.js";
-import notificationRoute from "./routes/notificationRoute.js";
-import spotlightRoute from "./routes/spotlightRoute.js";
-import sendNotification from "./services/FirebaseFCM.js";
 
 const server = express();
 
 server.use(
   cors({
     exposedHeaders: ["x-webbook-jwt-routes", "x-total-count"],
-  })
+  }),
 );
 server.use(express.json({ limit: "50kb" }));
 server.use(express.urlencoded({ extended: true }));
@@ -34,21 +34,7 @@ server.use("/product", productRoute);
 server.use("/order", orderRoute);
 server.use("/notification", notificationRoute);
 server.use("/spotLight", spotlightRoute);
-
-server.get("/", (req, res) => {
-  sendNotification(
-    "e_eAAs45QM-C4YUQA5WIN3:APA91bHiAaSaIB9w_p-GHud6IGIDIxPeasuw0N6XUsS6uvDBfpG7SoTzTGnVTO-S1s_vLx_DRCfIDgTDwmNU_CJlCw9OzXXt-ch29TYyW9gfIndqD1TxSd4",
-    "68027b81ecf0300d691eaf8a",
-    "Hello",
-    "I AM ARYA KISHAN",
-    "like",
-    "/ProfileScreen/6803247f6bb78d648f11e2d9"
-  );
-  res.json({
-    owner:
-      "MADE BY ARYA KISHAN EVENTRA BACKEND SERVER FOR REACT NATIVE APP EVENTRA 😊💕",
-  });
-});
+server.use("/otp", otpRoute);
 
 server.use((err, req, res, next) => {
   console.log(err);

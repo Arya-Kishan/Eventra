@@ -1,10 +1,13 @@
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
+import useAuth from '@hooks/useAuth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import {createConversationApi} from '@services/ChatService';
 import {updateUserApi} from '@services/UserService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {setAllConversations} from '@store/reducers/chatSlice';
 import {resetLogout, setLoggedInUser} from '@store/reducers/userSlice';
 import {AsyncDeleteData} from '@utils/AsyncStorage';
 import React, {FC} from 'react';
@@ -23,14 +26,10 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
   setShowSetting,
 }) => {
   const dispatch = useAppDispatch();
-  const {navigate} = useNavigation<NavigationProps<'ProfileScreen'>>();
+  const navigation = useNavigation<NavigationProps<'ProfileScreen'>>();
   const {loggedInUser} = useAppSelector(store => store.user);
-
-  const handleLogout = async () => {
-    dispatch(setLoggedInUser(null));
-    await AsyncDeleteData();
-    dispatch(resetLogout());
-  };
+  const {handleLogout} = useAuth();
+  const {allConversations} = useAppSelector(store => store.chat);
 
   const handleChatClick = async () => {
     const createConversationData = await createConversationApi({
@@ -40,49 +39,20 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
     const {data: conversationData, success} = createConversationData;
     const {_id: conversationId} = conversationData.data;
 
-    console.log('createConversationData', conversationId);
-
-    navigate('ChatScreen', {user: userDetail!, conversationId});
-
-    const chatUserIds = loggedInUser?.chats.map(item => item._id);
-
-    if (!chatUserIds?.includes(userDetail!._id)) {
-      const formdata = new FormData();
-      formdata.append('chats', userDetail!._id);
-      const {success} = await updateUserApi(formdata, loggedInUser?._id!);
-      success &&
-        dispatch(
-          setLoggedInUser({
-            ...loggedInUser!,
-            chats: [...loggedInUser?.chats!, userDetail!],
-          }),
-        );
+    if (success) {
+      allConversations && allConversations.length > 0
+        ? dispatch(
+            setAllConversations([...allConversations, conversationData.data]),
+          )
+        : dispatch(setAllConversations([conversationData.data]));
     }
 
-    const opponentUserIds = userDetail?.chats.map(item => item._id);
-
-    if (!opponentUserIds?.includes(loggedInUser?._id!)) {
-      const formdata = new FormData();
-      formdata.append('chats', loggedInUser?._id!);
-      const {success} = await updateUserApi(formdata, userDetail?._id!);
-    }
+    navigation.navigate('ChatScreen', {user: userDetail!, conversationId});
   };
 
   return (
-    <LinearGradient
-      colors={['#FF0000FF', '#7C0000FF']}
-      style={{
-        height: vs(300),
-        backgroundColor: 'blue',
-        padding: AppConstants.screenPadding,
-        gap: vs(50),
-      }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+    <LinearGradient colors={['#FF0000FF', '#7C0000FF']} style={styles.gradient}>
+      <View style={styles.setting}>
         <TouchableOpacity
           activeOpacity={0.6}
           onPress={() => setShowSetting(true)}>
@@ -92,7 +62,9 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
           Eventra
         </CustomText>
         {loggedInUser?._id == userDetail._id ? (
-          <TouchableOpacity activeOpacity={0.6} onPress={() => handleLogout()}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => handleLogout(navigation)}>
             <Icon icon="logout" iconType="MaterialIcons" />
           </TouchableOpacity>
         ) : (
@@ -120,4 +92,16 @@ const ProfileHeader: FC<ProfileHeaderProps> = ({
 
 export default ProfileHeader;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  gradient: {
+    height: vs(300),
+    backgroundColor: 'blue',
+    padding: AppConstants.screenPadding,
+    gap: vs(50),
+  },
+  setting: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+});

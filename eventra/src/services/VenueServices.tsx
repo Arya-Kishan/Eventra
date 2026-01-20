@@ -1,10 +1,24 @@
 import {showErrorAlert} from '@utils/Helper';
-import {ApiReturnType, VenueType} from 'types/AppTypes';
+import {ApiReturnType, userType, VenueType} from 'types/AppTypes';
 import axiosInstance from '../api/axiosInstance';
 
-const getAllVenueApi = async (): Promise<ApiReturnType> => {
+const getAllVenueApi = async ({
+  type,
+  searchQuery,
+  location,
+}: {
+  type: 'all' | 'search' | 'nearBy';
+  searchQuery?: string;
+  location?: userType['location'];
+}): Promise<ApiReturnType> => {
   try {
-    const {data} = await axiosInstance.get(`/venue/all`);
+    const query =
+      type === 'all'
+        ? 'type=all'
+        : type === 'search'
+          ? `type=search&word=${searchQuery}`
+          : `type=nearBy&lat=${location?.coordinates[1]}&lng=${location?.coordinates[0]}`;
+    const {data} = await axiosInstance.get(`/venue/all?${query}`);
     return {data: data, message: 'Venue Fetched', success: true, error: null}; // Return the response data
   } catch (error) {
     console.error('Error fetching user data:', error);

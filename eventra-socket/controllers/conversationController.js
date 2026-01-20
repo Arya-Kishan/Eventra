@@ -5,14 +5,14 @@ import { Message } from "../models/messageModel.js";
 export const updateConversationCount = async (
   conversationId,
   userId,
-  type = "count"
+  type = "count",
 ) => {
   try {
     const updatedConversation = await Conversation.updateOne(
       { _id: conversationId },
       type === "count"
         ? { $inc: { [`unseenCount.${userId}`]: 1 } }
-        : { $set: { [`unseenCount.${userId}`]: 0 } }
+        : { $set: { [`unseenCount.${userId}`]: 0 } },
     );
     return { success: true, data: updatedConversation, error: null };
   } catch (error) {
@@ -40,7 +40,12 @@ export const createConversation = async (req, res) => {
       });
     }
 
-    const data = await conversation.save();
+    const data = await conversation.populate(
+      "participants",
+      "name email profilePic",
+    );
+
+    console.log(data);
 
     return res.status(200).json({
       message: "MESSAGE SAVED",
@@ -87,7 +92,7 @@ export const updateConversation = async (req, res) => {
     const { data, success, error } = await updateConversationCount(
       conversationId,
       userId,
-      type
+      type,
     );
 
     if (!success) throw Error(error);
@@ -111,7 +116,7 @@ export const deleteConversation = async (req, res) => {
     updatedMessage = await Message.findByIdAndUpdate(
       messageId,
       { message: "deleted..." },
-      { new: true }
+      { new: true },
     );
   }
 

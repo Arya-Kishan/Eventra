@@ -35,13 +35,11 @@ const ChatDashboardScreen = () => {
         0,
       );
 
-      console.log('totalUnreadCount : ', totalUnreadCount);
-
       success && dispatch(setAllConversations(allConversationData.data));
       setLoader(false);
     } catch (error) {
       setLoader(false);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -74,6 +72,8 @@ const ChatDashboardScreen = () => {
             padding: AppConstants.screenPadding,
           }}
           keyExtractor={item => `${item._id}`}
+          refreshing={loader}
+          onRefresh={fetchAllConversations}
         />
       )}
     </View>

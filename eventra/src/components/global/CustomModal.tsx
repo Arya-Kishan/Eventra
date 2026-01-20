@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: s(10),
     maxHeight: '80%',
-    maxWidth: '90%',
+    maxWidth: AppConstants.screenWidth * 0.9,
     borderRadius: s(20),
   },
 });

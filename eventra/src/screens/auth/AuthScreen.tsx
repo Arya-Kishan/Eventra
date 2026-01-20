@@ -4,6 +4,7 @@ import CustomText from '@components/global/CustomText';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
@@ -11,6 +12,7 @@ import {NavigationProps} from 'types/AppTypes';
 
 const AuthScreen = () => {
   const {navigate} = useNavigation<NavigationProps<'AuthScreen'>>();
+  const {loggedInUser} = useAppSelector(store => store.user);
 
   return (
     <View style={styles.safeAreaView}>

@@ -6,6 +6,8 @@ import {s} from 'react-native-size-matters';
 import {AppConstants} from '@constants/AppConstants';
 import CustomText from '@components/global/CustomText';
 import {formatTime} from '@utils/Helper';
+import Icon from '@components/global/Icon';
+import DeliveryStatusIcon from './DeliveryStatusIcon';
 
 interface MessageBoxProps {
   message: MessageType;
@@ -19,6 +21,13 @@ const MessageBox: FC<MessageBoxProps> = ({message}) => {
   };
 
   const isMyMessage = isMySelf();
+  const messageStatus = message.seenAt
+    ? 'seen'
+    : message.deliveredAt
+      ? 'delivered'
+      : message.createdAt
+        ? 'sent'
+        : 'sending';
 
   return (
     <View
@@ -32,9 +41,14 @@ const MessageBox: FC<MessageBoxProps> = ({message}) => {
           isMyMessage ? styles.messageBoxMine : styles.messageBoxOther,
         ]}>
         <Text style={styles.messageText}>{message.message.value}</Text>
-        <CustomText variant="overline" style={styles.timestamp}>
-          {formatTime(message.timestamp)}
-        </CustomText>
+        <View style={styles.seenBox}>
+          <CustomText variant="overline" style={styles.timestamp}>
+            {formatTime(message.timestamp)}
+          </CustomText>
+          {loggedInUser?._id === message.sender._id && (
+            <DeliveryStatusIcon status={messageStatus} />
+          )}
+        </View>
       </View>
     </View>
   );
@@ -53,7 +67,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   messageBox: {
-    width: '50%',
+    minWidth: '30%',
+    maxWidth: '80%',
     padding: s(10),
     borderRadius: s(10),
   },
@@ -69,5 +84,11 @@ const styles = StyleSheet.create({
   timestamp: {
     textAlign: 'right',
     fontSize: s(8),
+  },
+  seenBox: {
+    flexDirection: 'row',
+    gap: 6,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });

@@ -165,3 +165,7 @@ export const getRelativeTimeFromNow = (isoDate: string): string => {
   if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
   return `${days} day${days !== 1 ? 's' : ''} ago`;
 };
+
+export const getRandomNumber = ({min = 10, max = 200}): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};

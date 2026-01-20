@@ -3,7 +3,10 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { saveMessage } from "./controllers/messageController.js";
+import {
+  saveMessage,
+  updateConversationMessages,
+} from "./controllers/messageController.js";
 import { dbConnection } from "./database.js";
 import messageRouter from "./routes/messageRoute.js";
 import userRouter from "./routes/userRoute.js";
@@ -20,7 +23,7 @@ dbConnection();
 app.use(
   cors({
     exposedHeaders: ["x-webbook-jwt-routes"],
-  })
+  }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,6 +48,11 @@ io.on("connection", (socket) => {
     userSocketMap[userId] = socket.id;
     userActiveChats[userId] = null;
     io.emit("onlineUsers", Object.keys(userSocketMap));
+    updateConversationMessages({
+      conversationId: null,
+      userId,
+      type: "deliveredAt",
+    });
   }
 
   socket.on("send-message", async (newMessage) => {
@@ -66,11 +74,28 @@ io.on("connection", (socket) => {
       conversationId,
     };
 
-    const { success } = await saveMessage(messageData);
+    const { success, data: savedMessage } = await saveMessage(messageData);
     if (!success) return;
     console.log("USER ACTIVE CHAT MAP", userActiveChats);
     const receiverSocketId = userSocketMap[receiver._id];
-    io.to(receiverSocketId).emit("receive-message", newMessage);
+    const senderSocketId = userSocketMap[sender._id];
+    const messageStatus =
+      isOpponentOnline && isOpponentSeeingChat
+        ? "seen"
+        : isOpponentOnline
+          ? "delivered"
+          : "saved";
+    // RECEIVE MESSAGE TO OPPONENT
+    io.to(receiverSocketId).emit("receive-message", {
+      ...savedMessage,
+      ...newMessage,
+    });
+    // MESSAGE STATUS TO SENDER
+    io.to(senderSocketId).emit("message-status", {
+      messageData: { ...savedMessage, ...newMessage },
+      messageStatus: messageStatus,
+    });
+    // UNSEEN MESSAGE TO RECEIVER
     if (isOpponentOnline && !isOpponentSeeingChat) {
       io.to(receiverSocketId).emit("unseen-message", {
         ...newMessage,
@@ -85,7 +110,7 @@ io.on("connection", (socket) => {
         `${sender.name} messaged you`,
         message.value,
         "chat",
-        ""
+        "",
       );
     }
   });
@@ -93,6 +118,12 @@ io.on("connection", (socket) => {
   socket.on("chat-mode", async (data) => {
     const receiverSocketId = userSocketMap[data.receiverId];
     io.to(receiverSocketId).emit("chat-mode", data);
+  });
+
+  socket.on("bubble-emit", async (data) => {
+    const receiverSocketId = userSocketMap[data.receiver._id];
+    console.log("buuble listen", data);
+    io.to(receiverSocketId).emit("bubble-listen", data);
   });
 
   socket.on("incognito-send-message", async (newMessage) => {
@@ -113,7 +144,6 @@ io.on("connection", (socket) => {
     "active_chat",
     async ({ chatId, currentUser, receiver, type = "active" }) => {
       userActiveChats[currentUser._id] = type == "active" ? chatId : null;
-      await updateConversationCount(chatId, currentUser._id, "seen");
       const receiverSocketId = userSocketMap[receiver._id];
       io.to(receiverSocketId).emit("receive-active-chat", {
         chatId,
@@ -121,7 +151,14 @@ io.on("connection", (socket) => {
         receiver,
         type,
       });
-    }
+      await updateConversationCount(chatId, currentUser._id, "seen"); // UPDATING CONVERSATION COUNT TO 0
+      type == "active" &&
+        (await updateConversationMessages({
+          conversationId: chatId,
+          userId: receiver._id,
+          type: "seenAt",
+        })); // UPDATING ALL MESSAGES TO BE SEENED BY SUER
+    },
   );
 
   socket.on("disconnect", () => {
@@ -140,8 +177,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/sendNotification", (req, res) => {
-  const { user, title, body, notification_type, link, isRead, deviceToken } =
-    req.body;
+  const {
+    user,
+    title,
+    body,
+    feature,
+    action,
+    docId,
+    link,
+    isRead,
+    deviceToken,
+  } = req.body;
   console.log(req.body);
 
   const onlineUsers = Object.keys(userSocketMap);
@@ -152,14 +198,16 @@ app.post("/sendNotification", (req, res) => {
       user,
       title,
       body,
-      notification_type,
+      feature,
+      action,
+      docId,
       link,
       isRead,
     });
     console.log("SENDING NOTIFICATIN SOCKET");
     res.json({ isOnline: true });
   } else {
-    sendNotificationFCM(deviceToken, title, body, notification_type, link);
+    sendNotificationFCM(deviceToken, title, body, feature, link);
     console.log("SENDING NOTIFICATIN FCM");
     res.json({ isOnline: false });
   }

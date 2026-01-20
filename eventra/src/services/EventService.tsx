@@ -1,9 +1,25 @@
-import {ApiReturnType} from 'types/AppTypes';
+import {ApiReturnType, userType} from 'types/AppTypes';
 import axiosInstance from '../api/axiosInstance';
 
-const getAllEvent = async (): Promise<ApiReturnType> => {
+const getAllEvent = async ({
+  type,
+  searchQuery,
+  location,
+}: {
+  type: 'all' | 'search' | 'nearBy';
+  searchQuery?: string;
+  location?: userType['location'];
+}): Promise<ApiReturnType> => {
   try {
-    const {data} = await axiosInstance.get(`/event/all`);
+    console.log({type, searchQuery, location});
+    const query =
+      type === 'all'
+        ? 'type=all'
+        : type === 'search'
+          ? `type=search&word=${searchQuery}`
+          : `type=nearBy&lat=${location?.coordinates[1]}&lng=${location?.coordinates[0]}`;
+
+    const {data} = await axiosInstance.get(`/event/all?${query}`);
     return {data: data, message: 'Events Fetched', success: true, error: null}; // Return the response data
   } catch (error) {
     console.error('Error fetching events data:', error);

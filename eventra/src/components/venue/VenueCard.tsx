@@ -26,16 +26,7 @@ const VenueCard: FC<VenueCardProps> = ({item, index}) => {
         style={styles.main}>
         <Image source={{uri: item.pic.url}} style={styles.image} />
 
-        <View
-          style={{
-            width: '100%',
-            gap: s(5),
-            padding: s(8),
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            backgroundColor: '#FFFFFFB9',
-          }}>
+        <View style={styles.venueDesc}>
           <CustomText style={styles.title}>{item.title}</CustomText>
 
           <View style={styles.address}>
@@ -46,9 +37,7 @@ const VenueCard: FC<VenueCardProps> = ({item, index}) => {
               size={s(16)}
             />
             <CustomText
-              style={
-                styles.city
-              }>{`${item.address.city},${item.address.state}`}</CustomText>
+              style={styles.city}>{`${item.address.area}`}</CustomText>
           </View>
         </View>
       </Pressable>
@@ -67,6 +56,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {width: '100%', height: s(200), objectFit: 'cover'},
+  venueDesc: {
+    width: '100%',
+    gap: s(5),
+    padding: s(8),
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    backgroundColor: '#FFFFFFB9',
+  },
   title: {fontSize: s(17), flexWrap: 'wrap', fontWeight: '500'},
   addressContainer: {flexDirection: 'row', justifyContent: 'space-between'},
   address: {flexDirection: 'row', gap: s(2), alignItems: 'center'},

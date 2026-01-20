@@ -1,46 +1,41 @@
-import BasicMap from '@components/BasicMap';
-import CustomCheckbox from '@components/global/CustomCheckBox';
-import CustomModal from '@components/global/CustomModal';
+import GetLocationModal from '@components/GetLocationModal';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
-import {AppTemporaryContants} from '@constants/AppTemporaryConstants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {createVenueApi} from '@services/VenueServices';
-import {useAppDispatch, useAppSelector} from '@store/hooks';
-import {setVenue} from '@store/reducers/eventSlice';
+import {useAppSelector} from '@store/hooks';
 import {formatTime, showToast} from '@utils/Helper';
 import React, {FC, useState} from 'react';
 import {
   FlatList,
   Image,
+  Pressable,
   ScrollView,
   StatusBar,
-  Text,
+  StyleSheet,
   TextInput,
   View,
-  StyleSheet,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {s, vs} from 'react-native-size-matters';
 import uuid from 'react-native-uuid';
-import {AssetType, NavigationProps, RouteProps} from 'types/AppTypes';
+import {addressesType, NavigationProps, RouteProps} from 'types/AppTypes';
 
 const CreateVenueScreen: FC = () => {
   const {
     params: {venue},
   } = useRoute<RouteProps<'CreateVenueScreen'>>();
-
-  const [addLoader, setAddLoader] = useState(false);
   const navigation = useNavigation<NavigationProps<'CreateVenueScreen'>>();
+  const [addresses, setAddresses] = useState<addressesType | null>(null);
+  const [showLocationModal, setShowLocationModal] = useState<boolean>(false);
+  const [addLoader, setAddLoader] = useState(false);
   const [inputHeight, setInputHeight] = useState(40);
-  const [title, setTitle] = useState<string>('Sport Talent Venue ');
-  const [description, setDescription] = useState<string>(
-    'This is our sprt venue mainly for all womens who want to be fit and fine, goof looking and young, time is never late but u will get old so before getting old utilise you time lady',
-  );
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [pic, setPic] = useState<any>('');
   const [slots, setSlots] = useState<
     {start: string; end: string; id: string}[]
@@ -49,25 +44,8 @@ const CreateVenueScreen: FC = () => {
     end: '',
     start: '',
   });
-  const [location, setLocation] = useState<{
-    latitude: string;
-    longitude: string;
-  }>({
-    latitude: '28.6139',
-    longitude: '77.2088',
-  });
-  const [address, setAddress] = useState<{
-    state: string;
-    city: string;
-    area: string;
-  }>({
-    area: 'VIP Colony',
-    city: 'Patna',
-    state: 'Bihar',
-  });
 
   const {loggedInUser} = useAppSelector(store => store.user);
-  const dispatch = useAppDispatch();
 
   const pickImage = () => {
     launchImageLibrary({mediaType: 'photo'}, (response: any) => {
@@ -77,7 +55,33 @@ const CreateVenueScreen: FC = () => {
     });
   };
 
+  const checkValidation = () => {
+    let error = {verified: true, message: ''};
+    if (!addresses) {
+      error = {verified: false, message: 'Location Not Selected'};
+    }
+    if (slots.length === 0) {
+      error = {verified: false, message: 'Slots Not Created'};
+    }
+
+    if (title === '') {
+      error = {verified: false, message: 'Title Not Created'};
+    }
+    if (description === '') {
+      error = {verified: false, message: 'description Not Created'};
+    }
+
+    if (pic === '') {
+      error = {verified: false, message: 'pic Not selected'};
+    }
+
+    return error;
+  };
+
   const createVenue = async () => {
+    const {verified, message} = checkValidation();
+    if (!verified)
+      return showToast({title: message, description: '', type: 'info'});
     setAddLoader(true);
 
     const formData = new FormData();
@@ -89,8 +93,22 @@ const CreateVenueScreen: FC = () => {
       name: pic.fileName,
       type: pic.type,
     });
-    formData.append('location', JSON.stringify(location));
-    formData.append('address', JSON.stringify(address));
+    formData.append(
+      'address',
+      JSON.stringify({
+        area: addresses?.area,
+        state: addresses?.state,
+        postalCode: addresses?.postalCode,
+        country: addresses?.country,
+      }),
+    );
+    formData.append(
+      'location',
+      JSON.stringify({
+        type: 'Point',
+        coordinates: addresses?.coords,
+      }),
+    );
     const allSlots = slots.map(item => ({
       time: {start: item.start, end: item.end},
       isBooked: false,
@@ -144,7 +162,8 @@ const CreateVenueScreen: FC = () => {
             <CustomText variant="h6">Venue Name</CustomText>
             <TextInput
               value={title}
-              placeholder="Enter Venue Name"
+              placeholder="Enter Venue Name..."
+              placeholderTextColor={AppConstants.grayLightColor}
               onChangeText={setTitle}
               style={styles.input}
             />
@@ -156,9 +175,12 @@ const CreateVenueScreen: FC = () => {
             <TextInput
               multiline
               value={description}
-              placeholder="Enter Description"
+              placeholder="Enter Description..."
+              placeholderTextColor={AppConstants.grayLightColor}
               onChangeText={setDescription}
-              style={styles.input}
+              style={styles.inputDesc}
+              textAlign="left"
+              textAlignVertical="top"
               onContentSizeChange={e =>
                 setInputHeight(e.nativeEvent.contentSize.height)
               }
@@ -166,15 +188,23 @@ const CreateVenueScreen: FC = () => {
           </View>
 
           {/* PIC */}
-          <View style={styles.section}>
+          <Pressable onPress={pickImage} style={styles.section}>
             <CustomText variant="h6">Pic</CustomText>
             <View style={styles.picContainer}>
-              {pic !== '' && (
+              {pic !== '' ? (
                 <Image source={{uri: pic.uri}} style={styles.pic} />
+              ) : (
+                <View style={styles.picWrapper}>
+                  <Icon
+                    icon="plus"
+                    iconType="Feather"
+                    size={s(20)}
+                    color={AppConstants.redColor}
+                  />
+                </View>
               )}
             </View>
-            <RoundedButton title="Choose" onPress={pickImage} />
-          </View>
+          </Pressable>
 
           {/* SLOTS */}
           <CustomText variant="h6">Create Slots</CustomText>
@@ -184,7 +214,8 @@ const CreateVenueScreen: FC = () => {
               mode="time"
               viewStyle={styles.timeBox}>
               <TextInput
-                placeholder="Select Start Time"
+                placeholder="Start Time..."
+                placeholderTextColor={AppConstants.grayLightColor}
                 value={formatTime(time.start)}
                 editable={false}
                 style={styles.input}
@@ -197,7 +228,8 @@ const CreateVenueScreen: FC = () => {
               mode="time"
               viewStyle={styles.timeBox}>
               <TextInput
-                placeholder="Select End Time"
+                placeholder="End Time"
+                placeholderTextColor={AppConstants.grayLightColor}
                 value={formatTime(time.end)}
                 editable={false}
                 style={styles.input}
@@ -251,47 +283,24 @@ const CreateVenueScreen: FC = () => {
 
           {/* LOCATION */}
           <CustomText variant="h6">Location</CustomText>
-          <View style={styles.row}>
-            <TextInput
-              style={styles.timeBox}
-              value={location.latitude}
-              placeholder="Latitude"
-              onChangeText={val =>
-                setLocation(prev => ({...prev, latitude: val}))
-              }
+          {/* LOCATION */}
+          <Pressable
+            onPress={() => setShowLocationModal(true)}
+            style={styles.locationBox}>
+            <Icon
+              icon="location-pin"
+              iconType="Entypo"
+              color={AppConstants.redColor}
             />
             <TextInput
-              style={styles.timeBox}
-              value={location.longitude}
-              placeholder="Longitude"
-              onChangeText={val =>
-                setLocation(prev => ({...prev, longitude: val}))
-              }
+              value={addresses?.area}
+              onChangeText={() => {}}
+              placeholder="Location..."
+              placeholderTextColor={AppConstants.grayLightColor}
+              style={styles.input}
+              editable={false}
             />
-          </View>
-
-          {/* ADDRESS */}
-          <CustomText variant="h6">Address</CustomText>
-          <View style={styles.row}>
-            <TextInput
-              style={styles.timeBox}
-              value={address.state}
-              placeholder="State"
-              onChangeText={val => setAddress(prev => ({...prev, state: val}))}
-            />
-            <TextInput
-              style={styles.timeBox}
-              value={address.city}
-              placeholder="City"
-              onChangeText={val => setAddress(prev => ({...prev, city: val}))}
-            />
-          </View>
-          <TextInput
-            style={styles.timeBox}
-            value={address.area}
-            placeholder="Area"
-            onChangeText={val => setAddress(prev => ({...prev, area: val}))}
-          />
+          </Pressable>
 
           <RoundedButton
             loading={addLoader}
@@ -300,6 +309,12 @@ const CreateVenueScreen: FC = () => {
           />
         </View>
       </ScrollView>
+
+      <GetLocationModal
+        show={showLocationModal}
+        setShow={setShowLocationModal}
+        setAddresses={setAddresses}
+      />
     </View>
   );
 };
@@ -329,6 +344,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: s(8),
     height: vs(30),
+    color: AppConstants.black,
+  },
+  inputDesc: {
+    backgroundColor: AppConstants.whiteColor,
+    flex: 1,
+    padding: s(8),
+    height: vs(80),
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   picContainer: {
     backgroundColor: AppConstants.whiteColor,
@@ -375,4 +399,12 @@ const styles = StyleSheet.create({
     gap: s(20),
     marginBottom: vs(10),
   },
+  locationBox: {
+    flexDirection: 'row',
+    gap: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.whiteColor,
+  },
+  picWrapper: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 });

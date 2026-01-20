@@ -1,10 +1,10 @@
 import Blob3 from '@assets/blobs/blob3.svg';
 import Blob4 from '@assets/blobs/blob4.svg';
 import CustomText from '@components/global/CustomText';
-import DropdownExample from '@components/global/DropdownExample';
 import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
+import useAuth from '@hooks/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import {createUserApi} from '@services/UserService';
 import {useAppDispatch} from '@store/hooks';
@@ -13,6 +13,7 @@ import {AsyncGetFCMToken, AsyncSetData} from '@utils/AsyncStorage';
 import {showToast} from '@utils/Helper';
 import React, {useState} from 'react';
 import {
+  Image,
   Pressable,
   StyleSheet,
   TextInput,
@@ -24,29 +25,89 @@ import {NavigationProps} from 'types/AppTypes';
 
 const SignUpScreen = () => {
   const [name, setName] = useState<string>('');
-  const [role, setRole] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const {navigate} = useNavigation<NavigationProps<'SignUpScreen'>>();
-  const dispathc = useAppDispatch();
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const {signInWithGoogle} = useAuth();
+  const dispatch = useAppDispatch();
+  const {navigate, replace} = useNavigation<NavigationProps<'SignUpScreen'>>();
   const [loader, setLoader] = useState(false);
 
-  const handleSignUp = async () => {
-    setLoader(true);
-    const FCMToken = (await AsyncGetFCMToken()) ?? '';
-    const newUser = {name, email, password, role, FCMToken};
-    console.log('CREATING NEW USER');
-    const {data, success} = await createUserApi(newUser);
-    console.log('NEW USER : ', data.data);
-    if (success) {
-      dispathc(setLoggedInUser(data.data));
-      await AsyncSetData(data.data);
-    } else {
-      showToast({title: 'Not Created, Try Again'});
+  const checkValidation = () => {
+    let errorData = {message: '', success: true};
+    if (!confirmPassword) {
+      errorData = {message: 'Confirm Password not selected', success: false};
     }
-    setLoader(false);
+
+    if (!email) {
+      errorData = {message: 'Email Not Available', success: false};
+    }
+
+    if (email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const validEmail = email ? emailRegex.test(email.trim()) : false;
+      errorData = {message: 'Email Not Correct', success: validEmail};
+    }
+
+    if (!password) {
+      errorData = {message: 'Password Not Available', success: false};
+    }
+
+    if (!name) {
+      errorData = {message: 'Name Not Available', success: false};
+    }
+
+    return errorData;
+  };
+
+  const handleSignUp = async (type: 'manual' | 'google') => {
+    try {
+      const isValid = checkValidation();
+      if (!isValid.success && type === 'manual')
+        return showToast({title: isValid.message, type: 'error'});
+
+      setLoader(true);
+      const FCMToken = (await AsyncGetFCMToken()) ?? '';
+
+      let newUser: any = {
+        name,
+        email,
+        password,
+        role: 'user',
+        FCMToken,
+        authType: type,
+        isEmailVerified: type === 'manual' ? false : true,
+      };
+
+      if (type === 'google') {
+        const userInfo = await signInWithGoogle();
+        if (!userInfo?.success)
+          return showToast({title: 'Google SignIn Failed'});
+        newUser = {
+          ...newUser,
+          name: userInfo.data.name,
+          email: userInfo.data.email,
+        };
+      }
+
+      const {data, success, message} = await createUserApi(newUser);
+      if (success) {
+        await AsyncSetData(data.data);
+        dispatch(setLoggedInUser(data.data));
+        type === 'manual'
+          ? navigate('EmailVerificationScreen', {user: data.data})
+          : navigate('CompleteProfileScreen', {user: data.data});
+      } else {
+        showToast({title: message ?? 'Not Created, Try Again'});
+      }
+      setLoader(false);
+    } catch (error) {
+      showToast({title: 'Error Occured', type: 'error'});
+      console.error(error);
+    }
   };
 
   return (
@@ -62,6 +123,7 @@ const SignUpScreen = () => {
       </View>
 
       <View style={styles.inputContainer}>
+        {/* NAME */}
         <View style={styles.inputRow}>
           <Icon
             icon="person"
@@ -77,6 +139,7 @@ const SignUpScreen = () => {
           />
         </View>
 
+        {/* EMAIL */}
         <View style={styles.inputRow}>
           <Icon
             icon="email"
@@ -93,6 +156,7 @@ const SignUpScreen = () => {
           />
         </View>
 
+        {/* PASSWORD */}
         <View style={styles.inputRow}>
           {!showPassword ? (
             <TouchableOpacity
@@ -129,40 +193,73 @@ const SignUpScreen = () => {
           />
         </View>
 
+        {/* CONFIRM PASSWORD */}
         <View style={styles.inputRow}>
-          <Icon
-            icon="shield"
-            iconType="Feather"
-            color={AppConstants.redColor}
+          {!showConfirmPassword ? (
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => {
+                setShowConfirmPassword(true);
+              }}>
+              <Icon
+                icon="eye"
+                iconType="Feather"
+                color={AppConstants.redColor}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={0.6}
+              onPress={() => {
+                setShowConfirmPassword(false);
+              }}>
+              <Icon
+                icon="eye-off"
+                iconType="Feather"
+                color={AppConstants.redColor}
+              />
+            </TouchableOpacity>
+          )}
+          <TextInput
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            placeholder="Confirm Password..."
+            placeholderTextColor={AppConstants.black}
+            secureTextEntry={showConfirmPassword}
+            style={styles.textInput}
           />
-          <View style={styles.dropdownContainer}>
-            <DropdownExample
-              dataArr={[
-                {label: 'User', value: 'user'},
-                {label: 'Admin', value: 'admin'},
-                {label: 'Organiser', value: 'organiser'},
-              ]}
-              onChange={(val: string) => {
-                setRole(val);
-              }}
-              placeholder="Select Role"
-            />
-          </View>
         </View>
       </View>
 
-      <RoundedButton
-        title="SIGN UP"
-        onPress={handleSignUp}
-        disabled={loader}
-        loading={loader}
-      />
+      <View style={{gap: 10}}>
+        <RoundedButton
+          title="SIGN UP"
+          onPress={() => {
+            handleSignUp('manual');
+          }}
+          disabled={loader}
+          loading={loader}
+        />
+
+        <TouchableOpacity
+          onPress={() => {
+            handleSignUp('google');
+          }}
+          style={styles.googleBtn}>
+          <Image
+            source={require('@assets/icons/google_logo.png')}
+            style={{width: s(20), height: s(20)}}
+          />
+
+          <CustomText style={styles.googleTxt}>Google Sign Up</CustomText>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.bottomContainer}>
         <CustomText variant="h6">Already have an account - </CustomText>
         <Pressable
           onPress={() => {
-            navigate('LoginScreen');
+            replace('LoginScreen');
           }}>
           <CustomText variant="h6" style={styles.signInText}>
             SignIn
@@ -231,5 +328,19 @@ const styles = StyleSheet.create({
   },
   signInText: {
     color: AppConstants.whiteColor,
+  },
+  googleBtn: {
+    flexDirection: 'row',
+    gap: s(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.whiteColor,
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  googleTxt: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

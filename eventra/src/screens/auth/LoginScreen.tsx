@@ -1,27 +1,27 @@
+import Blob3 from '@assets/blobs/blob3.svg';
+import Blob4 from '@assets/blobs/blob4.svg';
+import CustomText from '@components/global/CustomText';
+import Icon from '@components/global/Icon';
+import RoundedButton from '@components/global/RoundedButton';
+import {AppConstants} from '@constants/AppConstants';
+import useAuth from '@hooks/useAuth';
+import {useNavigation} from '@react-navigation/native';
+import {loginUserApi} from '@services/UserService';
+import {useAppDispatch} from '@store/hooks';
+import {setLoggedInUser} from '@store/reducers/userSlice';
+import {AsyncSetData} from '@utils/AsyncStorage';
+import {showToast} from '@utils/Helper';
+import React, {useState} from 'react';
 import {
+  Image,
   Pressable,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import CustomText from '@components/global/CustomText';
 import {s, vs} from 'react-native-size-matters';
-import Icon from '@components/global/Icon';
-import {AppConstants} from '@constants/AppConstants';
-import RoundedButton from '@components/global/RoundedButton';
-import Blob3 from '@assets/blobs/blob3.svg';
-import Blob4 from '@assets/blobs/blob4.svg';
-import {useNavigation} from '@react-navigation/native';
 import {NavigationProps} from 'types/AppTypes';
-import {useAppDispatch} from '@store/hooks';
-import {loginUserApi} from '@services/UserService';
-import {setLoggedInUser} from '@store/reducers/userSlice';
-import {showToast} from '@utils/Helper';
-import {AsyncSetData} from '@utils/AsyncStorage';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState<string>('');
@@ -29,35 +29,60 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loader, setLoader] = useState(false);
 
-  const {navigate} = useNavigation<NavigationProps<'SignUpScreen'>>();
+  const navigation = useNavigation<NavigationProps<'SignUpScreen'>>();
   const dispathc = useAppDispatch();
+  const {signInWithGoogle, googleLoader, checkProfileCompletion} = useAuth();
 
-  const isValidEmail = (email: string): boolean => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email.toLowerCase());
+  const checkValidation = () => {
+    let errorData = {message: '', success: true};
+
+    if (!email) {
+      errorData = {message: 'Email Not Available', success: false};
+    }
+
+    if (email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const validEmail = email ? emailRegex.test(email.trim()) : false;
+      errorData = {message: 'Email Not Correct', success: validEmail};
+    }
+
+    if (!password) {
+      errorData = {message: 'Password Not Available', success: false};
+    }
+
+    return errorData;
   };
 
-  const handleLogin = async () => {
-    if (email.length < 1 || password.length < 1) {
-      return showToast({title: 'Write Email/Password'});
-    }
+  const handleLogin = async (authType: 'google' | 'manual') => {
+    try {
+      const isValid = checkValidation();
+      if (!isValid.success && authType === 'manual')
+        return showToast({title: isValid.message, type: 'error'});
 
-    if (!isValidEmail(email)) {
-      return showToast({title: 'Check Your Email'});
-    }
+      authType === 'manual' && setLoader(true);
 
-    setLoader(true);
-    const newUser = {email, password};
-    console.log('LOGGING USER');
-    const {data, success} = await loginUserApi(newUser);
-    console.log('LOGIN USER : ', data);
-    if (success) {
-      dispathc(setLoggedInUser(data.data));
-      await AsyncSetData(data.data);
-    } else {
-      showToast({title: 'Invalid Credential / Try Again'});
+      let newUser = {email, password, authType};
+      if (authType === 'google') {
+        const userInfo: any = await signInWithGoogle();
+        if (!userInfo?.success)
+          return showToast({title: userInfo.type ?? 'Google SignIn Failed'});
+
+        newUser = {...newUser, email: userInfo.data.email};
+      }
+      const {data, success} = await loginUserApi(newUser);
+
+      if (success) {
+        dispathc(setLoggedInUser(data.data));
+        await AsyncSetData(data.data);
+        checkProfileCompletion(navigation, data.data);
+      } else {
+        showToast({title: 'Invalid Credential / Try Again'});
+      }
+      setLoader(false);
+    } catch (error) {
+      showToast({title: 'Error Occured', type: 'error'});
+      console.error(error);
     }
-    setLoader(false);
   };
 
   return (
@@ -128,19 +153,42 @@ const LoginScreen = () => {
             />
           </View>
 
-          <RoundedButton
-            title="SIGN IN"
-            onPress={handleLogin}
-            disabled={loader}
-            loading={loader}
-          />
+          <View style={{gap: 10}}>
+            <RoundedButton
+              title="SIGN IN"
+              onPress={() => {
+                handleLogin('manual');
+              }}
+              disabled={loader}
+              loading={loader}
+            />
+
+            <RoundedButton
+              title="SIGN IN"
+              onPress={() => {
+                handleLogin('google');
+              }}
+              disabled={googleLoader}
+              loading={googleLoader}
+              icon={
+                <Image
+                  source={require('@assets/icons/google_logo.png')}
+                  style={{width: s(20), height: s(20)}}
+                />
+              }
+              style={styles.googleBtn}
+              textStyle={styles.googleTxt}
+              showIcon={true}
+              loaderColor={AppConstants.redColor}
+            />
+          </View>
         </View>
 
         <View style={styles.elseBox}>
           <CustomText variant="h6">Don't have an account - </CustomText>
           <Pressable
             onPress={() => {
-              navigate('SignUpScreen');
+              navigation.replace('SignUpScreen');
             }}>
             <CustomText variant="h6" style={styles.txtWhite}>
               SignUp
@@ -208,5 +256,20 @@ const styles = StyleSheet.create({
   },
   txtWhite: {
     color: AppConstants.whiteColor,
+  },
+  googleBtn: {
+    flexDirection: 'row',
+    gap: s(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.whiteColor,
+    borderRadius: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  googleTxt: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: AppConstants.black,
   },
 });

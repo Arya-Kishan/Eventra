@@ -1,4 +1,5 @@
 // firebaseService.ts
+import notifee, {AndroidImportance} from '@notifee/react-native';
 import {getApp} from '@react-native-firebase/app';
 import {
   AuthorizationStatus,
@@ -8,9 +9,8 @@ import {
   registerDeviceForRemoteMessages,
   requestPermission,
 } from '@react-native-firebase/messaging';
-import notifee, {AndroidImportance} from '@notifee/react-native';
 import {AsyncGetFCMToken, AsyncSetFCMToken} from '@utils/AsyncStorage';
-import {Alert, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {userType} from 'types/AppTypes';
 import {updateUserApi} from './UserService';
 
@@ -59,12 +59,8 @@ export const getFcmToken = async (user: userType): Promise<void> => {
     }
 
     const token = await getToken(messaging);
-    const storedToken = await AsyncGetFCMToken();
 
-    if (
-      token &&
-      (token !== storedToken || user.FCMToken == '' || user.FCMToken == 'null')
-    ) {
+    if (token && user.FCMToken !== token) {
       await AsyncSetFCMToken(token);
       const formdata = new FormData();
       formdata.append('FCMToken', token);
@@ -78,8 +74,4 @@ export const getFcmToken = async (user: userType): Promise<void> => {
   } catch (err) {
     console.error('Failed to get FCM token:', err);
   }
-};
-
-export const showLocalAlert = (title: string, body?: string): void => {
-  Alert.alert(title, body || '');
 };

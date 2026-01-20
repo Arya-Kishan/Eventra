@@ -1,13 +1,19 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import EventCard from '@components/event/EventCard';
+import {CustomImage} from '@components/global/CustomImage';
+import CustomLoader from '@components/global/CustomLoader';
+import CustomText from '@components/global/CustomText';
+import EmptyData from '@components/global/EmptyData';
+import Icon from '@components/global/Icon';
+import SearchHeader from '@components/search/SearchHeader';
+import VenueCard from '@components/venue/VenueCard';
+import {AppConstants} from '@constants/AppConstants';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {searchEventApi} from '@services/EventService';
+import {searchUserApi} from '@services/UserService';
+import {getRelativeTimeFromNow, showToast} from '@utils/Helper';
+import React, {useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {s} from 'react-native-size-matters';
 import {
   EventType,
   NavigationProps,
@@ -16,21 +22,6 @@ import {
   userType,
   VenueType,
 } from 'types/AppTypes';
-import {AppConstants} from '@constants/AppConstants';
-import Icon from '@components/global/Icon';
-import {searchUserApi} from '@services/UserService';
-import {searchEventApi} from '@services/EventService';
-import {searchVenueApi} from '@services/VenueServices';
-import {getRelativeTimeFromNow, showToast} from '@utils/Helper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import SearchHeader from '@components/search/SearchHeader';
-import EventCard from '@components/event/EventCard';
-import CustomText from '@components/global/CustomText';
-import {CustomImage} from '@components/global/CustomImage';
-import {s} from 'react-native-size-matters';
-import VenueCard from '@components/venue/VenueCard';
-import EmptyData from '@components/global/EmptyData';
-import CustomLoader from '@components/global/CustomLoader';
 
 const SearchScreen = () => {
   const {

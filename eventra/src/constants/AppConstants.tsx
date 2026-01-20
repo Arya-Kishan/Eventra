@@ -28,6 +28,9 @@ export const AppConstants = {
   baseUrl: Config.BASE_URL,
   socketBaseUrl: Config.SOCKET_BASE_URL,
   appUniversalLink: Config.APP_UNIVERSAL_LINK,
+  EVENTRA_WEB_CLIENT_ID: Config.EVENTRA_WEB_CLIENT_ID,
+  EVENTRA_WEB_CLIENT_SECRET: Config.EVENTRA_WEB_CLIENT_SECRET,
+  EVENTRA_ANDROID_CLIENT_ID: Config.EVENTRA_ANDROID_CLIENT_ID,
 
   headerHeight: s(70),
 

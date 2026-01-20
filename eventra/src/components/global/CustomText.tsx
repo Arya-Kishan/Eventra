@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, TextStyle, StyleProp} from 'react-native';
+import {StyleProp, Text, TextStyle} from 'react-native';
 
 type Variant =
   | 'h1'
@@ -30,9 +30,9 @@ type FontWeight =
 
 type CustomTextProps = {
   numberOfLines?: number;
-  ellipsizeMode?: 'tail';
+  ellipsizeMode?: 'tail' | 'clip' | 'head' | 'middle';
   style?: StyleProp<TextStyle>;
-  children: string;
+  children: React.ReactNode;
   variant?: Variant;
   fontWeight?: FontWeight;
 };

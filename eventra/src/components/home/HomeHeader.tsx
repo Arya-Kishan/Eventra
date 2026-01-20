@@ -1,19 +1,19 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import Icon from '@components/global/Icon';
-import {s, vs} from 'react-native-size-matters';
-import {AppConstants} from '@constants/AppConstants';
 import {CustomImage} from '@components/global/CustomImage';
-import {useNavigation} from '@react-navigation/native';
-import {NavigationProps, NotificationType} from 'types/AppTypes';
-import RoundedBox from '@components/global/RoundedBox';
-import {useAppSelector} from '@store/hooks';
 import CustomText from '@components/global/CustomText';
+import Icon from '@components/global/Icon';
+import RoundedBox from '@components/global/RoundedBox';
+import {AppConstants} from '@constants/AppConstants';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
+import React from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {s} from 'react-native-size-matters';
+import {NavigationProps, NotificationType} from 'types/AppTypes';
 
 const HomeHeader = () => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
   const {loggedInUser, allNotifications} = useAppSelector(store => store.user);
-  const {name, bio, profilePic} = loggedInUser!;
+  console.log('LOGGEDiNuSER : ', loggedInUser);
 
   const getNotificationCount = (): number => {
     return allNotifications
@@ -22,6 +22,10 @@ const HomeHeader = () => {
         ).length
       : 0;
   };
+
+  if (!loggedInUser) {
+    return null;
+  }
 
   return (
     <View style={styles.headerContainer}>
@@ -34,7 +38,7 @@ const HomeHeader = () => {
         <CustomImage
           width={s(38)}
           height={s(38)}
-          source={`${profilePic.url !== '' ? profilePic.url : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'}`}
+          source={`${loggedInUser?.profilePic?.url !== '' ? loggedInUser?.profilePic?.url : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'}`}
         />
 
         <View>
@@ -44,12 +48,12 @@ const HomeHeader = () => {
               fontSize: s(16),
               color: AppConstants.whiteColor,
             }}>
-            Hello {name}
+            Hello {loggedInUser.name}
           </Text>
           <Text
             style={{
               color: AppConstants.grayLightColor,
-            }}>{`${bio !== '' ? bio : ' Explore The Events'}`}</Text>
+            }}>{`${loggedInUser.bio !== '' ? loggedInUser.bio : ' Explore The Events'}`}</Text>
         </View>
       </Pressable>
 

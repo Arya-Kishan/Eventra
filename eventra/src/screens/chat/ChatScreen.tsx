@@ -1,9 +1,8 @@
-import MessageBox from '@components/chat/MessageBox';
-import {CustomImage} from '@components/global/CustomImage';
+import ChatHeader from '@components/chat/ChatHeader';
+import ChatInput from '@components/chat/ChatInput';
+import ChatMessages from '@components/chat/ChatMessages';
 import CustomModal from '@components/global/CustomModal';
 import CustomText from '@components/global/CustomText';
-import EmptyData from '@components/global/EmptyData';
-import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
 import {useSocket} from '@context/SocketContext';
 import useDevice from '@hooks/useDevice';
@@ -11,23 +10,12 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {getConversationApi} from '@services/ChatService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setSelectedOpponentUser} from '@store/reducers/chatSlice';
-import {getRelativeTimeFromNow, showToast} from '@utils/Helper';
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import {s} from 'react-native-size-matters';
 import {MessageType, NavigationProps, RouteProps} from 'types/AppTypes';
 
 const ChatScreen = () => {
-  const [text, setText] = useState<string>('');
   const [messageLoading, setMessageLoading] = useState<boolean>(false);
   const [isInCognito, setIsInCognito] = useState<boolean>(false);
   const [messages, setMessages] = useState<any>([]);
@@ -36,7 +24,6 @@ const ChatScreen = () => {
   const [showInCognitoDetail, setShowInCognitoDetail] =
     useState<boolean>(false);
   const [incognitoMessages, setIncognitoMessages] = useState<any>([]);
-  const flatListRef = useRef<FlatList<any>>(null);
   const {
     params: {user, conversationId},
   } = useRoute<RouteProps<'ChatScreen'>>();
@@ -46,11 +33,7 @@ const ChatScreen = () => {
   const {isKeyboardVisible, insets} = useDevice();
   const bottomInsets = insets.bottom > 0 ? insets.bottom : insets.top;
 
-  const {globalSocket, onlineUsers} = useSocket();
-
-  const isOpponentOnline = (): boolean => {
-    return onlineUsers.includes(opponentUser._id);
-  };
+  const {globalSocket} = useSocket();
 
   const fetchConversationMessages = async () => {
     setMessageLoading(true);
@@ -62,65 +45,13 @@ const ChatScreen = () => {
     success ? setMessages(data.data.messages) : '';
   };
 
-  const handleSend = async () => {
-    if (text.length < 1) {
-      return showToast({title: 'Write Message'});
-    }
-
-    if (!conversationId)
-      return showToast({title: 'Converrsation not avaialble', description: ''});
-
-    const newMessage = {
-      sender: {
-        _id: loggedInUser?._id!,
-        name: loggedInUser?.name,
-        FCMToken: loggedInUser?.FCMToken,
-      },
-      receiver: {
-        _id: opponentUser._id,
-        name: opponentUser.name,
-        FCMToken: opponentUser.FCMToken,
-      },
-      message: {type: 'text', value: text},
-      conversationId,
-      createdAt: new Date().toISOString(),
-      timestamp: new Date().toISOString(),
-    };
-
-    if (isInCognito) {
-      if (!isOpponentOnline())
-        return showToast({
-          title: 'User Not Online',
-          description: '',
-          type: 'info',
-        });
-      globalSocket.emit('incognito-send-message', newMessage);
-      setIncognitoMessages((prev: any) => [...prev, newMessage]);
-    } else {
-      globalSocket.emit('send-message', newMessage);
-      setMessages((prev: any) => [...prev, newMessage]);
-    }
-
-    // USED FOR CLEANING INPUT
-    setText('');
-  };
-
-  const handleInCognitoMode = () => {
-    setIsInCognito(!isInCognito);
-    globalSocket.emit('chat-mode', {
-      isInCognito: !isInCognito,
-      senderId: loggedInUser?._id,
-      receiverId: opponentUser._id,
-    });
-  };
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', e => {
       dispatch(setSelectedOpponentUser(null));
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, dispatch]);
 
   useEffect(() => {
     fetchConversationMessages();
@@ -143,11 +74,24 @@ const ChatScreen = () => {
     globalSocket.on('chat-mode', (data: any) => {
       setIsInCognito(data.isInCognito);
     });
+    globalSocket.on('message-status', (data: any) => {
+      const {messageData} = data;
+      setMessages((prev: any) => {
+        const updatedMessageStatus = prev.map((item: MessageType) => {
+          if (item.message.value === messageData.message.value) {
+            return messageData;
+          }
+          return item;
+        });
+        return updatedMessageStatus;
+      });
+    });
 
     return () => {
       globalSocket?.off('receive-message');
       globalSocket?.off('incognito-receive-message');
       globalSocket?.off('chat-mode');
+      globalSocket?.off('message-status');
     };
   }, []);
 
@@ -182,114 +126,29 @@ const ChatScreen = () => {
       style={styles.container}
       keyboardVerticalOffset={isKeyboardVisible ? bottomInsets : 0}>
       <View style={styles.contentContainer}>
-        <View style={styles.header}>
-          <CustomImage
-            source={
-              opponentUser?.profilePic.url !== ''
-                ? opponentUser?.profilePic.url!
-                : AppConstants.fallbackProfilePic
-            }
-            width={s(40)}
-            height={s(40)}
-          />
+        <ChatHeader
+          conversationId={conversationId}
+          isInCognito={isInCognito}
+          opponentActiveChatId={opponentActiveChatId}
+          opponentUser={opponentUser}
+          setIsInCognito={setIsInCognito}
+        />
 
-          <View style={styles.headerContent}>
-            <View style={styles.userInfo}>
-              <CustomText variant="h4">{opponentUser.name}</CustomText>
-              <CustomText
-                variant="overline"
-                fontWeight="800"
-                style={
-                  isOpponentOnline() ? styles.onlineText : styles.offlineText
-                }>
-                {isOpponentOnline()
-                  ? 'Online'
-                  : getRelativeTimeFromNow(opponentUser?.active!)}
-              </CustomText>
-            </View>
+        <ChatMessages
+          incognitoMessages={incognitoMessages}
+          isInCognito={isInCognito}
+          messageLoading={messageLoading}
+          messages={messages}
+          setShowInCognitoDetail={setShowInCognitoDetail}
+        />
 
-            <View style={styles.iconBox}>
-              <TouchableOpacity onPress={handleInCognitoMode}>
-                <Icon
-                  icon="user-secret"
-                  iconType="FontAwesome"
-                  color={
-                    isInCognito ? AppConstants.black : AppConstants.whiteColor
-                  }
-                />
-              </TouchableOpacity>
-              <Icon icon="dots-vertical" iconType="MaterialCommunityIcons" />
-            </View>
-          </View>
-
-          {opponentActiveChatId &&
-            opponentActiveChatId.type === 'active' &&
-            opponentActiveChatId.chatId === conversationId && (
-              <Image
-                source={require('@assets/images/panda.png')}
-                style={styles.hiddenPanda}
-              />
-            )}
-        </View>
-
-        <View style={styles.container}>
-          {isInCognito && (
-            <TouchableOpacity
-              onPress={() => setShowInCognitoDetail(true)}
-              style={styles.ghostBox}>
-              <CustomText style={styles.ghostTxt}>GHOST MODE</CustomText>
-              <Icon
-                icon="info-circle"
-                iconType="FontAwesome5"
-                color={AppConstants.whiteColor}
-                size={12}
-              />
-            </TouchableOpacity>
-          )}
-          {messageLoading ? (
-            <EmptyData title="Loading Messages ..." showBtn={false} />
-          ) : messages.length === 0 ? (
-            <EmptyData title="NO MESSAGES" showBtn={false} />
-          ) : (
-            <FlatList
-              data={isInCognito ? incognitoMessages : messages}
-              ref={flatListRef}
-              renderItem={({item}: {item: MessageType}) => (
-                <MessageBox message={item} />
-              )}
-              contentContainerStyle={styles.flatListContent}
-              onContentSizeChange={() =>
-                flatListRef.current?.scrollToEnd({animated: true})
-              }
-              keyExtractor={item => `${item.timestamp}`}
-              style={[isInCognito ? styles.dark : styles.light]}
-            />
-          )}
-        </View>
-
-        <View
-          style={[
-            styles.inputContainer,
-            isInCognito ? styles.dark : styles.light,
-          ]}>
-          <TextInput
-            placeholder="Write a message...."
-            placeholderTextColor={
-              isInCognito ? AppConstants.whiteColor : AppConstants.black
-            }
-            value={text}
-            onChangeText={setText}
-            style={[styles.textInput, isInCognito ? styles.dark : styles.light]}
-          />
-
-          <TouchableOpacity activeOpacity={0.5} onPress={handleSend}>
-            <Icon
-              icon="send"
-              iconType="Feather"
-              color={AppConstants.redColor}
-            />
-          </TouchableOpacity>
-        </View>
+        <ChatInput
+          conversationId={conversationId}
+          isInCognito={isInCognito}
+          opponentUser={opponentUser}
+          setIncognitoMessages={setIncognitoMessages}
+          setMessages={setMessages}
+        />
       </View>
 
       <CustomModal setShow={setShowInCognitoDetail} show={showInCognitoDetail}>
@@ -334,36 +193,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: s(50),
   },
-  header: {
-    flexDirection: 'row',
-    gap: s(4),
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: AppConstants.redColor,
-    padding: AppConstants.screenPadding,
-  },
-  headerContent: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: s(4),
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  hiddenPanda: {
-    width: 50,
-    height: 50,
-    objectFit: 'cover',
-    position: 'absolute',
-    bottom: -16,
-    left: '50%',
-    transform: [{translateX: '-50%'}],
-  },
-  iconBox: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-  },
   dark: {backgroundColor: 'black', color: 'white'},
   light: {backgroundColor: 'white', color: 'black'},
   ghostBox: {
@@ -393,26 +222,6 @@ const styles = StyleSheet.create({
   },
   flatListContent: {
     gap: s(0),
-  },
-  inputContainer: {
-    width: '100%',
-    height: s(50),
-    padding: s(4),
-    paddingHorizontal: s(20),
-    position: 'absolute',
-    bottom: s(0),
-    left: 0,
-    flexDirection: 'row',
-    backgroundColor: AppConstants.whiteColor,
-    alignItems: 'center',
-    gap: s(10),
-  },
-  textInput: {
-    flex: 1,
-    backgroundColor: AppConstants.whiteColor,
-    fontSize: s(15),
-    borderRadius: s(2),
-    gap: s(2),
   },
   incognitoBox: {flexDirection: 'column', gap: 10, padding: s(20)},
   incognitoTxtHeading: {

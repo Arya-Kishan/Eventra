@@ -1,5 +1,5 @@
 import {AppConstants} from '@constants/AppConstants';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   TouchableOpacity,
   Text,
@@ -7,6 +7,8 @@ import {
   ViewStyle,
   TextStyle,
   ActivityIndicator,
+  Image,
+  View,
 } from 'react-native';
 import {s} from 'react-native-size-matters';
 
@@ -19,6 +21,9 @@ type RoundedButtonProps = {
   textStyle?: TextStyle;
   loading?: boolean;
   disabled?: boolean;
+  icon?: ReactNode;
+  showIcon?: boolean;
+  loaderColor?: string;
 };
 
 const RoundedButton: React.FC<RoundedButtonProps> = ({
@@ -30,6 +35,9 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
   textStyle,
   loading = false,
   disabled = false,
+  icon,
+  showIcon = false,
+  loaderColor = AppConstants.whiteColor,
 }) => {
   return (
     <TouchableOpacity
@@ -38,11 +46,14 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
       activeOpacity={0.8}
       disabled={disabled}>
       {loading ? (
-        <ActivityIndicator size={s(20)} color={AppConstants.whiteColor} />
+        <ActivityIndicator size={s(20)} color={loaderColor} />
       ) : (
-        <Text style={[styles.buttonText, {color: textColor}, textStyle]}>
-          {title}
-        </Text>
+        <View style={styles.box}>
+          {showIcon && icon}
+          <Text style={[styles.buttonText, {color: textColor}, textStyle]}>
+            {title}
+          </Text>
+        </View>
       )}
     </TouchableOpacity>
   );
@@ -56,6 +67,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 2,
+  },
+  box: {
+    flexDirection: 'row',
+    gap: s(16),
   },
   buttonText: {
     fontSize: 16,

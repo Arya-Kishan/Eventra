@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {formatISODate} from '@utils/Helper';
 import React, {FC} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
-import Animated, {FadeIn, FadeInDown} from 'react-native-reanimated';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 import {s} from 'react-native-size-matters';
 import {EventType, NavigationProps} from 'types/AppTypes';
 
@@ -18,8 +18,7 @@ const EventCard: FC<EventCardProps> = ({item, index}) => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
 
   const getTiming = (): string => {
-    const {date, day, month, time, year} = formatISODate(item.time.start);
-    const {time: endTime} = formatISODate(item.time.end);
+    const {date, day, month} = formatISODate(item.time.start);
     return `${day}, ${date} ${month}`;
   };
   return (
@@ -38,7 +37,7 @@ const EventCard: FC<EventCardProps> = ({item, index}) => {
             <CustomText style={styles.time}>{getTiming()}</CustomText>
           </View>
 
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={styles.locationParent}>
             <View style={styles.address}>
               <Icon
                 icon="map-marker"
@@ -46,9 +45,12 @@ const EventCard: FC<EventCardProps> = ({item, index}) => {
                 color={AppConstants.redColor}
                 size={s(16)}
               />
-              <CustomText style={styles.city}>
+              <CustomText
+                style={styles.city}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {typeof item.venue !== 'string'
-                  ? `${item.venue.address.city},${item.venue.address.state}`
+                  ? `${item.venue.address?.area}`
                   : ''}
               </CustomText>
             </View>
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: AppConstants.redColor,
   },
+  locationParent: {flexDirection: 'row', justifyContent: 'space-between'},
   city: {
     fontSize: s(10),
     flexWrap: 'wrap',

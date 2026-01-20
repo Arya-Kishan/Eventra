@@ -47,17 +47,15 @@ const getLoggedInUserApi = async (id: string): Promise<ApiReturnType> => {
 };
 
 const createUserApi = async (user: any): Promise<ApiReturnType> => {
-  console.log('user : ', user);
-
   try {
     const {data} = await axiosInstance.post(`/user/signup`, user);
     console.log('DATA INSIDE CREATE user API : ', data);
     return {data: data, message: 'users created', success: true, error: null}; // Return the response data
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating user data:', error);
     return {
       data: null,
-      message: 'Error in users creating',
+      message: error.message ?? 'Error in users creating',
       success: false,
       error: JSON.stringify(error),
     }; // Rethrow the error to be handled by the calling function
@@ -86,11 +84,13 @@ const updateUserApi = async (
   console.log(user);
 
   try {
+    console.log('---- 1');
     const {data} = await axiosInstance.patch(`/user/${id}`, user, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
+    console.log('---- 2');
     return {data: data, message: 'users Fetched', success: true, error: null}; // Return the response data
   } catch (error) {
     console.error('Error creating user data:', error);
@@ -112,6 +112,26 @@ const searchUserApi = async (word: string): Promise<ApiReturnType> => {
     return {
       data: null,
       message: 'Error in users login',
+      success: false,
+      error: JSON.stringify(error),
+    }; // Rethrow the error to be handled by the calling function
+  }
+};
+
+export const verfiyGoogleTokenApi = async (
+  idToken: string,
+): Promise<ApiReturnType> => {
+  try {
+    const {data} = await axiosInstance.post(`/user/verifyGoogleToken`, {
+      idToken,
+    });
+    console.log('DATA INSIDE verify user API google token : ', data);
+    return data; // Return the response data
+  } catch (error: any) {
+    console.error('Error in verifying google token:', error);
+    return {
+      data: null,
+      message: error.message ?? 'Error in verifying google token',
       success: false,
       error: JSON.stringify(error),
     }; // Rethrow the error to be handled by the calling function

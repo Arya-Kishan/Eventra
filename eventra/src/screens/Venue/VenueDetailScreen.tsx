@@ -22,7 +22,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   CommentType,
@@ -57,7 +56,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
       'reviews',
       JSON.stringify({user: loggedInUser?._id, comment: comment}),
     );
-    const {data, success} = await updateVenueApi(formdata, venueDetail!._id);
+    const {success} = await updateVenueApi(formdata, venueDetail!._id);
     if (success) {
       setCommentModal(false);
       setComments('');
@@ -72,7 +71,6 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
 
   const fetchSingleEvent = async () => {
     const {data, success} = await getSingleVenueApi(params.venueId);
-    console.log(data.data);
     success ? setVenueDetail(data.data) : navigation.navigate('ErrorScreen');
   };
 
@@ -81,10 +79,9 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.flex}>
       {venueDetail && (
-        <ScrollView
-          style={{flex: 1, backgroundColor: AppConstants.screenBgColor}}>
+        <ScrollView style={styles.scrollView}>
           {/* TITLE,LOCATION,ORICE */}
           <View
             style={{
@@ -99,17 +96,12 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
             />
 
             <View style={styles.shadowContainer}>
-              <View
-                style={{
-                  justifyContent: 'space-between',
-                  width: '70%',
-                  gap: vs(6),
-                }}>
+              <View style={styles.venueBox}>
                 <CustomText numberOfLines={2} variant="h3" fontWeight="700">
                   {venueDetail.title}
                 </CustomText>
 
-                <View style={styles.address}>
+                <View style={styles.addressBox}>
                   <Icon
                     icon="map-marker"
                     iconType="MaterialCommunityIcons"
@@ -118,38 +110,21 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
                   />
                   <CustomText
                     numberOfLines={2}
-                    style={{
-                      fontWeight: '500',
-                      fontSize: s(16),
-                      color: AppConstants.darkGrayColor,
-                    }}>{`${venueDetail.address.state}, ${venueDetail.address.city}`}</CustomText>
-                  <CustomText variant="h4">|</CustomText>
-                  <RoundedBox
-                    onPress={() => {
-                      openLocationInMaps(
-                        Number(venueDetail.location.latitude),
-                        Number(venueDetail.location.longitude),
-                      );
-                    }}
-                    size={s(20)}>
-                    <Icon
-                      icon="location-arrow"
-                      iconType="FontAwesome5"
-                      color={AppConstants.redColor}
-                      size={s(12)}
-                    />
-                  </RoundedBox>
+                    fontWeight="500"
+                    style={
+                      styles.address
+                    }>{`${venueDetail.address?.area}`}</CustomText>
                 </View>
               </View>
 
               <RoundedBox
                 size={s(60)}
                 rounded={s(10)}
-                viewStyle={{backgroundColor: AppConstants.grayLightColor}}>
+                viewStyle={{backgroundColor: AppConstants.redColor}}>
                 <Icon
                   icon="fireplace-off"
                   iconType="MaterialCommunityIcons"
-                  color={AppConstants.redColor}
+                  color={AppConstants.whiteColor}
                   size={s(30)}
                 />
               </RoundedBox>
@@ -159,26 +134,37 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
             <View style={[styles.commomShade, {gap: vs(10)}]}>
               {/* ABOUT */}
               <View>
-                <CustomText variant="h5">About Venue</CustomText>
+                <View style={styles.aboutBox}>
+                  <CustomText variant="h5">About Venue</CustomText>
+
+                  <RoundedBox
+                    viewStyle={{backgroundColor: AppConstants.redColor}}
+                    onPress={() => {
+                      openLocationInMaps(
+                        Number(venueDetail.location?.coordinates[1]),
+                        Number(venueDetail.location?.coordinates[0]),
+                      );
+                    }}
+                    size={s(25)}>
+                    <Icon
+                      icon="location-arrow"
+                      iconType="FontAwesome5"
+                      color={AppConstants.whiteColor}
+                      size={s(12)}
+                    />
+                  </RoundedBox>
+                </View>
                 <CustomText variant="body1" numberOfLines={8}>
                   {venueDetail.description}
                 </CustomText>
               </View>
 
               {/* SLOTS */}
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={styles.reviewBox}>
                 <CustomText variant="h5">Slots</CustomText>
               </View>
 
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: s(10),
-                  flexWrap: 'wrap',
-                  justifyContent: 'flex-start',
-                  marginTop: vs(8),
-                }}>
+              <View style={styles.slot}>
                 {venueDetail.slots.map((item, index) => (
                   <TimeSlot
                     key={index}
@@ -191,8 +177,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
               </View>
 
               {/* REVIEWS */}
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={styles.reviewBox}>
                 <CustomText variant="h5">Reviews</CustomText>
                 <RoundedBox
                   size={s(25)}
@@ -226,21 +211,8 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
       )}
 
       {isCreatingEvent && (
-        <View
-          style={{
-            width: '100%',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: AppConstants.whiteColor,
-            elevation: 4,
-            paddingHorizontal: AppConstants.screenPadding,
-            paddingVertical: vs(6),
-          }}>
-          <Text style={{fontWeight: '800', fontSize: s(18)}}>$120</Text>
+        <View style={styles.priceBox}>
+          <CustomText fontWeight="800">$120</CustomText>
 
           <RoundedButton
             onPress={() => {}}
@@ -258,33 +230,15 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
         onRequestClose={() => setCommentModal(false)}>
         <Pressable
           onPress={() => setCommentModal(false)}
-          style={{
-            flex: 1,
-            backgroundColor: '#000000D6',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-          }}>
-          <View
-            style={{
-              width: '100%',
-              backgroundColor: '#FF0000D6',
-              padding: s(15),
-              borderRadius: s(20),
-              gap: vs(10),
-            }}>
+          style={styles.modalBox}>
+          <View style={styles.commentBox}>
             <CustomText variant="h5" style={{color: AppConstants.whiteColor}}>
               Write a comment !
             </CustomText>
 
             <TextInput
               multiline
-              style={{
-                height: vs(100),
-                textAlignVertical: 'top',
-                backgroundColor: AppConstants.whiteColor,
-                borderRadius: s(10),
-                padding: s(10),
-              }}
+              style={styles.input}
               value={comment}
               onChangeText={setComments}
               placeholder="assssss"
@@ -301,6 +255,8 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
 export default VenueDetailScreen;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
+  scrollView: {flex: 1, backgroundColor: AppConstants.screenBgColor},
   commomShade: {
     width: '100%',
     padding: s(10),
@@ -318,5 +274,60 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: s(10),
   },
-  address: {flexDirection: 'row', gap: s(2), alignItems: 'center'},
+  venuebox: {
+    justifyContent: 'space-between',
+    width: '70%',
+    gap: vs(6),
+  },
+  aboutBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  address: {
+    fontSize: s(14),
+    color: AppConstants.darkGrayColor,
+  },
+  addressBox: {flexDirection: 'row', gap: s(2), alignItems: 'center'},
+  slot: {
+    flexDirection: 'row',
+    gap: s(10),
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginTop: vs(8),
+  },
+  reviewBox: {flexDirection: 'row', justifyContent: 'space-between'},
+  modalBox: {
+    flex: 1,
+    backgroundColor: '#000000D6',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
+  input: {
+    height: vs(100),
+    textAlignVertical: 'top',
+    backgroundColor: AppConstants.whiteColor,
+    borderRadius: s(10),
+    padding: s(10),
+  },
+  commentBox: {
+    width: '100%',
+    backgroundColor: '#FF0000D6',
+    padding: s(15),
+    borderRadius: s(20),
+    gap: vs(10),
+  },
+  priceBox: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: AppConstants.whiteColor,
+    elevation: 4,
+    paddingHorizontal: AppConstants.screenPadding,
+    paddingVertical: vs(6),
+  },
 });

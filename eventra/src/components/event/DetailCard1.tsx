@@ -8,7 +8,7 @@ import {s} from 'react-native-size-matters';
 interface DetailCard1Type {
   icon: any;
   title: string;
-  subTitle: string;
+  subTitle: string | undefined;
   isPic?: boolean;
   picUrl?: string;
   showBtn?: boolean;
@@ -28,13 +28,7 @@ const DetailCard1: FC<DetailCard1Type> = ({
         {isPic ? <Image source={{uri: picUrl}} style={styles.image} /> : icon}
       </View>
 
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+      <View style={styles.titleBox}>
         <View style={styles.textBox}>
           <CustomText style={styles.textBox}>{title}</CustomText>
           <CustomText style={styles.subTitle}>{subTitle}</CustomText>
@@ -44,11 +38,7 @@ const DetailCard1: FC<DetailCard1Type> = ({
           <RoundedButton
             onPress={() => {}}
             title="Host"
-            style={{
-              paddingVertical: 2,
-              paddingHorizontal: s(14),
-              borderRadius: s(8),
-            }}
+            style={styles.btn}
             textStyle={{fontSize: s(11)}}
           />
         )}
@@ -71,11 +61,22 @@ const styles = StyleSheet.create({
     borderRadius: s(15),
     overflow: 'hidden',
   },
+  titleBox: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   textBox: {flex: 1, justifyContent: 'space-between'},
   title: {fontSize: s(14), fontWeight: '600'},
   subTitle: {
     fontSize: s(12),
     fontWeight: '600',
     color: AppConstants.darkGrayColor,
+  },
+  btn: {
+    paddingVertical: 2,
+    paddingHorizontal: s(14),
+    borderRadius: s(8),
   },
 });

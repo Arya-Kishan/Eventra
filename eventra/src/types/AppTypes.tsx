@@ -10,8 +10,9 @@ export type TabParamList = {
 };
 
 export type RootStackParamList = {
-  Main: NavigatorScreenParams<TabParamList>;
+  Main: NavigatorScreenParams<TabParamList> | undefined;
   EventDetailScreen: {eventId: string};
+  CustomSplashScreen: undefined;
   VenueDetailScreen: {venueId: string};
   ProductDetailScreen: {productId: string};
   CreateEventScreen: {event: EventType | null; method: 'create' | 'update'};
@@ -34,6 +35,8 @@ export type RootStackParamList = {
   Details: {userId: number; userName: string};
   BottomTabBar: undefined;
   PracticeScreen: undefined;
+  CompleteProfileScreen: {user: userType};
+  EmailVerificationScreen: {user: userType};
 };
 
 // Generic helpers
@@ -57,21 +60,42 @@ export type SearchType = 'user' | 'venue' | 'event';
 export type userType = {
   name: string;
   email: string;
-  password: string;
-  bio: string;
-  profilePic: {url: string; public_id: string};
-  role: 'admin' | 'user';
-  FCMToken: string;
+  password?: string;
+  bio?: string;
+  profilePic?: {url: string; public_id: string};
+  role?: 'admin' | 'user';
+  FCMToken?: string;
   _id: string;
-  chats: userType[];
-  active: string;
-  joinedEvents: string[] | EventType[];
+  chats?: userType[];
+  active?: string;
+  isEmailVerified?: boolean;
+  joinedEvents?: string[] | EventType[];
+  location?: {type: string; coordinates: [string, string]};
+  address?: {
+    area: string;
+    state: string;
+    country: string;
+    postalCode: string;
+  };
+  authType: 'google' | 'manual';
 };
 
 type location = {latitude: string; longitude: string};
+export type locationModel = {type: string; coordinates: [string, string]};
 type address = {state: string; city: string; area: string};
+export type switchTabType = [
+  {title: Element; icon: any; value: string},
+  {title: Element; icon: any; value: string},
+];
 export type LoaderType = 'loading' | 'idle' | 'success' | 'error';
 export type pic = {url: string; public_id: string; success: boolean};
+export type addressesType = {
+  country: string;
+  state: string;
+  area: string;
+  postalCode: string;
+  coords: [string, string];
+};
 
 export type EventType = {
   title: string;
@@ -86,6 +110,20 @@ export type EventType = {
   category: string;
   status?: 'pending' | 'rejected' | 'accepted';
   _id: string;
+  address?: {
+    area: string;
+    state: string;
+    country: string;
+    postalCode: string;
+  };
+  location?: {
+    type: {
+      type: string;
+    };
+    coordinates: {
+      type: [Number];
+    };
+  };
 };
 
 export type slotType = {
@@ -112,12 +150,17 @@ export type VenueType = {
   title: string;
   description: string;
   pic: pic;
-  location: location;
-  address: address;
   bookedEvents: any;
   slots: slotType[];
   reviews: [];
   _id: string;
+  location?: {type: string; coordinates: [string, string]};
+  address?: {
+    area: string;
+    state: string;
+    country: string;
+    postalCode: string;
+  };
 };
 
 export type PostType = {
@@ -151,52 +194,11 @@ export type AssetType = {
   base64?: string;
 };
 
-export type ProductType = {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  category: string;
-  sizes?: string[];
-  pic: string;
-} | null;
-
-export type ProductSizesType = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'L';
-
-export type CartProductType = {
-  product: ProductType;
-  quantity: number;
-  selectedsize?: ProductSizesType;
-};
-
-export type CartType = ProductType[];
-
 export type UserAddressType = {
   area: string;
-  city: string;
   state: string;
   postalCode: string;
   country: string;
-  phone: string;
-};
-
-export type ProductOrderType = {
-  product: ProductType | string;
-  quantity: number;
-  size: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'L';
-};
-
-export type OrderType = {
-  user: userType | string;
-  products: ProductOrderType[];
-  totalAmount: number;
-  paymentStatus: 'pending' | 'paid' | 'failed';
-  orderStatus: 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  shippingAddress: UserAddressType;
-  paymentMethod: 'UPI' | 'COD';
 };
 
 export type MessageType = {
@@ -206,6 +208,9 @@ export type MessageType = {
   timestamp: string;
   status: string;
   read: boolean;
+  createdAt: string;
+  deliveredAt: string;
+  seenAt: string;
 };
 
 export type NotificationType = {
@@ -225,3 +230,39 @@ export type SpotLightType = {
   category: 'event' | 'venue' | 'product' | 'post';
   categoryId: string;
 };
+
+export type notificationFeatureType =
+  | 'main'
+  | 'event_detail'
+  | 'venue_detail'
+  | 'product_detail'
+  | 'create_event'
+  | 'create_venue'
+  | 'create_post'
+  | 'CustomSplashScreen'
+  | 'error'
+  | 'cart'
+  | 'post'
+  | 'home'
+  | 'auth'
+  | 'login'
+  | 'signup'
+  | 'forgot_password'
+  | 'chat_dashboard'
+  | 'chat'
+  | 'profile'
+  | 'venue'
+  | 'search'
+  | 'notification'
+  | 'Details'
+  | 'BottomTabBar'
+  | 'PracticeScreen'
+  | 'complete_profile'
+  | 'email_verification';
+
+export type openingFromType =
+  | 'cold'
+  | 'foreground'
+  | 'background'
+  | 'notification'
+  | 'pending';

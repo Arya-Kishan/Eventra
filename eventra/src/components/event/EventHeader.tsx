@@ -1,73 +1,117 @@
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
+import SwitchTab from '@components/SwitchTab';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
-import {useAppDispatch} from '@store/hooks';
-import React, {FC} from 'react';
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import Animated, {SharedValue} from 'react-native-reanimated';
+import React, {FC, useState} from 'react';
+import {
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
-import {NavigationProps} from 'types/AppTypes';
+import {NavigationProps, switchTabType} from 'types/AppTypes';
 
-interface EventHeaderProps {}
+interface EventHeaderProps {
+  handleChangeTab: (val: any) => void;
+  handleSearch: (val: any) => void;
+}
 
-const EventHeader: FC<EventHeaderProps> = () => {
+const EventHeader: FC<EventHeaderProps> = ({handleChangeTab, handleSearch}) => {
+  const [searchText, setSearchText] = useState<string>('');
+  const [selectedSwitchTab, setSelectedSwitchTab] = useState<string>('all');
+
+  const handleSwitchTab = (val: string) => {
+    handleChangeTab(val);
+    setSelectedSwitchTab(val);
+  };
+
   const navigation = useNavigation<NavigationProps<'Main'>>();
-  const dispatch = useAppDispatch();
+  const switchTabs: switchTabType = [
+    {
+      icon: <Icon icon="list" iconType="Entypo" size={s(20)} />,
+      title: 'all',
+      value: 'all',
+    },
+    {
+      icon: <Icon icon="location-pin" iconType="Entypo" size={s(20)} />,
+      title: 'NearBy',
+      value: 'nearBy',
+    },
+  ];
 
   return (
-    <Animated.View style={[styles.main]}>
-      <Animated.View style={[styles.container1]}>
-        <CustomText
-          style={{
-            fontWeight: '800',
-            fontSize: s(24),
-            color: AppConstants.whiteColor,
-            width: '80%',
-          }}
-          numberOfLines={2}>
-          Explore the amazing Events near you
-        </CustomText>
+    <View>
+      <View style={[styles.main]}>
+        <View style={[styles.container1]}>
+          <CustomText style={styles.header} numberOfLines={2}>
+            Explore the amazing Event near you
+          </CustomText>
 
-        <TouchableOpacity onPress={() => navigation.navigate('VenueScreen')}>
-          <Icon
-            icon="fireplace-off"
-            iconType="MaterialCommunityIcons"
-            size={s(30)}
-          />
-        </TouchableOpacity>
-      </Animated.View>
-
-      <View style={styles.container2}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value=""
-            onChangeText={() => {}}
-            placeholder="Filter Event"
-            style={{flex: 1}}
-          />
-
-          <TouchableOpacity activeOpacity={0.5}>
-            <Icon
-              iconType="Feather"
-              icon="layers"
-              color={'black'}
-              size={s(18)}
-            />
+          <TouchableOpacity onPress={() => navigation.navigate('VenueScreen')}>
+            <Icon icon="codesandbox" iconType="Feather" size={s(30)} />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity activeOpacity={0.5}>
-          <Icon iconType="Feather" icon="search" color={'white'} size={s(20)} />
-        </TouchableOpacity>
+        <View style={styles.container2}>
+          <View style={styles.inputContainer}>
+            <Icon
+              iconType="Feather"
+              icon="search"
+              color={AppConstants.redColor}
+              size={s(20)}
+            />
+
+            <TextInput
+              value={searchText}
+              onChangeText={val => setSearchText(val)}
+              onSubmitEditing={() => {
+                handleSearch(searchText);
+              }}
+              placeholder="Search events..."
+              placeholderTextColor={AppConstants.black}
+              style={styles.flex}
+            />
+
+            <Pressable
+              onPress={() =>
+                navigation.navigate('CreateEventScreen', {
+                  event: null,
+                  method: 'create',
+                })
+              }>
+              <Icon
+                icon="plus"
+                iconType="Feather"
+                color={AppConstants.redColor}
+              />
+            </Pressable>
+          </View>
+        </View>
       </View>
-    </Animated.View>
+
+      <View style={styles.headerRow}>
+        <CustomText variant="h4">
+          {selectedSwitchTab === 'all' ? 'All Events' : 'NearBy Events'}
+        </CustomText>
+        <SwitchTab onChange={handleSwitchTab} tabs={switchTabs} />
+      </View>
+    </View>
   );
 };
 
 export default EventHeader;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: AppConstants.screenPadding,
+  },
   main: {
     gap: vs(30),
     backgroundColor: AppConstants.redColor,
@@ -85,6 +129,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: s(10),
     alignItems: 'center',
+  },
+  header: {
+    fontWeight: '800',
+    fontSize: s(24),
+    color: AppConstants.whiteColor,
+    width: '80%',
   },
   inputContainer: {
     backgroundColor: 'white',

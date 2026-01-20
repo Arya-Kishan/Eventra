@@ -1,6 +1,7 @@
 // axiosInstance.ts
 import {AppConstants} from '@constants/AppConstants';
 import axios from 'axios';
+import Config from 'react-native-config';
 
 const axiosInstance = axios.create({
   baseURL: AppConstants.baseUrl || 'https://your-api.com/api',
@@ -17,6 +18,8 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
+    console.log('MAKING A REQUEST -------- ', config);
+
     // ✅ Handle FormData content type
     if (config.data instanceof FormData) {
       config.headers['Content-Type'] = 'multipart/form-data';
@@ -24,12 +27,12 @@ axiosInstance.interceptors.request.use(
       config.headers['Content-Type'] = 'application/json';
     }
 
-    console.log('👉 Request:', config);
+    // console.log('👉 Request:', config);
     return config;
   },
   error => {
     console.error('❌ Request Error:', error);
-    return Promise.reject(error);
+    return Promise.reject((error.response?.data || error.message) ?? error);
   },
 );
 
@@ -47,7 +50,7 @@ axiosInstance.interceptors.response.use(
       // logout or refresh token logic
     }
 
-    return Promise.reject(error);
+    return Promise.reject((error.response?.data || error.message) ?? error);
   },
 );
 

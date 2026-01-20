@@ -1,5 +1,4 @@
 import DetailCard1 from '@components/event/DetailCard1';
-import SmallVenueCard from '@components/venue/SmallVenueCard';
 import {CustomImage} from '@components/global/CustomImage';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
@@ -7,21 +6,16 @@ import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import RoundedButton from '@components/global/RoundedButton';
 import ThreeDotBottomModal from '@components/global/ThreeDotBottomModal';
+import SmallVenueCard from '@components/venue/SmallVenueCard';
 import {AppConstants} from '@constants/AppConstants';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {
-  bookEventApi,
-  getSingleEvent,
-  updateEventApi,
-} from '@services/EventService';
+import {bookEventApi, getSingleEvent} from '@services/EventService';
 import {useAppSelector} from '@store/hooks';
 import {formatDate, formatISODate, formatTime, showToast} from '@utils/Helper';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {EventType, NavigationProps, RootStackParamList} from 'types/AppTypes';
-import {updateUserApi} from '@services/UserService';
 
 type EventDetailsScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -103,14 +97,13 @@ const EventDetailScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.flex}>
       {eventDetail == null ? (
         <CustomLoader />
       ) : (
         <>
-          <ScrollView
-            style={{flex: 1, backgroundColor: AppConstants.screenBgColor}}>
-            <View style={{position: 'relative', marginBottom: s(20)}}>
+          <ScrollView style={styles.scrollView}>
+            <View style={styles.imageBox}>
               <CustomImage
                 source={eventDetail.pic.url}
                 width={AppConstants.screenWidth}
@@ -131,12 +124,7 @@ const EventDetailScreen = () => {
               <RoundedBox
                 onPress={() => setShowEditModal(true)}
                 size={s(30)}
-                viewStyle={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 10,
-                  backgroundColor: 'transparent',
-                }}>
+                viewStyle={styles.threeDot}>
                 <ThreeDotBottomModal
                   onDelete={handleDelete}
                   onEdit={handleEdit}
@@ -149,11 +137,10 @@ const EventDetailScreen = () => {
             <View
               style={{
                 paddingHorizontal: AppConstants.screenPadding,
+                paddingBottom: s(50),
                 gap: AppConstants.defaultGap,
               }}>
-              <CustomText
-                style={{fontSize: s(30), fontWeight: '800'}}
-                numberOfLines={2}>
+              <CustomText style={styles.detailTitle} numberOfLines={2}>
                 {eventDetail.title}
               </CustomText>
 
@@ -204,7 +191,7 @@ const EventDetailScreen = () => {
                   isPic={true}
                   picUrl={
                     typeof eventDetail.host !== 'string'
-                      ? `${eventDetail.host.profilePic.url}`
+                      ? `${eventDetail.host.profilePic?.url}`
                       : 'https://i.pinimg.com/736x/2d/7a/c4/2d7ac424de1f7ca83011beb9f8b25b59.jpg'
                   }
                   showBtn={true}
@@ -213,23 +200,22 @@ const EventDetailScreen = () => {
 
               {/* ABOUT */}
               <View>
-                <CustomText style={{fontWeight: '800', fontSize: s(18)}}>
-                  About Event
-                </CustomText>
-                <Text
-                  style={{
-                    fontWeight: '400',
-                    fontSize: s(14),
-                    marginTop: vs(4),
-                  }}>
+                <CustomText style={styles.aboutEvent}>About Event</CustomText>
+                <Text style={styles.aboutEventDesc}>
                   {eventDetail.description}
                 </Text>
               </View>
 
-              <View>
-                <CustomText style={{fontWeight: '800', fontSize: s(18)}}>
-                  Venue
-                </CustomText>
+              <View style={styles.venueBox}>
+                <View style={styles.venueHeading}>
+                  <CustomText style={styles.price}>Venue</CustomText>
+                  <Icon
+                    icon="fireplace-off"
+                    iconType="MaterialCommunityIcons"
+                    size={s(20)}
+                    color={AppConstants.redColor}
+                  />
+                </View>
 
                 {typeof eventDetail.venue !== 'string' && (
                   <SmallVenueCard venue={eventDetail.venue} />
@@ -238,21 +224,8 @@ const EventDetailScreen = () => {
             </View>
           </ScrollView>
 
-          <View
-            style={{
-              width: '100%',
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: AppConstants.whiteColor,
-              elevation: 4,
-              paddingHorizontal: AppConstants.screenPadding,
-              paddingVertical: vs(6),
-            }}>
-            <Text style={{fontWeight: '800', fontSize: s(18)}}>$120</Text>
+          <View style={styles.bottomBox}>
+            <Text style={styles.price}>$120</Text>
 
             <RoundedButton
               onPress={handleJoin}
@@ -271,6 +244,7 @@ const EventDetailScreen = () => {
 export default EventDetailScreen;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
   headerInvite: {
     position: 'absolute',
     bottom: -s(20),
@@ -286,5 +260,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: AppConstants.screenBgColor,
+  },
+  imageBox: {position: 'relative', marginBottom: s(20)},
+  threeDot: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'transparent',
+  },
+  aboutEvent: {fontWeight: '800', fontSize: s(18)},
+  aboutEventDesc: {
+    fontWeight: '400',
+    fontSize: s(14),
+    marginTop: vs(4),
+  },
+  venueBox: {flexDirection: 'column', gap: s(15)},
+  venueHeading: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  detailTitle: {fontSize: s(30), fontWeight: '800'},
+  price: {fontWeight: '800', fontSize: s(18)},
+  bottomBox: {
+    width: '100%',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: AppConstants.whiteColor,
+    elevation: 4,
+    paddingHorizontal: AppConstants.screenPadding,
+    paddingVertical: vs(6),
   },
 });

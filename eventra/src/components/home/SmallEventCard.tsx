@@ -1,12 +1,12 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
-import {s} from 'react-native-size-matters';
+import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
-import {EventType, NavigationProps, RootStackParamList} from 'types/AppTypes';
-import CustomText from '@components/global/CustomText';
 import {useNavigation} from '@react-navigation/native';
+import React, {FC} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import {s} from 'react-native-size-matters';
+import {EventType, NavigationProps, RootStackParamList} from 'types/AppTypes';
 
 interface SmallEventCardProps {
   item: EventType;
@@ -33,18 +33,15 @@ const SmallEventCard: FC<SmallEventCardProps> = ({
             <Icon
               icon="map-marker"
               iconType="MaterialCommunityIcons"
-              color={AppConstants.grayColor}
+              color={AppConstants.redColor}
               size={s(16)}
             />
-            <CustomText
-              style={
-                styles.city
-              }>{`${typeof item.venue !== 'string' && item.venue.address.state}`}</CustomText>
+            <CustomText style={styles.city}>{item.address?.state}</CustomText>
           </View>
 
           <RoundedButton
             onPress={() => {
-              navigation.navigate('EventDetailScreen', {eventId: item._id});
+              navigation.navigate('VenueDetailScreen', {venueId: item._id});
             }}
             title="Check"
             style={styles.btn}
@@ -61,15 +58,21 @@ export default SmallEventCard;
 const styles = StyleSheet.create({
   main: {
     width: '100%',
+    minWidth: AppConstants.screenWidth * 0.6,
     flexDirection: 'row',
-    gap: s(10),
+    gap: s(5),
     backgroundColor: AppConstants.grayLightColor,
     borderRadius: s(10),
-    padding: s(5),
+    overflow: 'hidden',
   },
-  image: {objectFit: 'cover', width: s(50), height: s(50), borderRadius: s(14)},
-  rightContainer: {justifyContent: 'space-between', flex: 1},
-  subTitle: {fontSize: s(15), flexWrap: 'wrap', fontWeight: '500'},
+  image: {objectFit: 'cover', width: s(50), height: s(50)},
+  rightContainer: {
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingVertical: 4,
+    paddingRight: 8,
+  },
+  subTitle: {fontSize: s(14), flexWrap: 'wrap', fontWeight: '500'},
   addressContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

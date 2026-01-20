@@ -3,7 +3,13 @@ import { Conversation } from "../models/conversationModel.js";
 import { Message } from "../models/messageModel.js";
 import { UnseenMessage } from "../models/unseenMessageModel.js";
 
-export const saveMessage = async ({ sender, receiver, message }) => {
+export const saveMessage = async ({
+  sender,
+  receiver,
+  message,
+  deliveredAt,
+  seenAt,
+}) => {
   try {
     let conversation = await Conversation.findOne({
       participants: { $all: [sender, receiver] },
@@ -25,26 +31,32 @@ export const saveMessage = async ({ sender, receiver, message }) => {
       receiver,
       message,
       conversationId: conversation._id,
+      deliveredAt,
+      seenAt,
     });
 
     conversation.messages.push(newMessage._id);
 
-    await Promise.all([conversation.save(), newMessage.save()]);
+    const result = await Promise.all([conversation.save(), newMessage.save()]);
 
-    // 🔥 INCREMENT UNSEEN COUNT
-    // await Conversation.updateOne(
-    //   { _id: conversation._id },
-    //   {
-    //     $inc: { [`${receiver}`]: 1 },
-    //   }
-    // );
+    const messageData = {
+      sender: result[1].sender,
+      receiver: result[1].receiver,
+      message: result[1].message,
+      conversationId: result[1].conversationId,
+      deliveredAt: result[1].deliveredAt,
+      seenAt: result[1].seenAt,
+      _id: result[1]._id,
+      timestamp: result[1].timestamp,
+      createdAt: result[1].createdAt,
+      updatedAt: result[1].updatedAt,
+      __v: 0,
+    };
 
-    const receiverSocketId = getSocketIdByUserId(receiver);
-
-    return { newMessage, success: true, error: null };
+    return { newMessage, success: true, error: null, data: messageData };
   } catch (err) {
     console.log("ERROR IN SAVING MESSAGE : ", err);
-    return { newMessage: null, success: false, error: err };
+    return { newMessage: null, success: false, error: err, data: null };
   }
 };
 
@@ -165,6 +177,33 @@ export const updateMessage = async (req, res) => {
   res.status(200).json({ message: "UPDATED MESSAGE", data: updatedMessage });
 };
 
+export const updateConversationMessagesSeen = async (req, res) => {
+  try {
+    let { conversationId } = req.body;
+    console.log(req.body);
+
+    const data = await Conversation.findById(conversationId);
+    console.log(data);
+    await Message.updateMany(
+      { _id: { $in: data.messages } },
+      {
+        $set: {
+          deliveredAt: new Date().toISOString(),
+          seenAt: new Date().toISOString(),
+        },
+      }
+    );
+
+    res
+      .status(200)
+      .json({ message: "UPDATED MESSAGE", success: true, data: [] });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "NOT UPDATED MESSAGE", success: false, data: [] });
+  }
+};
+
 export const deleteMessage = async (req, res) => {
   let { messageId, type } = req.body;
 
@@ -181,4 +220,44 @@ export const deleteMessage = async (req, res) => {
   console.log(updatedMessage);
 
   res.status(200).json({ message: "UPDATED MESSAGE", data: updatedMessage });
+};
+
+//  --------- BELOW ARE CUSTOM REUSABLE FUNCTION FOR OTHER FILES ----------
+
+export const updateConversationMessages = async ({
+  conversationId,
+  type = "seenAt",
+  userId,
+}) => {
+  try {
+    if (type == "deliveredAt") {
+      const userConversations = await Conversation.find({
+        participants: { $in: [userId] },
+      });
+      const allMessages = userConversations.map((item) => item.messages).flat();
+      const makeDelivered = await Message.updateMany(
+        { _id: { $in: allMessages }, receiver: userId, deliveredAt: null },
+        {
+          $set: {
+            deliveredAt: new Date().toISOString(),
+          },
+        }
+      );
+
+      return { message: "UPDATED MESSAGE", success: true, data: [] };
+    } else {
+      const data = await Conversation.findById(conversationId);
+      const makeSeened = await Message.updateMany(
+        { _id: { $in: data.messages }, sender: userId, seenAt: null },
+        {
+          $set: {
+            seenAt: new Date().toISOString(),
+          },
+        }
+      );
+      return { message: "UPDATED MESSAGE", success: true, data: [] };
+    }
+  } catch (error) {
+    return { message: "NOT UPDATED MESSAGE", success: false, data: [] };
+  }
 };

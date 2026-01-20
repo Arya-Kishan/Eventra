@@ -26,14 +26,6 @@
         <data android:scheme="https" />
         <data android:host="eventra-website.vercel.app" />
       </intent-filter>
-      <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <!-- <data android:scheme="http" /> -->
-        <data android:scheme="https" />
-        <data android:host="eventra-61c1e.web.app/" />
-      </intent-filter>
     </activity>
   </application>
 </manifest>

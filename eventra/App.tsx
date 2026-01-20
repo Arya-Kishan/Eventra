@@ -5,22 +5,39 @@ import {Provider} from 'react-redux';
 import {SocketProvider} from './src/context/SocketContext';
 import AppNavigation from './src/navigation/AppNavigation';
 import {store} from './src/store/store';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {AppConstants} from './src/constants/AppConstants';
+import {NavigationContainer} from '@react-navigation/native';
+// navigation/navigationService.ts
+import {createNavigationContainerRef} from '@react-navigation/native';
+
+export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
-  console.log('I AM GOOD');
+  GoogleSignin.configure({
+    webClientId: AppConstants.EVENTRA_WEB_CLIENT_ID,
+    offlineAccess: true,
+  });
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <SocketProvider>
-          <AppNavigation />
-        </SocketProvider>
-        <Toast />
-      </Provider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={styles.flex}>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <SocketProvider>
+            <NavigationContainer ref={navigationRef}>
+              <AppNavigation />
+            </NavigationContainer>
+          </SocketProvider>
+          <Toast />
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 };
 
 export default App;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  flex: {flex: 1},
+});

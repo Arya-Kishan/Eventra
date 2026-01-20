@@ -2,37 +2,35 @@ import HorizontalRow from '@components/global/HorizontalRow';
 import CustomCarousel from '@components/home/CustomCarousel';
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList';
 import HomeHeader from '@components/home/HomeHeader';
-import SmallEventCard from '@components/home/SmallEventCard';
+import HomeVenueCard from '@components/home/HomeVenueCard';
 import SpotLight from '@components/home/SpotLight';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {getUnseenMessageCountApi} from '@services/ChatService';
-import {getAllEvent} from '@services/EventService';
 import {requestUserPermission} from '@services/firebaseService';
 import {getAllNotificationApi} from '@services/notificationService';
+import {getAllVenueApi} from '@services/VenueServices';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setUnseenMessageCount} from '@store/reducers/chatSlice';
-import {setUpcomingEvents} from '@store/reducers/eventSlice';
 import {setAllNotifications} from '@store/reducers/userSlice';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {s, vs} from 'react-native-size-matters';
-import {NavigationProps} from 'types/AppTypes';
+import {NavigationProps, VenueType} from 'types/AppTypes';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation<NavigationProps<'Main'>>();
-  const {upcomingEvents} = useAppSelector(store => store.event);
   const {loggedInUser} = useAppSelector(store => store.user);
+  const [allVenues, setAllVenues] = useState<null | VenueType[]>(null);
 
   const fetchData = async () => {
-    // const {data, success} = await getUpcomingEventsApi();
-    const {data, success} = await getAllEvent();
-    success
-      ? dispatch(setUpcomingEvents(data.data))
-      : navigate.navigate('ErrorScreen');
+    const {data, success} = await getAllVenueApi({type: 'all'});
+    success ? setAllVenues(data.data) : navigate.navigate('ErrorScreen');
   };
+
+  console.log('allVenues', allVenues);
 
   const getAllUserNotification = async () => {
     const {data, success} = await getAllNotificationApi(loggedInUser?._id!);
@@ -77,15 +75,15 @@ const HomeScreen = () => {
           <CustomCarousel />
 
           <HorizontalRow
-            leftText="Upcoming Events"
+            leftText="Pupular Venue"
             rightText="See All"
-            rightClick={() => navigate.navigate('Main', {screen: 'Event'})}
+            rightClick={() => navigate.navigate('VenueScreen')}
           />
           <DoubleHorizontalFlatList
-            data={upcomingEvents ? upcomingEvents : []}
+            data={allVenues ? allVenues : []}
             renderItem={(item, index) => (
               <View key={item._id}>
-                <SmallEventCard
+                <HomeVenueCard
                   item={item}
                   index={index}
                   navigationScreen="Main"

@@ -4,7 +4,6 @@ import eventReducer from './reducers/eventSlice';
 import userReducer from './reducers/userSlice';
 import venueReducer from './reducers/venueSlice';
 import postReducer from './reducers/postSlice';
-import productReducer from './reducers/productSlice';
 import chatReducer from './reducers/chatSlice';
 
 // Combine all slice reducers
@@ -14,7 +13,6 @@ const appReducer = combineReducers({
   user: userReducer,
   venue: venueReducer,
   post: postReducer,
-  product: productReducer,
   chat: chatReducer,
 });
 
