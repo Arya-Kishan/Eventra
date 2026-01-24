@@ -13,7 +13,6 @@ import {NavigationProps, NotificationType} from 'types/AppTypes';
 const HomeHeader = () => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
   const {loggedInUser, allNotifications} = useAppSelector(store => store.user);
-  console.log('LOGGEDiNuSER : ', loggedInUser);
 
   const getNotificationCount = (): number => {
     return allNotifications

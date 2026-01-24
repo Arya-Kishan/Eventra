@@ -30,6 +30,7 @@ import {Platform, StatusBar, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from 'types/AppTypes';
 import PracticeScreen from '../screens/PracticeScreen';
+import CreateSpotLightScreen from '@screens/SpotLight/CreateSpotLightScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -89,6 +90,10 @@ const AppNavigation = () => {
         <Stack.Screen name="ErrorScreen" component={ErrorScreen} />
 
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen
+          name="CreateSpotLightScreen"
+          component={CreateSpotLightScreen}
+        />
 
         <Stack.Screen
           name="ChatDashboardScreen"

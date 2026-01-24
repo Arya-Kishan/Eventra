@@ -5,7 +5,7 @@ import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {createEventApi} from '@services/EventService';
+import {createEventApi, updateEventApi} from '@services/EventService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {
   setAllEvents,
@@ -17,6 +17,7 @@ import {
   setTime,
   setTitle,
   setVenue,
+  updateEventFromAllEvents,
 } from '@store/reducers/eventSlice';
 import {formatDate, formatTime, showToast} from '@utils/Helper';
 import React, {FC, useEffect, useState} from 'react';
@@ -42,6 +43,7 @@ const CreateEventScreen: FC = () => {
   const {
     params: {event, method},
   } = useRoute<RouteProps<'CreateEventScreen'>>();
+  const isUpdate = method === 'update';
   const [addLoader, setAddLoader] = useState(false);
   const navigation = useNavigation<NavigationProps<'CreateEventScreen'>>();
   const [showVenues, setShowVenues] = useState(false);
@@ -57,6 +59,7 @@ const CreateEventScreen: FC = () => {
     venue,
     allEvents,
   } = useAppSelector(store => store.event);
+
   const {loggedInUser} = useAppSelector(store => store.user);
   const dispatch = useAppDispatch();
 
@@ -108,6 +111,8 @@ const CreateEventScreen: FC = () => {
       return showToast({title: errorMessage, description: '', type: 'info'});
     setAddLoader(true);
 
+    console.log('creating data : ', date);
+
     const formData = new FormData();
     formData.append('title', title); // Additional data you want to send
     formData.append('description', description);
@@ -120,7 +125,7 @@ const CreateEventScreen: FC = () => {
       type: pic.type,
     });
     formData.append('venue', (venue as VenueType)._id);
-    formData.append('headCount', headcount);
+    formData.append('headcount', headcount);
     formData.append('category', category);
     formData.append('location', JSON.stringify((venue as VenueType).location));
     formData.append('address', JSON.stringify((venue as VenueType).address));
@@ -139,15 +144,56 @@ const CreateEventScreen: FC = () => {
     setAddLoader(false);
   };
 
+  const updateEvent = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('title', title); // Additional data you want to send
+      formData.append('description', description);
+      formData.append('headcount', headcount);
+      formData.append('category', category);
+
+      const data = await updateEventApi(formData, event!._id);
+      if (!data.success)
+        return showToast({
+          title: 'Info',
+          description: 'No changes made to update',
+          type: 'info',
+        });
+
+      dispatch(
+        updateEventFromAllEvents({
+          ...event!,
+          title,
+          description,
+          headcount: headcount,
+          category,
+        }),
+      );
+
+      showToast({
+        title: 'Success',
+        description: 'Event Updated Successfully',
+        type: 'success',
+      });
+
+      navigation.navigate('Main', {screen: 'Event'});
+    } catch (error) {
+      console.log('UPDATE EVENT ERROR: ', error);
+      showToast({
+        title: 'Error',
+        description: 'Failed to update event',
+        type: 'error',
+      });
+    }
+  };
+
   useEffect(() => {
-    if (method == 'update') {
+    if (isUpdate) {
       dispatch(setTitle(event!.title));
       dispatch(setDescription(event!.description));
       dispatch(setDate(event!.date));
       dispatch(setTime(event!.time));
-      dispatch(
-        setVenue(typeof event!.venue !== 'string' ? event!.venue.title : ''),
-      );
+      dispatch(setVenue(typeof event!.venue !== 'string' ? event!.venue : ''));
       dispatch(setPic(event!.pic));
       dispatch(setCategory(event!.category));
       dispatch(setHeadcount(event!.headcount.toString()));
@@ -173,7 +219,7 @@ const CreateEventScreen: FC = () => {
           <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
         </Pressable>
         <CustomText variant="h2" style={styles.headerText}>
-          Create Event
+          {isUpdate ? 'Update' : 'Create'} Event
         </CustomText>
       </View>
 
@@ -213,6 +259,7 @@ const CreateEventScreen: FC = () => {
             <DateTimeSelector
               onSet={val => dispatch(setDate(val))}
               mode="date"
+              isEditable={!isUpdate}
               viewStyle={styles.dateSelector}>
               <TextInput
                 placeholder="Choose Date..."
@@ -220,7 +267,10 @@ const CreateEventScreen: FC = () => {
                 placeholderTextColor={AppConstants.grayLightColor}
                 onChangeText={setDate}
                 editable={false}
-                style={styles.input}
+                style={[
+                  styles.input,
+                  isUpdate && {color: AppConstants.grayColor},
+                ]}
               />
               <Icon
                 icon="calendar"
@@ -236,7 +286,7 @@ const CreateEventScreen: FC = () => {
 
               <Pressable
                 onPress={() => {
-                  setShowVenues(true);
+                  !isUpdate && setShowVenues(true);
                 }}
                 style={styles.venue}>
                 <TextInput
@@ -244,7 +294,10 @@ const CreateEventScreen: FC = () => {
                   placeholder="Choose Venue..."
                   placeholderTextColor={AppConstants.grayLightColor}
                   onChangeText={() => {}}
-                  style={styles.input}
+                  style={[
+                    styles.input,
+                    isUpdate && {color: AppConstants.grayColor},
+                  ]}
                   editable={false}
                 />
                 <Icon
@@ -265,7 +318,10 @@ const CreateEventScreen: FC = () => {
                   value={formatTime(time.start)}
                   onChangeText={() => {}}
                   editable={false}
-                  style={styles.input}
+                  style={[
+                    styles.input,
+                    isUpdate && {color: AppConstants.grayColor},
+                  ]}
                 />
                 <Icon
                   icon="clock"
@@ -281,7 +337,10 @@ const CreateEventScreen: FC = () => {
                   value={formatTime(time.end)}
                   onChangeText={() => {}}
                   editable={false}
-                  style={styles.input}
+                  style={[
+                    styles.input,
+                    isUpdate && {color: AppConstants.grayColor},
+                  ]}
                 />
                 <Icon
                   icon="clock"
@@ -294,11 +353,18 @@ const CreateEventScreen: FC = () => {
           </View>
 
           {/* PIC */}
-          <Pressable onPress={pickImage} style={styles.fieldContainer}>
+          <Pressable
+            onPress={() => {
+              !isUpdate && pickImage();
+            }}
+            style={styles.fieldContainer}>
             <CustomText variant="h6">Pic</CustomText>
             <View style={styles.picContainer}>
               {pic !== '' ? (
-                <Image source={{uri: pic.uri}} style={styles.pic} />
+                <Image
+                  source={{uri: pic.uri ?? pic.url}}
+                  style={[styles.pic, isUpdate && {opacity: 0.5}]}
+                />
               ) : (
                 <View style={styles.picWrapper}>
                   <Icon
@@ -341,9 +407,9 @@ const CreateEventScreen: FC = () => {
 
           <RoundedButton
             loading={addLoader}
-            title="Create"
+            title={isUpdate ? 'Update' : 'Create'}
             onPress={() => {
-              createEvent();
+              isUpdate ? updateEvent() : createEvent();
             }}
           />
         </View>

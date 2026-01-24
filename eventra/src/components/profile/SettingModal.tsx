@@ -1,24 +1,27 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
-import {NavigationProps, RootStackParamList} from 'types/AppTypes';
+import {NavigationProps, RootStackParamList, userType} from 'types/AppTypes';
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import {s, vs} from 'react-native-size-matters';
 import {BlurView} from '@react-native-community/blur';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
+import {createShareLink} from '@utils/DeepLinkService';
+import {useAppSelector} from '@store/hooks';
 
 interface dataProps {
-  type: 'event' | 'venue' | 'post' | 'edit';
+  type: 'event' | 'venue' | 'post' | 'edit' | 'share';
   title: string;
   description: string;
 }
 
 interface SettingModalProps {
   setShowSettings: (val: boolean) => void;
+  user: userType;
 }
 
-const SettingModal: FC<SettingModalProps> = ({setShowSettings}) => {
+const SettingModal: FC<SettingModalProps> = ({setShowSettings, user}) => {
   const data: dataProps[] = [
     {
       type: 'event',
@@ -41,23 +44,38 @@ const SettingModal: FC<SettingModalProps> = ({setShowSettings}) => {
       title: 'Edit Profile',
       description: 'Edit your profile',
     },
+    {
+      type: 'share',
+      title: 'Share Profile',
+      description: 'Share your profile',
+    },
   ];
 
   const {navigate} = useNavigation<NavigationProps<'ProfileScreen'>>();
+  const {loggedInUser} = useAppSelector(store => store.user);
 
   const handleNavigation = (screen: string) => {
-    if (screen == 'event') {
+    if (screen === 'event') {
       navigate('CreateEventScreen', {event: null, method: 'create'});
     }
 
-    if (screen == 'post') {
+    if (screen === 'post') {
       navigate('CreatePostScreen', {post: null, method: 'create'});
     }
-    if (screen == 'venue') {
+    if (screen === 'venue') {
       navigate('CreateVenueScreen', {venue: null, method: 'create'});
     }
-    if (screen == 'edit') {
+    if (screen === 'edit') {
       // navigate("CreateVenueScreen", { venue: null, method: "create" });
+    }
+
+    if (screen === 'share') {
+      // navigate("CreateVenueScreen", { venue: null, method: "create" });
+      createShareLink({
+        action: 'share',
+        docId: user?._id!,
+        feature: 'profile',
+      });
     }
 
     setShowSettings(false);

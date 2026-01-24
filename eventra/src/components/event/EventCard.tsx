@@ -18,7 +18,7 @@ const EventCard: FC<EventCardProps> = ({item, index}) => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
 
   const getTiming = (): string => {
-    const {date, day, month} = formatISODate(item.time.start);
+    const {date, day, month} = formatISODate(item.date);
     return `${day}, ${date} ${month}`;
   };
   return (
@@ -80,7 +80,12 @@ const styles = StyleSheet.create({
   image: {width: '100%', height: s(150), objectFit: 'cover'},
   title: {fontSize: s(14), flexWrap: 'wrap', fontWeight: '500'},
   addressContainer: {flexDirection: 'row', justifyContent: 'space-between'},
-  address: {flexDirection: 'row', gap: s(2), alignItems: 'center'},
+  address: {
+    flexDirection: 'row',
+    gap: s(2),
+    alignItems: 'center',
+    width: '70%',
+  },
   time: {
     fontSize: s(12),
     flexWrap: 'wrap',

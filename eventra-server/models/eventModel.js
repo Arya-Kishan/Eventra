@@ -45,6 +45,7 @@ const eventSchema = new Schema(
         type: [Number], // [lng, lat]
       },
     },
+    isCancelled: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

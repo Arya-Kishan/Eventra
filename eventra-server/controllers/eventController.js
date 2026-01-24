@@ -1,9 +1,11 @@
+import mongoose, { Types } from "mongoose";
 import { Event } from "../models/eventModel.js";
 import { User } from "../models/userModel.js";
 import { Venue } from "../models/venueModel.js";
 import { uploadFileToCloudinary } from "../services/Cloudinary.js";
 import sendNotification from "../services/FirebaseFCM.js";
 import AsyncHandler from "../utils/AsyncHandler.js";
+import sendNotificationToUsersArr from "../services/FirebaseFCM.js";
 
 const allowed_distance = process.env.BUSINESS_DISTANCE;
 
@@ -23,7 +25,7 @@ export const createEvent = AsyncHandler(async (req, res) => {
     address: JSON.parse(req.body.address),
   });
   const newDoc = await doc.save();
-  await Venue.findOneAndUpdate(
+  const updatedVenue = await Venue.findOneAndUpdate(
     {
       _id: venue,
       "slots.time.start": JSON.parse(time).start,
@@ -41,11 +43,19 @@ export const createEvent = AsyncHandler(async (req, res) => {
     { new: true },
   );
   res.status(200).json({ data: newDoc, message: "Success" });
+
+  sendNotificationToUsersArr({
+    userIdArr: [updatedVenue.host],
+    title: "New Venue Booking 💕",
+    body: `The event ${newDoc.title} has booked the ${updatedVenue.title}.`,
+    feature: "event",
+    action: "booked",
+    docId: newDoc._id,
+    link: `/event/booked/${newDoc._id}`,
+  });
 }, "error in creating Event");
 
 export const updateEvent = AsyncHandler(async (req, res) => {
-  console.log(req.body);
-
   const normalUpdates = [
     "title",
     "description",
@@ -55,6 +65,7 @@ export const updateEvent = AsyncHandler(async (req, res) => {
     "status",
     "price",
     "category",
+    "isCancelled",
   ];
   const pushUpdates = ["participants"];
   const parsedUpdates = ["time"];
@@ -74,9 +85,12 @@ export const updateEvent = AsyncHandler(async (req, res) => {
     }
   }
 
+  if (req.body.headcount) {
+    DoUpdateNormal.headcount = Number(DoUpdateNormal.headcount);
+  }
+
   if (req.files.pic !== undefined) {
     const picUrl = await uploadFileToCloudinary(type, req.files);
-    console.log("PIC URL : ", picUrl);
     if (picUrl.success == false) {
       throw Error("Error in Uploading Image to Cloudinary !!");
     }
@@ -104,11 +118,60 @@ export const updateEvent = AsyncHandler(async (req, res) => {
       select: ["name", "email", "bio", "profilePic"],
     });
 
-  res.status(200).json({ data: newUpdates, message: "Success" });
+  res
+    .status(200)
+    .json({ data: newUpdates, message: "Success", success: true, error: null });
+
+  if (req.body.isCancelled) {
+    const event = await Event.findById(req.params.id);
+    const { participants } = event;
+    if (participants.length == 0) return;
+    sendNotificationToUsersArr({
+      userIdArr: participants,
+      title: "Event Cancelled ❌",
+      body: `The event ${event.title} has been cancelled.`,
+      feature: "event",
+      action: "cancelled",
+      docId: req.params.id,
+      link: `/event/cancelled/${req.params.id}`,
+    });
+  }
 }, "error in updating Event");
 
 export const deleteEvent = AsyncHandler(async (req, res) => {
-  const doc = await Event.findByIdAndDelete(req.params.id);
+  const event = await Event.findById(req.params.id);
+  const { venue, participants } = event;
+
+  const updateVenue = Venue.findByIdAndUpdate(
+    venue,
+    {
+      $set: {
+        "slots.$[slot].isBooked": false,
+        "slots.$[slot].event": null,
+      },
+      $pull: {
+        bookedEvents: req.params.id,
+      },
+    },
+    {
+      arrayFilters: [{ "slot.event": req.params.id }],
+      new: true,
+    },
+  );
+
+  const updateAllParticipants = User.updateMany(
+    { _id: { $in: participants } },
+    {
+      $pull: { joinedEvents: req.params.id },
+    },
+  );
+
+  const deleteEvent = Event.findByIdAndDelete(req.params.id);
+  const doc = await Promise.all([
+    updateVenue,
+    updateAllParticipants,
+    deleteEvent,
+  ]);
   res.status(200).json({ data: doc, message: "Success" });
 }, "error in deleting Event");
 
@@ -132,7 +195,6 @@ export const getAllEvents = AsyncHandler(async (req, res) => {
   const radius = allowed_distance;
 
   const { lat, lng, type = "all", word } = req.query;
-  console.log("QUERY", req.query);
   let allEvents = null;
 
   if (type == "all") {
@@ -216,8 +278,6 @@ export const getAllEvents = AsyncHandler(async (req, res) => {
     allEvents = await Event.find({ title: { $regex: regex } });
   }
 
-  console.log(allEvents);
-
   res.status(200).json({ data: allEvents, message: "Success", success: true });
 }, "error in getting all Venues");
 
@@ -266,8 +326,6 @@ export const getSearchedEvent = AsyncHandler(async (req, res) => {
 }, "error in getting searched Event");
 
 export const bookEvent = AsyncHandler(async (req, res) => {
-  console.log(req.body);
-
   const { participant, host } = req.body;
 
   const newUpdates = await Event.findByIdAndUpdate(
@@ -289,8 +347,6 @@ export const bookEvent = AsyncHandler(async (req, res) => {
       select: ["name", "email", "bio", "profilePic", "FCMToken"],
     });
 
-  console.log("newUpdates : ", newUpdates);
-
   const updateUser = await User.findByIdAndUpdate(
     participant,
     {
@@ -299,12 +355,10 @@ export const bookEvent = AsyncHandler(async (req, res) => {
     { new: true },
   );
 
-  console.log("updateUser : ", updateUser);
-
   await Promise.all([
     sendNotification({
       user: newUpdates.host._id,
-      title: "New Booking 💕",
+      title: "New Event Booking 💕",
       body: `${updateUser.name} made a booking - ${newUpdates.title} Event`,
       feature: "event",
       action: "booking",
@@ -315,7 +369,7 @@ export const bookEvent = AsyncHandler(async (req, res) => {
 
     sendNotification({
       user: updateUser._id,
-      title: "New Booking 💕",
+      title: "New Event Booking 💕",
       body: `You made a booking - ${newUpdates.title} Event`,
       feature: "event",
       action: "booking",

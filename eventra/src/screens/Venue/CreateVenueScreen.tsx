@@ -6,10 +6,10 @@ import RoundedBox from '@components/global/RoundedBox';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {createVenueApi} from '@services/VenueServices';
-import {useAppSelector} from '@store/hooks';
+import {createVenueApi, updateVenueApi} from '@services/VenueServices';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {formatTime, showToast} from '@utils/Helper';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -27,8 +27,9 @@ import {addressesType, NavigationProps, RouteProps} from 'types/AppTypes';
 
 const CreateVenueScreen: FC = () => {
   const {
-    params: {venue},
+    params: {venue, method},
   } = useRoute<RouteProps<'CreateVenueScreen'>>();
+  const isUpdate = method === 'update';
   const navigation = useNavigation<NavigationProps<'CreateVenueScreen'>>();
   const [addresses, setAddresses] = useState<addressesType | null>(null);
   const [showLocationModal, setShowLocationModal] = useState<boolean>(false);
@@ -44,6 +45,9 @@ const CreateVenueScreen: FC = () => {
     end: '',
     start: '',
   });
+  const dispatch = useAppDispatch();
+
+  console.log({venue, method});
 
   const {loggedInUser} = useAppSelector(store => store.user);
 
@@ -128,6 +132,23 @@ const CreateVenueScreen: FC = () => {
     setAddLoader(false);
   };
 
+  const updateVenue = async () => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    const result = await updateVenueApi(formData, venue!._id);
+    setAddLoader(true);
+    if (result.success) {
+      navigation.navigate('VenueScreen');
+      showToast({
+        title: 'Success',
+        description: 'Venue Updated',
+        type: 'success',
+      });
+    }
+    setAddLoader(false);
+  };
+
   const handleCreateSlots = () => {
     if (!time.start)
       return showToast({
@@ -140,8 +161,35 @@ const CreateVenueScreen: FC = () => {
     setTime({end: '', start: ''});
   };
 
-  const handleDeleteSlot = (id: string) =>
+  const handleDeleteSlot = (id: string) => {
+    if (isUpdate) {
+      showToast({
+        title: 'Warning !',
+        description: 'Cannot delete slot in update mode',
+        type: 'info',
+      });
+      return;
+    }
     setSlots(prev => prev.filter(item => item.id !== id));
+  };
+
+  useEffect(() => {
+    if (isUpdate) {
+      setTitle(venue!.title);
+      setDescription(venue!.description);
+      setTime({end: '', start: ''});
+      setPic(venue!.pic);
+      setAddresses(typeof venue!.venue !== 'string' ? venue!.address : null);
+      setSlots(venue!.slots.map(item => ({...item.time, id: item._id})));
+    } else {
+      setTitle('');
+      setDescription('');
+      setTime({end: '', start: ''});
+      setPic('');
+      setAddresses(null);
+      setSlots([]);
+    }
+  }, [method]);
 
   return (
     <View style={styles.container}>
@@ -149,9 +197,11 @@ const CreateVenueScreen: FC = () => {
 
       {/* BACK HEADER */}
       <View style={styles.header}>
-        <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
+        <Pressable onPress={() => navigation.goBack()}>
+          <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
+        </Pressable>
         <CustomText variant="h2" style={styles.headerTitle}>
-          Create Venue
+          {isUpdate ? 'Update' : 'Create'} Venue
         </CustomText>
       </View>
 
@@ -188,11 +238,13 @@ const CreateVenueScreen: FC = () => {
           </View>
 
           {/* PIC */}
-          <Pressable onPress={pickImage} style={styles.section}>
+          <Pressable
+            onPress={() => !isUpdate && pickImage}
+            style={[styles.section, isUpdate ? {opacity: 0.6} : {}]}>
             <CustomText variant="h6">Pic</CustomText>
             <View style={styles.picContainer}>
               {pic !== '' ? (
-                <Image source={{uri: pic.uri}} style={styles.pic} />
+                <Image source={{uri: pic.uri ?? pic.url}} style={styles.pic} />
               ) : (
                 <View style={styles.picWrapper}>
                   <Icon
@@ -207,43 +259,57 @@ const CreateVenueScreen: FC = () => {
           </Pressable>
 
           {/* SLOTS */}
-          <CustomText variant="h6">Create Slots</CustomText>
-          <View style={styles.slotInputRow}>
-            <DateTimeSelector
-              onSet={val => setTime({...time, start: val})}
-              mode="time"
-              viewStyle={styles.timeBox}>
-              <TextInput
-                placeholder="Start Time..."
-                placeholderTextColor={AppConstants.grayLightColor}
-                value={formatTime(time.start)}
-                editable={false}
-                style={styles.input}
-              />
-              <Icon icon="clock" iconType="Feather" size={s(18)} color="red" />
-            </DateTimeSelector>
+          <CustomText variant="h6">
+            {isUpdate ? 'Slots' : 'Create Slots'}
+          </CustomText>
+          {!isUpdate && (
+            <View style={styles.slotInputRow}>
+              <DateTimeSelector
+                onSet={val => setTime({...time, start: val})}
+                mode="time"
+                viewStyle={styles.timeBox}>
+                <TextInput
+                  placeholder="Start Time..."
+                  placeholderTextColor={AppConstants.grayLightColor}
+                  value={formatTime(time.start)}
+                  editable={false}
+                  style={styles.input}
+                />
+                <Icon
+                  icon="clock"
+                  iconType="Feather"
+                  size={s(18)}
+                  color="red"
+                />
+              </DateTimeSelector>
 
-            <DateTimeSelector
-              onSet={val => setTime({...time, end: val})}
-              mode="time"
-              viewStyle={styles.timeBox}>
-              <TextInput
-                placeholder="End Time"
-                placeholderTextColor={AppConstants.grayLightColor}
-                value={formatTime(time.end)}
-                editable={false}
-                style={styles.input}
-              />
-              <Icon icon="clock" iconType="Feather" size={s(18)} color="red" />
-            </DateTimeSelector>
+              <DateTimeSelector
+                onSet={val => setTime({...time, end: val})}
+                mode="time"
+                viewStyle={styles.timeBox}>
+                <TextInput
+                  placeholder="End Time"
+                  placeholderTextColor={AppConstants.grayLightColor}
+                  value={formatTime(time.end)}
+                  editable={false}
+                  style={styles.input}
+                />
+                <Icon
+                  icon="clock"
+                  iconType="Feather"
+                  size={s(18)}
+                  color="red"
+                />
+              </DateTimeSelector>
 
-            <RoundedBox
-              size={s(25)}
-              viewStyle={styles.addSlotBtn}
-              onPress={handleCreateSlots}>
-              <Icon icon="plus" iconType="Feather" size={s(20)} />
-            </RoundedBox>
-          </View>
+              <RoundedBox
+                size={s(25)}
+                viewStyle={styles.addSlotBtn}
+                onPress={handleCreateSlots}>
+                <Icon icon="plus" iconType="Feather" size={s(20)} />
+              </RoundedBox>
+            </View>
+          )}
 
           {/* SHOW SLOTS */}
           <FlatList
@@ -276,7 +342,7 @@ const CreateVenueScreen: FC = () => {
                 </RoundedBox>
               </View>
             )}
-            keyExtractor={item => `${item.id}`}
+            keyExtractor={item => `${item.start}-${item.end}`}
             contentContainerStyle={styles.slotList}
             scrollEnabled={false}
           />
@@ -285,7 +351,7 @@ const CreateVenueScreen: FC = () => {
           <CustomText variant="h6">Location</CustomText>
           {/* LOCATION */}
           <Pressable
-            onPress={() => setShowLocationModal(true)}
+            onPress={() => !isUpdate && setShowLocationModal(true)}
             style={styles.locationBox}>
             <Icon
               icon="location-pin"
@@ -297,15 +363,18 @@ const CreateVenueScreen: FC = () => {
               onChangeText={() => {}}
               placeholder="Location..."
               placeholderTextColor={AppConstants.grayLightColor}
-              style={styles.input}
+              style={[
+                styles.input,
+                isUpdate && {color: AppConstants.grayColor},
+              ]}
               editable={false}
             />
           </Pressable>
 
           <RoundedButton
             loading={addLoader}
-            title="Create"
-            onPress={createVenue}
+            title={isUpdate ? 'Update' : 'Create'}
+            onPress={() => (isUpdate ? updateVenue() : createVenue())}
           />
         </View>
       </ScrollView>

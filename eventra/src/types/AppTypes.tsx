@@ -1,5 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
+import {ReactNode} from 'react';
 
 export type TabParamList = {
   Home: undefined;
@@ -37,6 +38,10 @@ export type RootStackParamList = {
   PracticeScreen: undefined;
   CompleteProfileScreen: {user: userType};
   EmailVerificationScreen: {user: userType};
+  CreateSpotLightScreen: {
+    categoryId: string;
+    category: 'event' | 'venue' | 'product' | 'post';
+  };
 };
 
 // Generic helpers
@@ -108,6 +113,7 @@ export type EventType = {
   venue: VenueType | string;
   headcount: string;
   category: string;
+  isCancelled?: boolean;
   status?: 'pending' | 'rejected' | 'accepted';
   _id: string;
   address?: {
@@ -130,6 +136,7 @@ export type slotType = {
   isBooked?: boolean;
   time: {start: string; end: string};
   eventId?: any;
+  _id?: string;
 };
 
 export type CommentType = {
@@ -229,18 +236,33 @@ export type SpotLightType = {
   pic: {url: string; public_id: string};
   category: 'event' | 'venue' | 'product' | 'post';
   categoryId: string;
+  deepLink?: string;
+};
+
+export type BannerType = {
+  image: string;
+  link?: string;
+  title: string;
+  description: string;
+};
+
+export type NoticeType = {
+  title: string;
+  description: string;
+  link: string;
+  viewedBy: any[];
+  priority: 'warning' | 'success' | 'info' | 'report';
+  type: 'user' | 'global';
+  targetUserId: userType;
+  _id?: string;
 };
 
 export type notificationFeatureType =
   | 'main'
-  | 'event_detail'
-  | 'venue_detail'
-  | 'product_detail'
+  | 'event'
   | 'create_event'
   | 'create_venue'
   | 'create_post'
-  | 'CustomSplashScreen'
-  | 'error'
   | 'cart'
   | 'post'
   | 'home'
@@ -266,3 +288,23 @@ export type openingFromType =
   | 'background'
   | 'notification'
   | 'pending';
+
+export type ThreeDotBottomModalType = {
+  dataArr: {
+    title: string;
+    description: string;
+    icon: ReactNode;
+    value: string;
+  }[];
+  show: boolean;
+  setShow: (show: boolean) => void;
+  onClick: (value: string) => void;
+};
+
+export type TimeDifference = {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  isPassed: boolean;
+};

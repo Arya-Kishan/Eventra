@@ -30,8 +30,10 @@ export const getUserNotifications = async (req, res) => {
       .populate({
         path: "user",
       });
+    console.log("SUCCESS : ", notifications.length);
     res.status(200).json({ data: notifications, message: "success" });
   } catch (err) {
+    console.log("ERRROR IN NOTIFICATION BACKEND : ", err);
     res.status(500).json({ error: "Failed to fetch notifications" });
   }
 };

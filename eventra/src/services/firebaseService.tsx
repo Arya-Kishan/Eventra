@@ -9,7 +9,7 @@ import {
   registerDeviceForRemoteMessages,
   requestPermission,
 } from '@react-native-firebase/messaging';
-import {AsyncGetFCMToken, AsyncSetFCMToken} from '@utils/AsyncStorage';
+import {AsyncSetFCMToken} from '@utils/AsyncStorage';
 import {Platform} from 'react-native';
 import {userType} from 'types/AppTypes';
 import {updateUserApi} from './UserService';
@@ -27,8 +27,6 @@ async function createNotificationChannel() {
 
 export const requestUserPermission = async (user: userType): Promise<void> => {
   try {
-    console.log('ASKING FOR NOTIFICATION PERMISSION');
-
     if (Platform.OS === 'android') {
       // 🔥 REQUIRED for Android 13+
       await notifee.requestPermission();

@@ -1,159 +1,84 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 
-import { getAllEventApi } from '@/services/EventService';
-import { getAllPostApi } from '@/services/PostService';
-import { createspotLightApi } from '@/services/SpotLightService';
-import { EventType, PostType } from '@/types/AppTypes';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import CustomLoader from "@/components/ui/CustomLoader";
+import SwitchTab from "@/components/ui/SwitchTab";
+import { SpotLightType } from "@/types/AppTypes";
+import { useEffect, useState } from "react";
+import Card from "./components/Card";
 
-const SpotLight = () => {
-    const [title, setTitle] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [pic, setPic] = useState<any>(null);
-    const [file, setFile] = useState<any>(null);
-    const [category, setCategory] = useState<string>("");
-    const [selectedData, setSelectedData] = useState<any>(null);
+const Spotlight = () => {
+  const [spotlights, setSpotlights] = useState<SpotLightType[] | null>(null);
+  const [copySpotlights, setCopySpotlights] = useState<SpotLightType[] | null>(
+    null,
+  );
+  const [loader, setLoader] = useState<boolean>(false);
 
-    const [events, setEvents] = useState<EventType[] | null>(null);
-    const [posts, setPosts] = useState<PostType[] | null>(null);
-
-    const getAllEvents = async () => {
-        const { data } = await getAllEventApi();
-        setEvents(data.data);
-        console.log("EVENTS DATA : ", data)
+  const getSpotLights = async () => {
+    try {
+      setLoader(true);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/spotLight/all`,
+      );
+      const data = await res.json();
+      console.log("SPLOT LIHGT DAT", data);
+      setSpotlights(data.data);
+      setCopySpotlights(data.data);
+      setLoader(false);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    const getAllPosts = async () => {
-        const { data } = await getAllPostApi();
-        setPosts(data.data);
-        console.log("POSTS DATA : ", data)
-    }
+  const onChangeTab = (val: string) => {
+    console.log(val);
+    const filteredSpotlights = copySpotlights?.filter((item) => {
+      if (val === "approved" && item.isApproved) {
+        return item;
+      }
 
-    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        setFile(file);
-        console.log("FILE : ", file)
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setPic(imageUrl);
-        }
-    };
+      if (val === "request" && !item.isApproved) {
+        return item;
+      }
 
-    const createSpotLight = async () => {
+      if (val === "all") {
+        return item;
+      }
+    });
+    setSpotlights(filteredSpotlights!);
+  };
 
-        const formdata: any = new FormData();
-        formdata.append("title", title);
-        formdata.append("description", description);
-        formdata.append("category", category);
-        formdata.append("categoryId", selectedData._id);
-        formdata.append("image", file);
+  useEffect(() => {
+    getSpotLights();
+  }, []);
 
-        console.log("formdata : ", formdata);
+  return (
+    <div className="px-10">
+      <div className="flex flex-row justify-between items-center py-4">
+        <p className="text-4xl font-bold">Spotlight Page</p>
+        <SwitchTab
+          onChange={onChangeTab}
+          tabs={[
+            { label: "All", value: "all" },
+            { label: "Approved", value: "approved" },
+            { label: "Request", value: "request" },
+          ]}
+        />
+      </div>
 
-        const { data } = await createspotLightApi(formdata);
-        console.log(data)
-    }
+      {loader ? (
+        <CustomLoader fullScreen />
+      ) : (
+        spotlights &&
+        spotlights.length > 0 && (
+          <div className="w-full flex flex-row flex-wrap gap-2">
+            {spotlights.map((item: SpotLightType) => (
+              <Card key={item._id} item={item} />
+            ))}
+          </div>
+        )
+      )}
+    </div>
+  );
+};
 
-    useEffect(() => {
-        getAllEvents();
-        getAllPosts();
-    }, [])
-
-    console.log("CATEGORY : ", category)
-
-    return (
-        <div className='w-full h-screen flex flex-col gap-10 justify-center px-10'>
-
-            <p className='text-4xl font-bold'>Create SpotLight</p>
-
-            <div className='w-full flex flex-row gap-10'>
-
-                <div className='w-full flex flex-col gap-8'>
-
-                    <input className='w-full text-xl p-2 placeholder:text-red-700 rounded-2xl bg-white' type="text" placeholder='Title' onChange={(e) => setTitle(e.target.value)} />
-
-                    <input className='w-full text-xl p-2 placeholder:text-red-700 rounded-2xl bg-white' type="text" placeholder='Description' onChange={(e) => setDescription(e.target.value)} />
-
-                    <div>
-
-                        <select className='w-full p-2 bg-white text-red-500 rounded-3xl' name="choose" id="choose" onChange={(e) => setCategory(e.target.value)}>
-                            <option className='text-red-600' value="event">Event</option>
-                            <option className='text-red-600' value="post">Post</option>
-                        </select>
-
-                        {
-                            selectedData == null
-                                ?
-                                "NOT SELECTED"
-                                :
-                                <p>{selectedData.title}</p>
-                        }
-                    </div>
-
-                    <p className='text-2xl'>Choose Pic</p>
-
-                    {
-                        pic && <Image src={pic} width={100} height={100} alt='as' />
-                    }
-
-                    <input type="file" onChange={handleFile} />
-
-                </div>
-
-
-
-                <div className='w-full h-[500px] overflow-scroll'>
-
-                    {
-                        category == "event"
-                            ?
-                            <>
-                                {
-                                    events == null
-                                        ?
-                                        ""
-                                        :
-                                        events.map((event) => (
-                                            <div key={event._id} className='flex flex-row gap-5' onClick={() => setSelectedData(event)}>
-
-                                                <Image src={event.pic.url} width={100} height={100} alt='as' />
-
-                                                <p className='text-2xl font-bold'>{event.title}</p>
-
-                                            </div>
-                                        ))
-                                }
-                            </>
-                            :
-                            <>
-                                {
-                                    posts == null
-                                        ?
-                                        ""
-                                        :
-                                        posts.map((post) => (
-                                            <div key={post._id} className='flex flex-row gap-5' onClick={() => setSelectedData(post)}>
-
-                                                <Image src={post.file.url!} width={100} height={100} alt='as' />
-
-                                                <p className='text-2xl font-bold'>{post.title}</p>
-
-                                            </div>
-                                        ))
-                                }
-                            </>
-                    }
-
-                </div>
-
-            </div>
-
-            <button className='w-1/2 h-[50px] bg-red-500 text-white shadow-amber-50' onClick={createSpotLight}>ADD</button>
-
-        </div>
-    )
-}
-
-export default SpotLight
+export default Spotlight;

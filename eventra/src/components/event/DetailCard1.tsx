@@ -12,6 +12,7 @@ interface DetailCard1Type {
   isPic?: boolean;
   picUrl?: string;
   showBtn?: boolean;
+  onPress?: () => void;
 }
 
 const DetailCard1: FC<DetailCard1Type> = ({
@@ -21,6 +22,7 @@ const DetailCard1: FC<DetailCard1Type> = ({
   isPic,
   picUrl = '',
   showBtn = false,
+  onPress = () => {},
 }) => {
   return (
     <View style={styles.main}>
@@ -36,7 +38,7 @@ const DetailCard1: FC<DetailCard1Type> = ({
 
         {showBtn && (
           <RoundedButton
-            onPress={() => {}}
+            onPress={onPress}
             title="Host"
             style={styles.btn}
             textStyle={{fontSize: s(11)}}

@@ -11,6 +11,10 @@ interface DeleteModalType {
   onCancel: () => void;
   onDelete: () => void;
   show: boolean;
+  loader?: boolean;
+  title?: string;
+  deleteBtnText?: string;
+  cancelBtnText?: string;
 }
 
 const DeleteModal: FC<DeleteModalType> = ({
@@ -18,6 +22,10 @@ const DeleteModal: FC<DeleteModalType> = ({
   show,
   onCancel,
   onDelete,
+  loader,
+  title = 'Are you sure you want to delete this item?',
+  deleteBtnText = 'Delete',
+  cancelBtnText = 'Cancel',
 }) => {
   return (
     <Modal
@@ -31,11 +39,23 @@ const DeleteModal: FC<DeleteModalType> = ({
         }}
         style={styles.main}>
         <Pressable onPress={() => {}} style={styles.main2}>
-          <CustomText variant="h4">Are You Sure To Delete !</CustomText>
+          <CustomText variant="h4" numberOfLines={3}>
+            {title}
+          </CustomText>
 
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <RoundedButton title="Delete" onPress={onDelete} />
-            <RoundedButton title="Cancel" onPress={onCancel} />
+          <View style={styles.buttonContainer}>
+            <RoundedButton
+              title={deleteBtnText}
+              onPress={onDelete}
+              disabled={loader}
+              loading={loader}
+              style={{width: s(100)}}
+            />
+            <RoundedButton
+              title={cancelBtnText}
+              onPress={onCancel}
+              style={{width: s(100)}}
+            />
           </View>
         </Pressable>
       </Pressable>
@@ -61,5 +81,9 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: s(20),
     gap: vs(50),
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

@@ -18,8 +18,6 @@ const CustomSplashScreen = () => {
   const navigation = useNavigation<NavigationProps<'CustomSplashScreen'>>();
   const {checkProfileCompletion} = useAuth();
 
-  console.log('USER DETAILS', loggedInUser);
-
   const checkAuth = async () => {
     const user = await AsyncGetData();
     if (!user) dispatch(setLoggedInUser(null));

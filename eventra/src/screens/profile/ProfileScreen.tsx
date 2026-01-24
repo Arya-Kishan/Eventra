@@ -115,7 +115,7 @@ const ProfileScreen = () => {
         transparent
         animationType="slide"
         onRequestClose={() => setShowSetting(false)}>
-        <SettingModal setShowSettings={setShowSetting} />
+        <SettingModal setShowSettings={setShowSetting} user={userDetail} />
       </Modal>
     </View>
   );

@@ -44,7 +44,7 @@ const RoundedButton: React.FC<RoundedButtonProps> = ({
       style={[styles.button, {backgroundColor: color}, style]}
       onPress={onPress}
       activeOpacity={0.8}
-      disabled={disabled}>
+      disabled={disabled || loading}>
       {loading ? (
         <ActivityIndicator size={s(20)} color={loaderColor} />
       ) : (

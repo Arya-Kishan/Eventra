@@ -1,39 +1,36 @@
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {FC, ReactNode, useState} from 'react';
-import {s, vs} from 'react-native-size-matters';
-import RoundedBox from './RoundedBox';
-import Icon from './Icon';
 import {AppConstants} from '@constants/AppConstants';
+import React, {FC, useState} from 'react';
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {s, vs} from 'react-native-size-matters';
+import {ThreeDotBottomModalType} from 'types/AppTypes';
 import CustomText from './CustomText';
-import {showAlert} from '@utils/Helper';
 import DeleteModal from './DeleteModal';
+import Icon from './Icon';
+import RoundedBox from './RoundedBox';
 
-interface CustomModalType {
-  setShow: (val: boolean) => void;
-  onEdit: () => void;
-  onDelete: () => void;
-  show: boolean;
-}
-
-const ThreeDotBottomModal: FC<CustomModalType> = ({
-  setShow,
+const ThreeDotBottomModal: FC<ThreeDotBottomModalType> = ({
+  dataArr,
   show,
-  onEdit,
-  onDelete,
+  setShow,
+  onClick,
 }) => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleBtnPress = (value: string) => {
+    onClick(value);
+    setShow(false);
+  };
 
   return (
     <>
       <RoundedBox
         onPress={() => setShow(true)}
         size={s(30)}
-        viewStyle={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-          backgroundColor: AppConstants.redColor,
-        }}>
+        viewStyle={styles.close}>
         <Icon
           icon="dots-vertical"
           iconType="MaterialCommunityIcons"
@@ -52,34 +49,24 @@ const ThreeDotBottomModal: FC<CustomModalType> = ({
           }}
           style={styles.main}>
           <Pressable onPress={() => {}} style={styles.main2}>
-            <View style={{gap: vs(10)}}>
-              <Pressable onPress={onEdit} style={styles.column}>
-                <CustomText variant="h6">Edit</CustomText>
-                <Icon
-                  icon="edit"
-                  iconType="Feather"
-                  color={AppConstants.redColor}
-                />
-              </Pressable>
+            <View style={styles.main2}>
+              {dataArr.map(item => (
+                <TouchableOpacity
+                  key={item.title}
+                  activeOpacity={0.5}
+                  onPress={() => handleBtnPress(item.value)}
+                  style={styles.optionBox}>
+                  <View style={{width: '90%'}}>
+                    <CustomText variant="h4">{item.title}</CustomText>
+                    <CustomText numberOfLines={2}>
+                      {item.description}
+                    </CustomText>
+                  </View>
 
-              <Pressable
-                onPress={() => setShowDeleteModal(true)}
-                style={styles.column}>
-                <CustomText variant="h6">Delete</CustomText>
-                <Icon
-                  icon="x"
-                  iconType="Feather"
-                  color={AppConstants.redColor}
-                />
-              </Pressable>
+                  {item.icon}
+                </TouchableOpacity>
+              ))}
             </View>
-
-            <DeleteModal
-              onCancel={() => setShowDeleteModal(false)}
-              onDelete={onDelete}
-              setShow={setShowDeleteModal}
-              show={showDeleteModal}
-            />
           </Pressable>
         </Pressable>
       </Modal>
@@ -104,5 +91,16 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: s(20),
   },
+  close: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: AppConstants.redColor,
+  },
   column: {flexDirection: 'row', justifyContent: 'space-between'},
+  optionBox: {
+    padding: s(10),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

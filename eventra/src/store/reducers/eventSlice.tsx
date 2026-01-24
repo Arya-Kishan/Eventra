@@ -67,6 +67,16 @@ export const eventSlice = createSlice({
     setAllEvents: (state, action: PayloadAction<EventType[]>) => {
       state.allEvents = action.payload;
     },
+    deleteEventFromAllEvents: (state, action: PayloadAction<string>) => {
+      state.allEvents = state.allEvents?.filter(
+        event => event._id !== action.payload,
+      ) as EventType[];
+    },
+    updateEventFromAllEvents: (state, action: PayloadAction<EventType>) => {
+      state.allEvents = state.allEvents?.map(event =>
+        event._id === action.payload._id ? action.payload : event,
+      ) as EventType[];
+    },
     setUpcomingEvents: (state, action: PayloadAction<EventType[]>) => {
       state.upcomingEvents = action.payload;
     },
@@ -88,6 +98,8 @@ export const {
   setCategory,
   setAllEvents,
   setUpcomingEvents,
+  deleteEventFromAllEvents,
+  updateEventFromAllEvents,
 } = eventSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

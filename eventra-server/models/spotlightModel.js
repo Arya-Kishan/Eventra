@@ -1,11 +1,21 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from "mongoose";
 
-const spotlightSchema = new Schema({
+const spotlightSchema = new Schema(
+  {
     title: { type: String, required: true },
     description: { type: String, required: true },
     pic: { url: String, public_id: String },
-    category: { type: String, enum: ["event", "venue", "product", "post"], default: "event", _id: false },
-    categoryId: String
-}, { timestamps: true })
+    category: {
+      type: String,
+      enum: ["event", "venue", "post"],
+      default: "event",
+      _id: false,
+    },
+    categoryId: { type: String, required: true },
+    deepLink: { type: String, default: "" },
+    isApproved: { type: Boolean, default: false },
+  },
+  { timestamps: true },
+);
 
 export const Spotlight = mongoose.model("Spotlight", spotlightSchema);

@@ -12,6 +12,7 @@ interface DateTimeSelectorType {
   onSet: (val: string) => void;
   children: ReactNode;
   viewStyle?: ViewStyle;
+  isEditable?: boolean;
 }
 
 const DateTimeSelector: FC<DateTimeSelectorType> = ({
@@ -19,6 +20,7 @@ const DateTimeSelector: FC<DateTimeSelectorType> = ({
   onSet,
   children,
   viewStyle,
+  isEditable = true,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -29,7 +31,7 @@ const DateTimeSelector: FC<DateTimeSelectorType> = ({
   };
 
   return (
-    <Pressable onPress={() => setShow(true)} style={viewStyle}>
+    <Pressable onPress={() => isEditable && setShow(true)} style={viewStyle}>
       {children}
 
       {show && (

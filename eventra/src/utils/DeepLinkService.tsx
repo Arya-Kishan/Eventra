@@ -45,7 +45,7 @@ const navigateDeepLink = ({
     : navigation.navigate(screen, params);
 };
 
-export const createLinkAndShare = async ({
+export const createShareLink = async ({
   feature,
   action,
   docId,
@@ -108,6 +108,15 @@ export function resolveDeepLink({
     navigateDeepLink({
       screen: 'EventDetailScreen',
       params: {eventId: docId},
+      openingFrom,
+      navigation,
+    });
+  }
+
+  if (feature === 'venue') {
+    navigateDeepLink({
+      screen: 'VenueDetailScreen',
+      params: {venueId: docId},
       openingFrom,
       navigation,
     });

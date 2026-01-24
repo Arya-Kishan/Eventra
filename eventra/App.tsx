@@ -11,6 +11,7 @@ import {AppConstants} from './src/constants/AppConstants';
 import {NavigationContainer} from '@react-navigation/native';
 // navigation/navigationService.ts
 import {createNavigationContainerRef} from '@react-navigation/native';
+import NotificationHandler from './src/components/NotificationHandler';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -26,6 +27,7 @@ const App = () => {
         <Provider store={store}>
           <SocketProvider>
             <NavigationContainer ref={navigationRef}>
+              <NotificationHandler />
               <AppNavigation />
             </NavigationContainer>
           </SocketProvider>

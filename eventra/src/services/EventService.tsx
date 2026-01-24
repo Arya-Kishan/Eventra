@@ -80,12 +80,12 @@ const updateEventApi = async (
         'Content-Type': 'multipart/form-data',
       },
     });
-    return {data: data, message: 'Events Fetched', success: true, error: null}; // Return the response data
+    return data as ApiReturnType; // Return the response data
   } catch (error) {
     console.error('Error creating user data:', error);
     return {
       data: null,
-      message: 'Error in events creating',
+      message: 'Error in events updation',
       success: false,
       error: JSON.stringify(error),
     }; // Rethrow the error to be handled by the calling function
@@ -138,6 +138,21 @@ const bookEventApi = async (event: any, id: string): Promise<ApiReturnType> => {
     return {
       data: null,
       message: 'Error in events booking creating',
+      success: false,
+      error: JSON.stringify(error),
+    }; // Rethrow the error to be handled by the calling function
+  }
+};
+
+export const deleteEventApi = async (id: string): Promise<ApiReturnType> => {
+  try {
+    const {data} = await axiosInstance.delete(`/event/${id}`);
+    return {data: data, message: 'Event Deleted', success: true, error: null}; // Return the response data
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    return {
+      data: null,
+      message: 'Error in event deletion',
       success: false,
       error: JSON.stringify(error),
     }; // Rethrow the error to be handled by the calling function

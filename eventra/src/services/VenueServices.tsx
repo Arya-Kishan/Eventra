@@ -76,7 +76,7 @@ const updateVenueApi = async (
   venue: FormData,
   id: string,
 ): Promise<ApiReturnType> => {
-  console.log(venue);
+  console.log(venue, id);
 
   try {
     const {data} = await axiosInstance.patch(`/venue/${id}`, venue, {

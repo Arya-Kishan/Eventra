@@ -1,14 +1,17 @@
 import {CustomImage} from '@components/global/CustomImage';
 import CustomText from '@components/global/CustomText';
+import DeleteModal from '@components/global/DeleteModal';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
 import RoundedButton from '@components/global/RoundedButton';
+import ThreeDotBottomModal from '@components/global/ThreeDotBottomModal';
 import TimeSlot from '@components/venue/TimeSlot';
 import VenueReviewCard from '@components/venue/VenueReviewCard';
 import {AppConstants} from '@constants/AppConstants';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {getSingleVenueApi, updateVenueApi} from '@services/VenueServices';
 import {useAppSelector} from '@store/hooks';
+import {createShareLink} from '@utils/DeepLinkService';
 import {openLocationInMaps} from '@utils/DeviceHelper';
 import {formatISODate, showToast} from '@utils/Helper';
 import React, {FC, useEffect, useState} from 'react';
@@ -27,6 +30,7 @@ import {
   CommentType,
   NavigationProps,
   RootStackParamList,
+  ThreeDotBottomModalType,
   VenueType,
 } from 'types/AppTypes';
 
@@ -47,8 +51,59 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
   const [comment, setComments] = useState<string>('');
   const {loggedInUser} = useAppSelector(store => store.user);
   const [venueDetail, setVenueDetail] = useState<VenueType | null>(null);
-
   const navigation = useNavigation<NavigationProps<'VenueDetailScreen'>>();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const bottomModalDataArr: ThreeDotBottomModalType['dataArr'] = [
+    {
+      title: 'Edit',
+      description: 'Edit Your Details',
+      icon: (
+        <Icon icon="edit" iconType="Feather" color={AppConstants.redColor} />
+      ),
+      value: 'edit',
+    },
+    {
+      title: 'Delete',
+      description: 'Delete Your Details',
+      icon: (
+        <Icon
+          icon="delete"
+          iconType="MaterialIcons"
+          color={AppConstants.redColor}
+        />
+      ),
+      value: 'delete',
+    },
+    {
+      title: 'Share',
+      description: 'Share This Event',
+      icon: (
+        <Icon icon="share" iconType="Entypo" color={AppConstants.redColor} />
+      ),
+      value: 'share',
+    },
+  ];
+
+  const handleThreeDotModalClick = (val: string) => {
+    if (val === 'edit') {
+      navigation.navigate('CreateVenueScreen', {
+        venue: venueDetail,
+        method: 'update',
+      });
+    } else if (val === 'delete') {
+      setShowDeleteModal(true);
+    } else if (val === 'share') {
+      createShareLink({
+        feature: 'venue',
+        action: 'share',
+        docId: params.venueId ?? venueDetail!._id,
+      });
+    }
+  };
+
+  const handleDelete = async () => {};
 
   const addComment = async () => {
     const formdata = new FormData();
@@ -193,7 +248,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
                   <VenueReviewCard
                     createAt={item.createdAt}
                     name={item.user.name}
-                    profilePic={item.user.profilePic.url}
+                    profilePic={item.user.profilePic!.url}
                     review={item.comment}
                     star={Number(item.star)}
                   />
@@ -221,6 +276,25 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
           />
         </View>
       )}
+
+      <RoundedBox
+        onPress={() => setShowEditModal(true)}
+        size={s(30)}
+        viewStyle={styles.threeDot}>
+        <ThreeDotBottomModal
+          setShow={setShowEditModal}
+          show={showEditModal}
+          dataArr={bottomModalDataArr}
+          onClick={handleThreeDotModalClick}
+        />
+      </RoundedBox>
+
+      <DeleteModal
+        onCancel={() => setShowDeleteModal(false)}
+        onDelete={() => handleDelete()}
+        setShow={setShowDeleteModal}
+        show={showDeleteModal}
+      />
 
       {/* MODAL FOR ADDING COMMENT */}
       <Modal
@@ -274,7 +348,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: s(10),
   },
-  venuebox: {
+  venueBox: {
     justifyContent: 'space-between',
     width: '70%',
     gap: vs(6),
@@ -329,5 +403,11 @@ const styles = StyleSheet.create({
     elevation: 4,
     paddingHorizontal: AppConstants.screenPadding,
     paddingVertical: vs(6),
+  },
+  threeDot: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'transparent',
   },
 });

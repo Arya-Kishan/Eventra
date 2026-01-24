@@ -44,15 +44,12 @@ const getSinglespotLightApi = async (id: string): Promise<ApiReturnType> => {
 const createspotLightApi = async (
   spotLight: FormData,
 ): Promise<ApiReturnType> => {
-  console.log('spotLight : ', spotLight);
-
   try {
-    const {data} = await axiosInstance.post(`/spotLight`, spotLight, {
+    const {data} = await axiosInstance.post(`/spotLight/create`, spotLight, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log('DATA INSIDE CREATE spotLight API : ', data);
     return {
       data: data,
       message: 'spotLights Fetched',

@@ -5,7 +5,7 @@ import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {updatePostApi} from '@services/PostService';
 import {useAppSelector} from '@store/hooks';
-import {createLinkAndShare} from '@utils/DeepLinkService';
+import {createShareLink} from '@utils/DeepLinkService';
 import React, {FC, Suspense, useEffect, useState} from 'react';
 import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
@@ -146,7 +146,7 @@ const PostCard: FC<PostCardProps> = ({post}) => {
         {/* SHARE */}
         <Pressable
           onPress={() => {
-            createLinkAndShare({
+            createShareLink({
               action: 'share',
               docId: post._id,
               feature: 'post',

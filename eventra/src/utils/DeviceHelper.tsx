@@ -11,3 +11,13 @@ export const openLocationInMaps = (latitude: number, longitude: number) => {
 
   Linking.openURL(url || '');
 };
+
+export const openLinkSafely = async (url: string) => {
+  const supported = await Linking.canOpenURL(url);
+
+  if (supported) {
+    await Linking.openURL(url);
+  } else {
+    console.error("Can't open this URL:", url);
+  }
+};

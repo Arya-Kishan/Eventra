@@ -46,8 +46,6 @@ const SelectVenueModal: FC<SelectVenueModalProps> = ({setShow, show}) => {
     fetchAllVenues({type: 'all'});
   }, []);
 
-  console.log(allVenues);
-
   return (
     <CustomModal show={show} setShow={setShow}>
       <View style={styles.main}>

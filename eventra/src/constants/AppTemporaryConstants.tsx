@@ -1,4 +1,5 @@
 import {SpotLightType} from 'types/AppTypes';
+import {AppConstants} from './AppConstants';
 
 export const AppTemporaryContants: {
   spotLightsArr: SpotLightType[];
@@ -17,7 +18,8 @@ export const AppTemporaryContants: {
         public_id: '',
       },
       category: 'event',
-      categoryId: '',
+      categoryId: '69723242f296def1471bc140',
+      deepLink: `https://eventra-website.vercel.app/event/share/69723242f296def1471bc140`,
     },
     {
       title: 'Gojo',
@@ -27,7 +29,8 @@ export const AppTemporaryContants: {
         public_id: '',
       },
       category: 'event',
-      categoryId: '',
+      categoryId: '69723242f296def1471bc140',
+      deepLink: `https://eventra-website.vercel.app/event/share/69723242f296def1471bc140`,
     },
     {
       title: 'Sukuna',
@@ -37,7 +40,8 @@ export const AppTemporaryContants: {
         public_id: '',
       },
       category: 'event',
-      categoryId: '',
+      categoryId: '69723242f296def1471bc140',
+      deepLink: `https://eventra-website.vercel.app/event/share/69723242f296def1471bc140`,
     },
     {
       title: 'Demon',
@@ -47,7 +51,8 @@ export const AppTemporaryContants: {
         public_id: '',
       },
       category: 'event',
-      categoryId: '',
+      categoryId: '69723242f296def1471bc140',
+      deepLink: `https://eventra-website.vercel.app/event/share/69723242f296def1471bc140`,
     },
     {
       title: 'HUnter',
@@ -57,7 +62,8 @@ export const AppTemporaryContants: {
         public_id: '',
       },
       category: 'event',
-      categoryId: '',
+      categoryId: '69723242f296def1471bc140',
+      deepLink: `https://eventra-website.vercel.app/event/share/69723242f296def1471bc140`,
     },
   ],
   temporaryVenueArr: [

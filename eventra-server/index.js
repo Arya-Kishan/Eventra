@@ -12,6 +12,8 @@ import productRoute from "./routes/productRoute.js";
 import spotlightRoute from "./routes/spotlightRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import venueRoutes from "./routes/venueRoute.js";
+import bannerRoutes from "./routes/bannerRoute.js";
+import noticeRoutes from "./routes/noticeRoute.js";
 
 const server = express();
 
@@ -35,6 +37,8 @@ server.use("/order", orderRoute);
 server.use("/notification", notificationRoute);
 server.use("/spotLight", spotlightRoute);
 server.use("/otp", otpRoute);
+server.use("/banner", bannerRoutes);
+server.use("/notice", noticeRoutes);
 
 server.use((err, req, res, next) => {
   console.log(err);

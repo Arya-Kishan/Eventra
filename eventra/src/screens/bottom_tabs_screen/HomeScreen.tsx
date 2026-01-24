@@ -3,6 +3,7 @@ import CustomCarousel from '@components/home/CustomCarousel';
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList';
 import HomeHeader from '@components/home/HomeHeader';
 import HomeVenueCard from '@components/home/HomeVenueCard';
+import Notice from '@components/home/Notice';
 import SpotLight from '@components/home/SpotLight';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
@@ -33,7 +34,9 @@ const HomeScreen = () => {
   console.log('allVenues', allVenues);
 
   const getAllUserNotification = async () => {
+    console.log('NOTIFICATION CALL BEFIRE', loggedInUser?._id);
     const {data, success} = await getAllNotificationApi(loggedInUser?._id!);
+    console.log('notification data', {data, success});
     success
       ? dispatch(setAllNotifications(data.data))
       : navigate.navigate('ErrorScreen');
@@ -96,6 +99,8 @@ const HomeScreen = () => {
           <HorizontalRow leftText="SpotLight" rightText="See All" />
 
           <SpotLight />
+
+          <Notice />
         </View>
       </Animated.ScrollView>
     </View>
