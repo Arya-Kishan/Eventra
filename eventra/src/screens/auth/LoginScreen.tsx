@@ -5,6 +5,7 @@ import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import useAuth from '@hooks/useAuth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import {loginUserApi} from '@services/UserService';
 import {useAppDispatch} from '@store/hooks';
@@ -20,6 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
@@ -28,10 +30,11 @@ const LoginScreen = () => {
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loader, setLoader] = useState(false);
+  const {signInWithGoogle, googleLoader, checkProfileCompletion} = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(googleLoader);
 
   const navigation = useNavigation<NavigationProps<'SignUpScreen'>>();
   const dispathc = useAppDispatch();
-  const {signInWithGoogle, googleLoader, checkProfileCompletion} = useAuth();
 
   const checkValidation = () => {
     let errorData = {message: '', success: true};
@@ -55,11 +58,15 @@ const LoginScreen = () => {
 
   const handleLogin = async (authType: 'google' | 'manual') => {
     try {
+      if (GoogleSignin.getCurrentUser()) {
+        await GoogleSignin.signOut();
+      }
+
       const isValid = checkValidation();
       if (!isValid.success && authType === 'manual')
         return showToast({title: isValid.message, type: 'error'});
 
-      authType === 'manual' && setLoader(true);
+      authType === 'manual' ? setLoader(true) : setGoogleLoading(true);
 
       let newUser = {email, password, authType};
       if (authType === 'google') {
@@ -69,24 +76,28 @@ const LoginScreen = () => {
 
         newUser = {...newUser, email: userInfo.data.email};
       }
-      const {data, success} = await loginUserApi(newUser);
+      const {data, success, error, message} = await loginUserApi(newUser);
+      console.log({data, success, error, message});
 
       if (success) {
         dispathc(setLoggedInUser(data.data));
         await AsyncSetData(data.data);
         checkProfileCompletion(navigation, data.data);
       } else {
-        showToast({title: 'Invalid Credential / Try Again'});
+        showToast({title: message ?? 'Invalid Credential / Try Again'});
       }
       setLoader(false);
+      setGoogleLoading(false);
     } catch (error) {
       showToast({title: 'Error Occured', type: 'error'});
+      setLoader(false);
+      setGoogleLoading(false);
       console.error(error);
     }
   };
 
   return (
-    <View style={styles.safeAreaView}>
+    <SafeAreaView style={styles.safeAreaView}>
       <Blob4 width={s(700)} height={s(700)} style={styles.blob4} />
       <Blob3 width={s(600)} height={s(600)} style={styles.blob3} />
 
@@ -168,8 +179,8 @@ const LoginScreen = () => {
               onPress={() => {
                 handleLogin('google');
               }}
-              disabled={googleLoader}
-              loading={googleLoader}
+              disabled={googleLoading}
+              loading={googleLoading}
               icon={
                 <Image
                   source={require('@assets/icons/google_logo.png')}
@@ -196,7 +207,7 @@ const LoginScreen = () => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

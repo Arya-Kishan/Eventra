@@ -17,7 +17,7 @@ export type RootStackParamList = {
   VenueDetailScreen: {venueId: string};
   ProductDetailScreen: {productId: string};
   CreateEventScreen: {event: EventType | null; method: 'create' | 'update'};
-  CreateVenueScreen: {venue: VenueType | null; method: 'create' | 'update'};
+  CreateVenueScreen: {venue?: VenueType | null; method: 'create' | 'update'};
   CreatePostScreen: {post: PostType | null; method: 'create' | 'update'};
   ErrorScreen: undefined;
   CartScreen: undefined;
@@ -36,7 +36,7 @@ export type RootStackParamList = {
   Details: {userId: number; userName: string};
   BottomTabBar: undefined;
   PracticeScreen: undefined;
-  CompleteProfileScreen: {user: userType};
+  CompleteProfileScreen: {user: userType; method?: 'create' | 'update'};
   EmailVerificationScreen: {user: userType};
   CreateSpotLightScreen: {
     categoryId: string;
@@ -64,6 +64,7 @@ export type SearchType = 'user' | 'venue' | 'event';
 
 export type userType = {
   name: string;
+  fullName: string;
   email: string;
   password?: string;
   bio?: string;
@@ -196,6 +197,7 @@ export type AssetType = {
   width?: number;
   type?: string; // MIME type like 'image/jpeg'
   uri?: string;
+  url?: string;
   duration?: number;
   id?: string;
   base64?: string;

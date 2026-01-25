@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import EventCard from '@components/event/EventCard';
 import {CustomImage} from '@components/global/CustomImage';
 import CustomLoader from '@components/global/CustomLoader';
@@ -12,7 +13,8 @@ import {searchEventApi} from '@services/EventService';
 import {searchUserApi} from '@services/UserService';
 import {getRelativeTimeFromNow, showToast} from '@utils/Helper';
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s} from 'react-native-size-matters';
 import {
   EventType,
@@ -27,7 +29,7 @@ const SearchScreen = () => {
   const {
     params: {type},
   } = useRoute<RouteProps<'SearchScreen'>>();
-  const {navigate} = useNavigation<NavigationProps<'SearchScreen'>>();
+  const navigation = useNavigation<NavigationProps<'SearchScreen'>>();
 
   const [userData, setUserData] = useState<null | userType[]>(null);
   const [venueData, setVenueData] = useState<null | VenueType[]>(null);
@@ -38,25 +40,22 @@ const SearchScreen = () => {
   const handleSearch = async (searchText: string) => {
     setLoader(true);
 
-    if (searchType == 'event') {
+    if (searchType === 'event') {
       const {data, success} = await searchEventApi(searchText);
-      console.log(data.data);
       success
         ? setEventData(data.data)
         : showToast({title: 'Network Error Occured - Event'});
     }
 
-    if (searchType == 'venue') {
+    if (searchType === 'venue') {
       const {data, success} = await searchEventApi(searchText);
-      console.log(data.data);
       success
         ? setVenueData(data.data)
         : showToast({title: 'Network Error Occured - Venue'});
     }
 
-    if (searchType == 'user') {
+    if (searchType === 'user') {
       const {data, success} = await searchUserApi(searchText);
-      console.log(data.data);
       success
         ? setUserData(data.data)
         : showToast({title: 'Network Error Occured - User'});
@@ -66,7 +65,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <CustomSafeScreen style={styles.flex}>
       <SearchHeader
         handleSearch={handleSearch}
         searchType={searchType}
@@ -79,9 +78,9 @@ const SearchScreen = () => {
         <EmptyData
           title={`Search ${type}`}
           showBtn={false}
-          textStyle={{fontSize: s(15), fontWeight: '500'}}
+          textStyle={styles.emptyTxt}
         />
-      ) : searchType == 'event' ? (
+      ) : searchType === 'event' ? (
         <FlatList
           data={eventData}
           renderItem={({item, index}: {item: EventType; index: number}) => (
@@ -96,7 +95,7 @@ const SearchScreen = () => {
           keyExtractor={item => `${item._id}`}
           ListEmptyComponent={() => <EmptyData title="SEARCH EVENTS" />}
         />
-      ) : searchType == 'venue' ? (
+      ) : searchType === 'venue' ? (
         <FlatList
           data={venueData}
           renderItem={({item, index}: {item: VenueType; index: number}) => (
@@ -111,14 +110,18 @@ const SearchScreen = () => {
         <FlatList
           data={userData}
           renderItem={({item}: {item: userType}) => (
-            <View style={{flexDirection: 'row', gap: s(20)}}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ProfileScreen', {userId: item._id})
+              }
+              style={styles.profile}>
               <CustomImage
-                source={item.profilePic.url}
+                source={item.profilePic!.url}
                 width={s(80)}
                 height={s(80)}
               />
 
-              <View style={{justifyContent: 'space-between', flex: 1}}>
+              <View style={styles.user}>
                 <View>
                   <CustomText variant="h3">{item.name}</CustomText>
                   <CustomText variant="body1">{item.bio}</CustomText>
@@ -127,7 +130,7 @@ const SearchScreen = () => {
                 <CustomText
                   variant="overline"
                   style={{color: AppConstants.darkGrayColor}}>
-                  {getRelativeTimeFromNow(item.active)}
+                  {getRelativeTimeFromNow(item.active!)}
                 </CustomText>
               </View>
 
@@ -136,7 +139,7 @@ const SearchScreen = () => {
                 iconType="Feather"
                 color={AppConstants.redColor}
               />
-            </View>
+            </Pressable>
           )}
           keyExtractor={item => `${item._id}`}
           contentContainerStyle={{
@@ -145,13 +148,17 @@ const SearchScreen = () => {
           }}
         />
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 
 export default SearchScreen;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
+  emptyTxt: {fontSize: s(15), fontWeight: '500'},
+  profile: {flexDirection: 'row', gap: s(20)},
+  user: {justifyContent: 'space-between', flex: 1},
   input: {
     backgroundColor: AppConstants.whiteColor,
   },

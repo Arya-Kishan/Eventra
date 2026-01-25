@@ -1,7 +1,6 @@
-import CustomLoader from '@components/global/CustomLoader';
+import BannerSkeleton from '@components/Skeletons/BannerSkeleton';
 import {AppConstants} from '@constants/AppConstants';
 import {getAllBannerApi} from '@services/BannerService';
-import {openLinkSafely} from '@utils/DeviceHelper';
 import * as React from 'react';
 import {
   Dimensions,
@@ -9,14 +8,9 @@ import {
   Linking,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import {
-  Extrapolation,
-  interpolate,
-  useSharedValue,
-} from 'react-native-reanimated';
+import {useSharedValue} from 'react-native-reanimated';
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -35,7 +29,7 @@ function CustomCarousel() {
   const baseOptions = {
     vertical: false,
     width: PAGE_WIDTH,
-    height: PAGE_WIDTH * 0.6,
+    height: vs(170),
   } as const;
 
   const ref = React.useRef<ICarouselInstance>(null);
@@ -63,30 +57,28 @@ function CustomCarousel() {
   }, []);
 
   return (
-    <View id="carousel-component" style={{gap: vs(2), height: vs(200)}}>
+    <View id="carousel-component" style={styles.main}>
       {loading ? (
-        <CustomLoader />
+        <BannerSkeleton />
       ) : (
         <>
-          <View style={{marginBottom: 10}}>
-            <Carousel
-              ref={ref}
-              {...baseOptions}
-              loop
-              onProgressChange={progress}
-              style={{width: PAGE_WIDTH}}
-              data={banners}
-              renderItem={({item, index}) => (
-                <Pressable
-                  onPress={() => {
-                    item.link && Linking.openURL(item.link);
-                  }}
-                  style={styles.card}>
-                  <Image source={{uri: item.image}} style={styles.image} />
-                </Pressable>
-              )}
-            />
-          </View>
+          <Carousel
+            ref={ref}
+            {...baseOptions}
+            loop
+            onProgressChange={progress}
+            style={{width: PAGE_WIDTH}}
+            data={banners}
+            renderItem={({item, index}) => (
+              <Pressable
+                onPress={() => {
+                  item.link && Linking.openURL(item.link);
+                }}
+                style={styles.card}>
+                <Image source={{uri: item.image}} style={styles.image} />
+              </Pressable>
+            )}
+          />
 
           <Pagination.Basic<{color: string}>
             progress={progress}
@@ -107,6 +99,11 @@ function CustomCarousel() {
 export default CustomCarousel;
 
 const styles = StyleSheet.create({
+  main: {
+    height: vs(195),
+    flexDirection: 'column',
+    gap: vs(10),
+  },
   card: {
     flex: 1,
     borderRadius: 16,
@@ -136,6 +133,5 @@ const styles = StyleSheet.create({
   },
   container: {
     gap: 5,
-    marginBottom: 10,
   },
 });

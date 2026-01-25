@@ -1,4 +1,6 @@
+import CustomText from '@components/global/CustomText';
 import RoundedButton from '@components/global/RoundedButton';
+import {AppConstants} from '@constants/AppConstants';
 import useAuth from '@hooks/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
@@ -7,12 +9,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
 const OTP_LENGTH = 6;
@@ -23,13 +27,13 @@ const EmailVerificationScreen = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [sendOtpLoader, setSendOtpLoader] = useState<boolean>(false);
   const [verifyOtpLoader, setVerifyOtpLoader] = useState<boolean>(false);
-  const {navigate} =
+  const {handleLogout} = useAuth();
+  const navigation =
     useNavigation<NavigationProps<'EmailVerificationScreen'>>();
 
   const inputs = useRef<TextInput[]>([]);
   const {loggedInUser} = useAppSelector(store => store.user);
   const {sendEmailOtp, verifyEmailOtp} = useAuth();
-  console.log('LOGGED IN USER : ', loggedInUser);
 
   const handleSendOtp = async () => {
     if (!loggedInUser)
@@ -55,7 +59,7 @@ const EmailVerificationScreen = () => {
       setOtpSent(true);
       setTimer(60);
       showToast({title: 'Otp Verified', type: 'success'});
-      navigate('CompleteProfileScreen', {user: loggedInUser});
+      navigation.navigate('CompleteProfileScreen', {user: loggedInUser});
     } else {
       showToast({title: message ?? 'Otp Not Verified', type: 'error'});
     }
@@ -137,7 +141,7 @@ const EmailVerificationScreen = () => {
           </Text>
 
           <TouchableOpacity disabled={timer > 0} onPress={handleSendOtp}>
-            <Text style={[styles.resendText, timer > 0 && {opacity: 0.4}]}>
+            <Text style={[styles.resendText, timer > 0 && {opacity: 0.5}]}>
               Resend OTP
             </Text>
           </TouchableOpacity>
@@ -155,6 +159,14 @@ const EmailVerificationScreen = () => {
       <Text style={styles.helpText}>
         Check spam or promotions folder if you don’t see the email.
       </Text>
+
+      <Pressable
+        onPress={() => handleLogout(navigation)}
+        style={styles.already}>
+        <CustomText style={{color: AppConstants.whiteColor}} fontWeight="600">
+          Already have an account
+        </CustomText>
+      </Pressable>
     </KeyboardAvoidingView>
   );
 };
@@ -164,11 +176,10 @@ export default EmailVerificationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEF2F2',
     padding: 24,
   },
   header: {
-    marginTop: 60,
+    marginTop: 130,
     marginBottom: 40,
   },
   icon: {
@@ -236,4 +247,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 30,
   },
+  already: {marginTop: vs(20), alignItems: 'center'},
 });

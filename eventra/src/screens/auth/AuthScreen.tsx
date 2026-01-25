@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
@@ -15,7 +16,7 @@ const AuthScreen = () => {
   const {loggedInUser} = useAppSelector(store => store.user);
 
   return (
-    <View style={styles.safeAreaView}>
+    <SafeAreaView style={styles.safeAreaView}>
       <Blob1 width={s(800)} height={s(800)} style={styles.blob1} />
 
       <View style={styles.svg1}>
@@ -56,7 +57,7 @@ const AuthScreen = () => {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

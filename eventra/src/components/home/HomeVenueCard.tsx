@@ -61,11 +61,10 @@ const styles = StyleSheet.create({
     minWidth: AppConstants.screenWidth * 0.6,
     flexDirection: 'row',
     gap: s(5),
-    backgroundColor: AppConstants.grayLightColor,
     borderRadius: s(10),
     overflow: 'hidden',
   },
-  image: {objectFit: 'cover', width: s(50), height: s(50)},
+  image: {objectFit: 'cover', width: s(60), height: s(60)},
   rightContainer: {
     justifyContent: 'space-between',
     flex: 1,

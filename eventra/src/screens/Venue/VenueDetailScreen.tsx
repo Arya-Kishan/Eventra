@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import {CustomImage} from '@components/global/CustomImage';
 import CustomText from '@components/global/CustomText';
 import DeleteModal from '@components/global/DeleteModal';
@@ -25,6 +26,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   CommentType,
@@ -126,7 +128,9 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
 
   const fetchSingleEvent = async () => {
     const {data, success} = await getSingleVenueApi(params.venueId);
-    success ? setVenueDetail(data.data) : navigation.navigate('ErrorScreen');
+
+    if (success) setVenueDetail(data.data);
+    if (!success) console.error('Error in getting venue details');
   };
 
   useEffect(() => {
@@ -134,7 +138,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
   }, []);
 
   return (
-    <View style={styles.flex}>
+    <CustomSafeScreen style={styles.flex}>
       {venueDetail && (
         <ScrollView style={styles.scrollView}>
           {/* TITLE,LOCATION,ORICE */}
@@ -322,7 +326,7 @@ const VenueDetailScreen: FC<VenueDetailScreenType> = ({
           </View>
         </Pressable>
       </Modal>
-    </View>
+    </CustomSafeScreen>
   );
 };
 
@@ -406,8 +410,8 @@ const styles = StyleSheet.create({
   },
   threeDot: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 55,
+    right: 15,
     backgroundColor: 'transparent',
   },
 });

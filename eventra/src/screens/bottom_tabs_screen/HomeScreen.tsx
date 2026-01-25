@@ -1,45 +1,32 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import HorizontalRow from '@components/global/HorizontalRow';
 import CustomCarousel from '@components/home/CustomCarousel';
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList';
 import HomeHeader from '@components/home/HomeHeader';
 import HomeVenueCard from '@components/home/HomeVenueCard';
-import Notice from '@components/home/Notice';
 import SpotLight from '@components/home/SpotLight';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {getUnseenMessageCountApi} from '@services/ChatService';
 import {requestUserPermission} from '@services/firebaseService';
 import {getAllNotificationApi} from '@services/notificationService';
-import {getAllVenueApi} from '@services/VenueServices';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setUnseenMessageCount} from '@store/reducers/chatSlice';
 import {setAllNotifications} from '@store/reducers/userSlice';
-import React, {useEffect, useState} from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
-import Animated from 'react-native-reanimated';
+import React, {useEffect} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
-import {NavigationProps, VenueType} from 'types/AppTypes';
+import {NavigationProps} from 'types/AppTypes';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation<NavigationProps<'Main'>>();
   const {loggedInUser} = useAppSelector(store => store.user);
-  const [allVenues, setAllVenues] = useState<null | VenueType[]>(null);
-
-  const fetchData = async () => {
-    const {data, success} = await getAllVenueApi({type: 'all'});
-    success ? setAllVenues(data.data) : navigate.navigate('ErrorScreen');
-  };
-
-  console.log('allVenues', allVenues);
 
   const getAllUserNotification = async () => {
-    console.log('NOTIFICATION CALL BEFIRE', loggedInUser?._id);
     const {data, success} = await getAllNotificationApi(loggedInUser?._id!);
-    console.log('notification data', {data, success});
-    success
-      ? dispatch(setAllNotifications(data.data))
-      : navigate.navigate('ErrorScreen');
+    if (success) dispatch(setAllNotifications(data.data));
+    if (!success) console.error('Error in getting notifications');
   };
 
   const getNotificationPermission = async () => {
@@ -55,17 +42,14 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    fetchData();
     getNotificationPermission();
     getAllUserNotification();
     fetchUnseenMessagesCount();
   }, []);
 
   return (
-    <View style={{flex: 1}}>
-      <Animated.ScrollView style={{backgroundColor: 'white', flex: 1}}>
-        <StatusBar translucent={false} />
-
+    <CustomSafeScreen>
+      <ScrollView style={styles.parent}>
         {/* HEADER CONTAINER */}
         <HomeHeader />
 
@@ -83,9 +67,9 @@ const HomeScreen = () => {
             rightClick={() => navigate.navigate('VenueScreen')}
           />
           <DoubleHorizontalFlatList
-            data={allVenues ? allVenues : []}
+            data={[]}
             renderItem={(item, index) => (
-              <View key={item._id}>
+              <View key={index}>
                 <HomeVenueCard
                   item={item}
                   index={index}
@@ -99,17 +83,17 @@ const HomeScreen = () => {
           <HorizontalRow leftText="SpotLight" rightText="See All" />
 
           <SpotLight />
-
-          <Notice />
         </View>
-      </Animated.ScrollView>
-    </View>
+      </ScrollView>
+    </CustomSafeScreen>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
+  parent: {backgroundColor: 'white', flex: 1},
   main: {
     flex: 1,
     gap: vs(10),

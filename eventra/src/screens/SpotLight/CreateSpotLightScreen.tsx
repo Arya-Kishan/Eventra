@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
@@ -11,12 +12,12 @@ import {
   Image,
   Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   TextInput,
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {RouteProps} from 'types/AppTypes';
 
@@ -99,9 +100,7 @@ const CreateSpotLightScreen = () => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <StatusBar hidden={false} backgroundColor={AppConstants.redColor} />
-
+    <CustomSafeScreen style={styles.mainContainer}>
       {/* HEADER */}
       <View style={styles.header}>
         <Pressable onPress={() => navigation.goBack()}>
@@ -209,7 +208,7 @@ const CreateSpotLightScreen = () => {
           />
         </View>
       </ScrollView>
-    </View>
+    </CustomSafeScreen>
   );
 };
 

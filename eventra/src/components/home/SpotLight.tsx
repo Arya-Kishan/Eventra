@@ -1,5 +1,6 @@
 import CustomLoader from '@components/global/CustomLoader';
 import EmptyData from '@components/global/EmptyData';
+import SpotLightCardSkeleton from '@components/Skeletons/SpotLightCardSkeleton';
 import SpotLightCard from '@components/spotlight/SpotLightCard';
 import {AppConstants} from '@constants/AppConstants';
 import {AppTemporaryContants} from '@constants/AppTemporaryConstants';
@@ -34,7 +35,13 @@ const SpotLight = () => {
     <View style={styles.main}>
       {/* <Button title="GET" onPress={getAllSpotLights} /> */}
       {loading ? (
-        <CustomLoader />
+        <FlatList
+          data={[1, 2, 3, 4, 5]}
+          renderItem={() => <SpotLightCardSkeleton />}
+          keyExtractor={(_, index) => `column-${index}`}
+          horizontal
+          contentContainerStyle={{gap: AppConstants.defaultGap}}
+        />
       ) : spotLights !== null && spotLights.length == 0 ? (
         <EmptyData title="NO DATA" showBtn={false} />
       ) : (

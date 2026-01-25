@@ -1,25 +1,17 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import {s, vs} from 'react-native-size-matters';
-import {AppConstants} from '@constants/AppConstants';
-import CustomText from '@components/global/CustomText';
-import {SearchType} from 'types/AppTypes';
-import Icon from '@components/global/Icon';
 import Logo from '@assets/icons/logo.svg';
+import CustomText from '@components/global/CustomText';
+import Icon from '@components/global/Icon';
+import {AppConstants} from '@constants/AppConstants';
+import React, {FC, useEffect, useState} from 'react';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {s, vs} from 'react-native-size-matters';
+import {SearchType} from 'types/AppTypes';
 
 interface SearchHeaderProps {
   searchType: SearchType;
@@ -66,7 +58,7 @@ const SearchHeader: FC<SearchHeaderProps> = ({
   };
 
   useEffect(() => {
-    input.length == 0 && setShowCancel(false);
+    input.length === 0 && setShowCancel(false);
   }, [input]);
 
   return (

@@ -12,6 +12,7 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllNotifications} from '@store/reducers/userSlice';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, NotificationType} from 'types/AppTypes';
 
@@ -41,7 +42,7 @@ const NotificationScreen = () => {
   }, [allNotifications]);
 
   return (
-    <View style={styles.flex}>
+    <SafeAreaView style={styles.flex}>
       <View style={styles.main}>
         <Pressable onPress={() => navigation.goBack()} style={styles.heading}>
           <Icon icon="arrow-back-ios" iconType="MaterialIcons" />
@@ -70,7 +71,7 @@ const NotificationScreen = () => {
       ) : (
         <EmptyData title="NO NOTIFICATIONS" />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

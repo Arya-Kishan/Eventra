@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import EventCard from '@components/event/EventCard';
 import EventHeader from '@components/event/EventHeader';
 import CustomLoader from '@components/global/CustomLoader';
@@ -8,7 +9,7 @@ import {getAllEvent} from '@services/EventService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllEvents, setEventLoader} from '@store/reducers/eventSlice';
 import React, {useEffect} from 'react';
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {NavigationProps, userType} from 'types/AppTypes';
 
@@ -33,9 +34,9 @@ const EventScreen = () => {
       type,
       location,
     });
-    success
-      ? dispatch(setAllEvents(data.data))
-      : navigation.replace('ErrorScreen');
+    console.log('ALL EVETNS : ', data);
+    if (success) dispatch(setAllEvents(data.data));
+    if (!success) console.error('Error in getting events');
     dispatch(setEventLoader('success'));
   };
 
@@ -52,13 +53,7 @@ const EventScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        backgroundColor={AppConstants.redColor}
-        translucent={false}
-        hidden={false}
-      />
-
+    <CustomSafeScreen style={styles.container}>
       <EventHeader
         handleChangeTab={handleChangeTab}
         handleSearch={handleSearch}
@@ -88,7 +83,7 @@ const EventScreen = () => {
           keyExtractor={item => `${item._id}`}
         />
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 

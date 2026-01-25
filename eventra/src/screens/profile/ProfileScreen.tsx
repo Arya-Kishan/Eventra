@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import {CustomImage} from '@components/global/CustomImage';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
@@ -11,8 +12,10 @@ import {getUserPostsApi} from '@services/PostService';
 import {getSingleuserApi} from '@services/UserService';
 import {useAppSelector} from '@store/hooks';
 import React, {useEffect, useState} from 'react';
+import {ScrollView} from 'react-native';
 import {FlatList, Modal, StyleSheet, View} from 'react-native';
 import Animated from 'react-native-reanimated';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {PostType, RouteProps, userType} from 'types/AppTypes';
 
@@ -38,13 +41,13 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <CustomSafeScreen style={styles.container}>
       {loader ? (
         <CustomLoader />
       ) : userDetail == null ? (
         <EmptyData title="NO DATA" showBtn={false} />
       ) : (
-        <Animated.ScrollView style={styles.scrollView}>
+        <ScrollView style={styles.scrollView}>
           <ProfileHeader
             userDetail={userDetail}
             setShowSetting={setShowSetting}
@@ -54,8 +57,8 @@ const ProfileScreen = () => {
             <View style={styles.profileImageWrapper}>
               <CustomImage
                 source={
-                  userDetail.profilePic.url !== ''
-                    ? userDetail.profilePic.url
+                  userDetail!.profilePic!.url !== ''
+                    ? userDetail!.profilePic!.url
                     : AppConstants.fallbackProfilePic
                 }
                 width={s(80)}
@@ -71,7 +74,7 @@ const ProfileScreen = () => {
 
               <View style={styles.statBox}>
                 <CustomText variant="h4">
-                  {loggedInUser?.joinedEvents.length}
+                  {loggedInUser?.joinedEvents!.length}
                 </CustomText>
                 <CustomText variant="subtitle2">Events</CustomText>
               </View>
@@ -107,7 +110,7 @@ const ProfileScreen = () => {
               )}
             />
           </View>
-        </Animated.ScrollView>
+        </ScrollView>
       )}
 
       <Modal
@@ -115,9 +118,9 @@ const ProfileScreen = () => {
         transparent
         animationType="slide"
         onRequestClose={() => setShowSetting(false)}>
-        <SettingModal setShowSettings={setShowSetting} user={userDetail} />
+        <SettingModal setShowSettings={setShowSetting} user={userDetail!} />
       </Modal>
-    </View>
+    </CustomSafeScreen>
   );
 };
 
@@ -127,12 +130,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   scrollView: {
     flex: 1,
-    backgroundColor: 'orange',
   },
-
   contentContainer: {
     minHeight: AppConstants.screenHeight - vs(260),
     height: '100%',

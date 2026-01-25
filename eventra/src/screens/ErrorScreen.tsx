@@ -1,9 +1,10 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomText from '@components/global/CustomText';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
@@ -12,7 +13,7 @@ type ErrorScreenProps = {};
 const ErrorScreen: FC<ErrorScreenProps> = ({}) => {
   const navigation = useNavigation<NavigationProps<'EventDetailScreen'>>();
   return (
-    <View style={styles.main}>
+    <CustomSafeScreen style={styles.main}>
       <View style={{width: s(200), height: s(200)}}>
         <Image
           source={require('@assets/images/error.png')}
@@ -39,7 +40,7 @@ const ErrorScreen: FC<ErrorScreenProps> = ({}) => {
           navigation.replace('Main');
         }}
       />
-    </View>
+    </CustomSafeScreen>
   );
 };
 

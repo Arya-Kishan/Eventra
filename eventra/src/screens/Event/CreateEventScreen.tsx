@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import SelectVenueModal from '@components/event/SelectVenueModal';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
@@ -25,12 +26,12 @@ import {
   Image,
   Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   TextInput,
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   AssetType,
@@ -210,9 +211,7 @@ const CreateEventScreen: FC = () => {
   }, [method]);
 
   return (
-    <View>
-      <StatusBar hidden={false} backgroundColor={AppConstants.redColor} />
-
+    <CustomSafeScreen style={styles.flex}>
       {/* BACK HEADER */}
       <View style={styles.header}>
         <Pressable onPress={() => navigation.goBack()}>
@@ -416,13 +415,14 @@ const CreateEventScreen: FC = () => {
       </ScrollView>
 
       <SelectVenueModal setShow={setShowVenues} show={showVenues} />
-    </View>
+    </CustomSafeScreen>
   );
 };
 
 export default CreateEventScreen;
 
 const styles = StyleSheet.create({
+  flex: {flex: 1},
   header: {
     backgroundColor: AppConstants.redColor,
     padding: AppConstants.screenPadding,

@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import GetLocationModal from '@components/GetLocationModal';
 import CustomText from '@components/global/CustomText';
 import DateTimeSelector from '@components/global/DateTimeSelector';
@@ -7,7 +8,7 @@ import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {createVenueApi, updateVenueApi} from '@services/VenueServices';
-import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {useAppSelector} from '@store/hooks';
 import {formatTime, showToast} from '@utils/Helper';
 import React, {FC, useEffect, useState} from 'react';
 import {
@@ -15,12 +16,12 @@ import {
   Image,
   Pressable,
   ScrollView,
-  StatusBar,
   StyleSheet,
   TextInput,
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import uuid from 'react-native-uuid';
 import {addressesType, NavigationProps, RouteProps} from 'types/AppTypes';
@@ -31,7 +32,7 @@ const CreateVenueScreen: FC = () => {
   } = useRoute<RouteProps<'CreateVenueScreen'>>();
   const isUpdate = method === 'update';
   const navigation = useNavigation<NavigationProps<'CreateVenueScreen'>>();
-  const [addresses, setAddresses] = useState<addressesType | null>(null);
+  const [addresses, setAddresses] = useState<addressesType | any>(null);
   const [showLocationModal, setShowLocationModal] = useState<boolean>(false);
   const [addLoader, setAddLoader] = useState(false);
   const [inputHeight, setInputHeight] = useState(40);
@@ -45,9 +46,6 @@ const CreateVenueScreen: FC = () => {
     end: '',
     start: '',
   });
-  const dispatch = useAppDispatch();
-
-  console.log({venue, method});
 
   const {loggedInUser} = useAppSelector(store => store.user);
 
@@ -192,9 +190,7 @@ const CreateVenueScreen: FC = () => {
   }, [method]);
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={AppConstants.redColor} translucent={false} />
-
+    <CustomSafeScreen style={styles.container}>
       {/* BACK HEADER */}
       <View style={styles.header}>
         <Pressable onPress={() => navigation.goBack()}>
@@ -239,7 +235,7 @@ const CreateVenueScreen: FC = () => {
 
           {/* PIC */}
           <Pressable
-            onPress={() => !isUpdate && pickImage}
+            onPress={() => !isUpdate && pickImage()}
             style={[styles.section, isUpdate ? {opacity: 0.6} : {}]}>
             <CustomText variant="h6">Pic</CustomText>
             <View style={styles.picContainer}>
@@ -384,7 +380,7 @@ const CreateVenueScreen: FC = () => {
         setShow={setShowLocationModal}
         setAddresses={setAddresses}
       />
-    </View>
+    </CustomSafeScreen>
   );
 };
 

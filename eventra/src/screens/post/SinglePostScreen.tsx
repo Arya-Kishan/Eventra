@@ -1,13 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {NavigationProps, PostType, RouteProps} from 'types/AppTypes';
-import {getSinglePostApi} from '@services/PostService';
-import PostCard from '@components/post/PostCard';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import EmptyData from '@components/global/EmptyData';
+import PostCard from '@components/post/PostCard';
 import {AppConstants} from '@constants/AppConstants';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {getSinglePostApi} from '@services/PostService';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {NavigationProps, PostType, RouteProps} from 'types/AppTypes';
 
 const SinglePostScreen = () => {
   const [loader, setLoader] = useState<boolean>(false);
@@ -18,8 +18,10 @@ const SinglePostScreen = () => {
   const fetchSinglePost = async () => {
     setLoader(true);
     const {data, success} = await getSinglePostApi(params.postId);
-    console.log('SINGLE POST DATA : ', data.data);
-    success ? setPostDetail(data.data) : navigation.navigate('ErrorScreen');
+
+    if (success) setPostDetail(data.data);
+    if (!success) console.error('Error in getting single post');
+
     setLoader(false);
   };
 
@@ -28,7 +30,7 @@ const SinglePostScreen = () => {
   }, []);
 
   return (
-    <View style={{flex: 1, padding: AppConstants.screenPadding}}>
+    <CustomSafeScreen style={styles.main}>
       {loader ? (
         <CustomLoader />
       ) : postDetail ? (
@@ -36,10 +38,12 @@ const SinglePostScreen = () => {
       ) : (
         <EmptyData title="NO DATA" />
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 
 export default SinglePostScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  main: {flex: 1, padding: AppConstants.screenPadding},
+});

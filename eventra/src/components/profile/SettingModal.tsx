@@ -66,7 +66,10 @@ const SettingModal: FC<SettingModalProps> = ({setShowSettings, user}) => {
       navigate('CreateVenueScreen', {venue: null, method: 'create'});
     }
     if (screen === 'edit') {
-      // navigate("CreateVenueScreen", { venue: null, method: "create" });
+      navigate('CompleteProfileScreen', {
+        user: loggedInUser!,
+        method: 'update',
+      });
     }
 
     if (screen === 'share') {

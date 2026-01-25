@@ -11,6 +11,8 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, userType} from 'types/AppTypes';
 import VenueHeader from './VenueHeader';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import CustomSafeScreen from '@components/CustomSafeScreen';
 
 const VenueScreen = () => {
   const navigation = useNavigation<NavigationProps<'Main'>>();
@@ -34,9 +36,10 @@ const VenueScreen = () => {
       type,
       location,
     });
-    success
-      ? dispatch(setAllVenues(data.data))
-      : navigation.replace('ErrorScreen');
+
+    if (success) dispatch(setAllVenues(data.data));
+    if (!success) console.error('Error in getting venues');
+
     dispatch(setVenueLoader('success'));
   };
 
@@ -53,7 +56,7 @@ const VenueScreen = () => {
   }, []);
 
   return (
-    <View style={styles.flex}>
+    <CustomSafeScreen style={styles.flex}>
       <VenueHeader
         handleChangeTab={handleChangeTab}
         handleSearch={handleSearch}
@@ -81,7 +84,7 @@ const VenueScreen = () => {
           keyExtractor={item => `${item._id}`}
         />
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 

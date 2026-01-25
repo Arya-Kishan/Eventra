@@ -1,10 +1,8 @@
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
-import CustomText from './CustomText';
-import Icon from './Icon';
+import {Modal, Pressable, StyleSheet, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
+import CustomText from './CustomText';
 import RoundedButton from './RoundedButton';
-import {AppConstants} from '@constants/AppConstants';
 
 interface DeleteModalType {
   setShow: (val: boolean) => void;

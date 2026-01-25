@@ -66,11 +66,13 @@ const loginUserApi = async (user: any): Promise<ApiReturnType> => {
   try {
     const {data} = await axiosInstance.post(`/user/login`, user);
     return {data: data, message: 'users created', success: true, error: null}; // Return the response data
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error login user:', error);
+    console.log(error);
+    console.log(error.message);
     return {
       data: null,
-      message: 'Error in users login',
+      message: error.message ?? 'Error in users login',
       success: false,
       error: JSON.stringify(error),
     }; // Rethrow the error to be handled by the calling function

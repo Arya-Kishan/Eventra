@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import {Provider} from 'react-redux';
 import {SocketProvider} from './src/context/SocketContext';
@@ -23,7 +26,7 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={styles.flex}>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <Provider store={store}>
           <SocketProvider>
             <NavigationContainer ref={navigationRef}>
@@ -41,5 +44,5 @@ const App = () => {
 export default App;
 
 const styles = StyleSheet.create({
-  flex: {flex: 1},
+  flex: {flex: 1, backgroundColor: AppConstants.whiteColor},
 });

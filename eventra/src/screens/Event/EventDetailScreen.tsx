@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import DetailCard1 from '@components/event/DetailCard1';
 import {CustomImage} from '@components/global/CustomImage';
 import CustomLoader from '@components/global/CustomLoader';
@@ -28,6 +29,7 @@ import {
 } from '@utils/Helper';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   EventType,
@@ -242,7 +244,8 @@ const EventDetailScreen = () => {
 
   const fetchSingleEvent = async () => {
     const {data, success} = await getSingleEvent(params.eventId);
-    success ? setEventDetail(data.data) : navigation.navigate('ErrorScreen');
+    if (success) setEventDetail(data.data);
+    if (!success) console.error('Error in getting event details');
   };
 
   const eventStatus = (): {isBookingAllowed: boolean; title: string} => {
@@ -274,7 +277,7 @@ const EventDetailScreen = () => {
   }, []);
 
   return (
-    <View style={styles.flex}>
+    <CustomSafeScreen style={styles.flex}>
       {eventDetail == null ? (
         <CustomLoader />
       ) : (
@@ -444,7 +447,7 @@ const EventDetailScreen = () => {
           />
         </>
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 

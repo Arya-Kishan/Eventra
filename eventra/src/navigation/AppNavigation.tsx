@@ -20,17 +20,16 @@ import CreatePostScreen from '@screens/post/CreatePostScreen';
 import SinglePostScreen from '@screens/post/SinglePostScreen';
 import ProfileScreen from '@screens/profile/ProfileScreen';
 import SearchScreen from '@screens/SearchScreen';
+import CreateSpotLightScreen from '@screens/SpotLight/CreateSpotLightScreen';
 import CreateVenueScreen from '@screens/Venue/CreateVenueScreen';
 import VenueDetailScreen from '@screens/Venue/VenueDetailScreen';
 import VenueScreen from '@screens/Venue/VenueScreen';
 import {useAppDispatch} from '@store/hooks';
 import {initDeepLinks} from '@utils/DeepLinkService';
 import React, {useEffect, useState} from 'react';
-import {Platform, StatusBar, StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Platform, StatusBar, StyleSheet, View} from 'react-native';
 import {RootStackParamList} from 'types/AppTypes';
 import PracticeScreen from '../screens/PracticeScreen';
-import CreateSpotLightScreen from '@screens/SpotLight/CreateSpotLightScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,12 +51,11 @@ const AppNavigation = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <View style={styles.safeAreaView}>
       <StatusBar
-        barStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}
-        backgroundColor={
-          Platform.OS === 'android' ? AppConstants.redColor : undefined
-        }
+        barStyle={'light-content'}
+        backgroundColor={AppConstants.redColor}
+        translucent
       />
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen
@@ -114,7 +112,7 @@ const AppNavigation = () => {
 
         <Stack.Screen name="PracticeScreen" component={PracticeScreen} />
       </Stack.Navigator>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -123,5 +121,6 @@ export default AppNavigation;
 const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
+    backgroundColor: 'white',
   },
 });

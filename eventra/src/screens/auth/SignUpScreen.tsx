@@ -5,6 +5,7 @@ import Icon from '@components/global/Icon';
 import RoundedButton from '@components/global/RoundedButton';
 import {AppConstants} from '@constants/AppConstants';
 import useAuth from '@hooks/useAuth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import {createUserApi} from '@services/UserService';
 import {useAppDispatch} from '@store/hooks';
@@ -20,6 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {NavigationProps} from 'types/AppTypes';
 
@@ -31,10 +33,11 @@ const SignUpScreen = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
-  const {signInWithGoogle} = useAuth();
+  const {signInWithGoogle, googleLoader} = useAuth();
   const dispatch = useAppDispatch();
-  const {navigate, replace} = useNavigation<NavigationProps<'SignUpScreen'>>();
+  const navigation = useNavigation<NavigationProps<'SignUpScreen'>>();
   const [loader, setLoader] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(googleLoader);
 
   const checkValidation = () => {
     let errorData = {message: '', success: true};
@@ -65,11 +68,15 @@ const SignUpScreen = () => {
 
   const handleSignUp = async (type: 'manual' | 'google') => {
     try {
+      if (GoogleSignin.getCurrentUser()) {
+        await GoogleSignin.signOut();
+      }
+
       const isValid = checkValidation();
       if (!isValid.success && type === 'manual')
         return showToast({title: isValid.message, type: 'error'});
 
-      setLoader(true);
+      type === 'manual' ? setLoader(true) : setGoogleLoading(true);
       const FCMToken = (await AsyncGetFCMToken()) ?? '';
 
       let newUser: any = {
@@ -83,9 +90,8 @@ const SignUpScreen = () => {
       };
 
       if (type === 'google') {
-        const userInfo = await signInWithGoogle();
-        if (!userInfo?.success)
-          return showToast({title: 'Google SignIn Failed'});
+        const userInfo: any = await signInWithGoogle();
+        if (!userInfo?.success) throw Error('Google SignIn Cancelled/Failed');
         newUser = {
           ...newUser,
           name: userInfo.data.name,
@@ -98,20 +104,23 @@ const SignUpScreen = () => {
         await AsyncSetData(data.data);
         dispatch(setLoggedInUser(data.data));
         type === 'manual'
-          ? navigate('EmailVerificationScreen', {user: data.data})
-          : navigate('CompleteProfileScreen', {user: data.data});
+          ? navigation.navigate('EmailVerificationScreen', {user: data.data})
+          : navigation.navigate('CompleteProfileScreen', {user: data.data});
       } else {
         showToast({title: message ?? 'Not Created, Try Again'});
       }
       setLoader(false);
+      setGoogleLoading(false);
     } catch (error) {
       showToast({title: 'Error Occured', type: 'error'});
+      setLoader(false);
+      setGoogleLoading(false);
       console.error(error);
     }
   };
 
   return (
-    <View style={styles.safeAreaView}>
+    <SafeAreaView style={styles.safeAreaView}>
       <Blob4 width={s(700)} height={s(700)} style={styles.blob4} />
       <Blob3 width={s(600)} height={s(600)} style={styles.blob3} />
 
@@ -241,32 +250,38 @@ const SignUpScreen = () => {
           loading={loader}
         />
 
-        <TouchableOpacity
+        <RoundedButton
+          title="Google Sign Up"
           onPress={() => {
             handleSignUp('google');
           }}
-          style={styles.googleBtn}>
-          <Image
-            source={require('@assets/icons/google_logo.png')}
-            style={{width: s(20), height: s(20)}}
-          />
-
-          <CustomText style={styles.googleTxt}>Google Sign Up</CustomText>
-        </TouchableOpacity>
+          disabled={googleLoading}
+          loading={googleLoading}
+          icon={
+            <Image
+              source={require('@assets/icons/google_logo.png')}
+              style={{width: s(20), height: s(20)}}
+            />
+          }
+          style={styles.googleBtn}
+          textStyle={styles.googleTxt}
+          showIcon={true}
+          loaderColor={AppConstants.redColor}
+        />
       </View>
 
       <View style={styles.bottomContainer}>
         <CustomText variant="h6">Already have an account - </CustomText>
         <Pressable
           onPress={() => {
-            replace('LoginScreen');
+            navigation.replace('LoginScreen');
           }}>
           <CustomText variant="h6" style={styles.signInText}>
             SignIn
           </CustomText>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -342,5 +357,6 @@ const styles = StyleSheet.create({
   googleTxt: {
     fontSize: 16,
     fontWeight: '600',
+    color: AppConstants.black,
   },
 });

@@ -15,6 +15,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import CustomSafeScreen from '@components/CustomSafeScreen';
 
 type ProductType = {
   id: number;
@@ -71,7 +72,7 @@ const PracticeScreen = () => {
   console.log('PRODUCT DATA : ', productData);
 
   return (
-    <View style={{flex: 1, padding: AppConstants.screenPadding}}>
+    <CustomSafeScreen style={{flex: 1, padding: AppConstants.screenPadding}}>
       <Animated.ScrollView
         style={{flex: 1, gap: s(40)}}
         onScroll={scrollHandler}
@@ -109,7 +110,7 @@ const PracticeScreen = () => {
       </Animated.ScrollView>
 
       <Animated.View style={[styles.box, animatedStyle]} />
-    </View>
+    </CustomSafeScreen>
   );
 };
 

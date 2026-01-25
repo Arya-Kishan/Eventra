@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
 import EmptyData from '@components/global/EmptyData';
@@ -25,18 +26,17 @@ const SocialScreen = () => {
   const fetchAllPosts = async () => {
     setLoader(true);
     const {data, success} = await getAllPostApi();
-    success
-      ? dispatch(setAllPost(data.data))
-      : navigation.navigate('ErrorScreen');
+    if (success) dispatch(setAllPost(data.data));
+    if (!success) console.error('Error in getting posts');
     setLoader(false);
   };
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     const {data, success} = await getAllPostApi();
-    success
-      ? dispatch(setAllPost(data.data))
-      : navigation.navigate('ErrorScreen');
+
+    if (success) dispatch(setAllPost(data.data));
+    if (!success) console.error('Error in getting posts in social screen');
     setRefreshing(false);
   }, []);
 
@@ -45,44 +45,48 @@ const SocialScreen = () => {
   }, []);
 
   return (
-    <View style={styles.main}>
-      <View style={styles.container}>
-        <CustomText variant="h2" style={{color: AppConstants.whiteColor}}>
-          Social
-        </CustomText>
+    <CustomSafeScreen>
+      <View style={styles.main}>
+        <View style={styles.container}>
+          <CustomText variant="h2" style={{color: AppConstants.whiteColor}}>
+            Social
+          </CustomText>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() =>
-            navigation.navigate('CreatePostScreen', {
-              method: 'create',
-              post: null,
-            })
-          }>
-          <Icon icon="plus" iconType="Feather" size={s(25)} />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() =>
+              navigation.navigate('CreatePostScreen', {
+                method: 'create',
+                post: null,
+              })
+            }>
+            <Icon icon="plus" iconType="Feather" size={s(25)} />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.full}>
-        {loader ? (
-          <CustomLoader />
-        ) : allPosts && allPosts.length === 0 ? (
-          <EmptyData title="NO POSTS" handleAddClick={() => {}} />
-        ) : (
-          <Animated.FlatList
-            data={allPosts}
-            renderItem={({item}: {item: PostType}) => <PostCard post={item} />}
-            contentContainerStyle={{
-              paddingHorizontal: AppConstants.screenPadding,
-              gap: vs(20),
-              paddingBottom: s(20),
-            }}
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-          />
-        )}
+        <View style={styles.full}>
+          {loader ? (
+            <CustomLoader />
+          ) : allPosts && allPosts.length === 0 ? (
+            <EmptyData title="NO POSTS" handleAddClick={() => {}} />
+          ) : (
+            <Animated.FlatList
+              data={allPosts}
+              renderItem={({item}: {item: PostType}) => (
+                <PostCard post={item} />
+              )}
+              contentContainerStyle={{
+                paddingHorizontal: AppConstants.screenPadding,
+                gap: vs(20),
+                paddingBottom: s(20),
+              }}
+              onRefresh={onRefresh}
+              refreshing={refreshing}
+            />
+          )}
+        </View>
       </View>
-    </View>
+    </CustomSafeScreen>
   );
 };
 

@@ -1,6 +1,7 @@
 import ChatHeader from '@components/chat/ChatHeader';
 import ChatInput from '@components/chat/ChatInput';
 import ChatMessages from '@components/chat/ChatMessages';
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomModal from '@components/global/CustomModal';
 import CustomText from '@components/global/CustomText';
 import {AppConstants} from '@constants/AppConstants';
@@ -12,6 +13,7 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setSelectedOpponentUser} from '@store/reducers/chatSlice';
 import React, {useEffect, useState} from 'react';
 import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s} from 'react-native-size-matters';
 import {MessageType, NavigationProps, RouteProps} from 'types/AppTypes';
 
@@ -121,65 +123,68 @@ const ChatScreen = () => {
   }, [conversationId]);
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-      keyboardVerticalOffset={isKeyboardVisible ? bottomInsets : 0}>
-      <View style={styles.contentContainer}>
-        <ChatHeader
-          conversationId={conversationId}
-          isInCognito={isInCognito}
-          opponentActiveChatId={opponentActiveChatId}
-          opponentUser={opponentUser}
-          setIsInCognito={setIsInCognito}
-        />
+    <CustomSafeScreen style={{flex: 1}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <View style={styles.contentContainer}>
+          <ChatHeader
+            conversationId={conversationId}
+            isInCognito={isInCognito}
+            opponentActiveChatId={opponentActiveChatId}
+            opponentUser={opponentUser}
+            setIsInCognito={setIsInCognito}
+          />
 
-        <ChatMessages
-          incognitoMessages={incognitoMessages}
-          isInCognito={isInCognito}
-          messageLoading={messageLoading}
-          messages={messages}
-          setShowInCognitoDetail={setShowInCognitoDetail}
-        />
+          <ChatMessages
+            incognitoMessages={incognitoMessages}
+            isInCognito={isInCognito}
+            messageLoading={messageLoading}
+            messages={messages}
+            setShowInCognitoDetail={setShowInCognitoDetail}
+          />
 
-        <ChatInput
-          conversationId={conversationId}
-          isInCognito={isInCognito}
-          opponentUser={opponentUser}
-          setIncognitoMessages={setIncognitoMessages}
-          setMessages={setMessages}
-        />
-      </View>
-
-      <CustomModal setShow={setShowInCognitoDetail} show={showInCognitoDetail}>
-        <View style={styles.incognitoBox}>
-          <CustomText numberOfLines={3} style={styles.incognitoTxtHeading}>
-            Ghost Mode
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            Messages sent in this chat are not saved on our servers or your
-            device.
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            Once you leave or go back, the entire chat is automatically deleted
-            for both user.
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            Messages cannot be recovered after closing the chat.
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            No chat history will appear in your inbox or recent chats.
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            This chat is designed for temporary and private conversations.
-          </CustomText>
-          <CustomText style={styles.incognitoTxt} numberOfLines={3}>
-            Use this mode only if you understand that all messages will
-            disappear.
-          </CustomText>
+          <ChatInput
+            conversationId={conversationId}
+            isInCognito={isInCognito}
+            opponentUser={opponentUser}
+            setIncognitoMessages={setIncognitoMessages}
+            setMessages={setMessages}
+          />
         </View>
-      </CustomModal>
-    </KeyboardAvoidingView>
+
+        <CustomModal
+          setShow={setShowInCognitoDetail}
+          show={showInCognitoDetail}>
+          <View style={styles.incognitoBox}>
+            <CustomText numberOfLines={3} style={styles.incognitoTxtHeading}>
+              Ghost Mode
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              Messages sent in this chat are not saved on our servers or your
+              device.
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              Once you leave or go back, the entire chat is automatically
+              deleted for both user.
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              Messages cannot be recovered after closing the chat.
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              No chat history will appear in your inbox or recent chats.
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              This chat is designed for temporary and private conversations.
+            </CustomText>
+            <CustomText style={styles.incognitoTxt} numberOfLines={3}>
+              Use this mode only if you understand that all messages will
+              disappear.
+            </CustomText>
+          </View>
+        </CustomModal>
+      </KeyboardAvoidingView>
+    </CustomSafeScreen>
   );
 };
 

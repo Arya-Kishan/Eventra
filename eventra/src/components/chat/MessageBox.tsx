@@ -1,12 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
-import {MessageType} from 'types/AppTypes';
-import {useAppSelector} from '@store/hooks';
-import {s} from 'react-native-size-matters';
-import {AppConstants} from '@constants/AppConstants';
 import CustomText from '@components/global/CustomText';
+import {AppConstants} from '@constants/AppConstants';
+import {useAppSelector} from '@store/hooks';
 import {formatTime} from '@utils/Helper';
-import Icon from '@components/global/Icon';
+import React, {FC} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {s} from 'react-native-size-matters';
+import {MessageType} from 'types/AppTypes';
 import DeliveryStatusIcon from './DeliveryStatusIcon';
 
 interface MessageBoxProps {

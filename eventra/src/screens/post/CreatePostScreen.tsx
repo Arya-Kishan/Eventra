@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
 import RoundedBox from '@components/global/RoundedBox';
@@ -21,6 +22,7 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {AssetType, EventType, NavigationProps} from 'types/AppTypes';
 
@@ -92,7 +94,7 @@ const CreatePostScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <CustomSafeScreen style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Pressable onPress={() => navigation.goBack()}>
@@ -261,7 +263,7 @@ const CreatePostScreen = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </CustomSafeScreen>
   );
 };
 

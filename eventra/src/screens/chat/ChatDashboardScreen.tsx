@@ -1,4 +1,5 @@
 import ConversationItem from '@components/chat/ConversationItem';
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
 import Icon from '@components/global/Icon';
@@ -9,6 +10,7 @@ import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllConversations} from '@store/reducers/chatSlice';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, userType} from 'types/AppTypes';
 
@@ -28,13 +30,6 @@ const ChatDashboardScreen = () => {
           userId: loggedInUser?._id!,
         });
 
-      const totalUnreadCount = allConversationData.data!.reduce(
-        (total: any, conversation: any) => {
-          return total + (conversation.unseenCount?.[loggedInUser?._id!] || 0);
-        },
-        0,
-      );
-
       success && dispatch(setAllConversations(allConversationData.data));
       setLoader(false);
     } catch (error) {
@@ -51,11 +46,8 @@ const ChatDashboardScreen = () => {
     return <CustomLoader />;
   }
   return (
-    <View style={styles.main}>
+    <CustomSafeScreen style={styles.main}>
       <View style={styles.parent}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
-        </Pressable>
         <CustomText variant="h2" style={{color: AppConstants.whiteColor}}>
           Messages
         </CustomText>
@@ -76,7 +68,7 @@ const ChatDashboardScreen = () => {
           onRefresh={fetchAllConversations}
         />
       )}
-    </View>
+    </CustomSafeScreen>
   );
 };
 
