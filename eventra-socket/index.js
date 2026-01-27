@@ -13,6 +13,8 @@ import userRouter from "./routes/userRoute.js";
 import conversationRouter from "./routes/conversationRoute.js";
 import sendNotificationFCM from "./services/FirebaseFCM.js";
 import { updateConversationCount } from "./controllers/conversationController.js";
+import sendChatNotificationFCM from "./services/FirebaseFCM.js";
+import { User } from "./models/userModel.js";
 const PORT = 9000;
 
 const app = express();
@@ -44,6 +46,7 @@ export const getSocketIdByUserId = (userId) => {
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
+  const FCMToken = socket.handshake.query.FCMToken;
   if (userId !== undefined) {
     userSocketMap[userId] = socket.id;
     userActiveChats[userId] = null;
@@ -57,6 +60,7 @@ io.on("connection", (socket) => {
 
   socket.on("send-message", async (newMessage) => {
     const { sender, receiver, message, conversationId } = newMessage;
+    console.log("NEW MESSAGE : ", newMessage);
     const onlineUsers = Object.keys(userSocketMap);
     const isOpponentOnline = onlineUsers.includes(receiver._id);
     const isOpponentSeeingChat =
@@ -95,6 +99,7 @@ io.on("connection", (socket) => {
       messageData: { ...savedMessage, ...newMessage },
       messageStatus: messageStatus,
     });
+    console.log({ isOpponentOnline, isOpponentSeeingChat });
     // UNSEEN MESSAGE TO RECEIVER
     if (isOpponentOnline && !isOpponentSeeingChat) {
       io.to(receiverSocketId).emit("unseen-message", {
@@ -105,13 +110,16 @@ io.on("connection", (socket) => {
     }
     if (!isOpponentOnline) {
       await updateConversationCount(conversationId, receiver._id, "count");
-      sendNotificationFCM(
-        receiver.FCMToken,
-        `${sender.name} messaged you`,
-        message.value,
-        "chat",
-        "",
-      );
+      const userDetail = await User.findById(receiver._id);
+      console.log("USER DETAILS : ", userDetail);
+
+      sendChatNotificationFCM({
+        title: `${sender.name} messaged you`,
+        body: message.value,
+        deviceToken: userDetail.FCMToken,
+        feature: "chat",
+        link: `/chat/message/${conversationId}`,
+      });
     }
   });
 

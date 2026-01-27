@@ -1,11 +1,9 @@
-import mongoose, { Types } from "mongoose";
 import { Event } from "../models/eventModel.js";
 import { User } from "../models/userModel.js";
 import { Venue } from "../models/venueModel.js";
 import { uploadFileToCloudinary } from "../services/Cloudinary.js";
-import sendNotification from "../services/FirebaseFCM.js";
-import AsyncHandler from "../utils/AsyncHandler.js";
 import sendNotificationToUsersArr from "../services/FirebaseFCM.js";
+import AsyncHandler from "../utils/AsyncHandler.js";
 
 const allowed_distance = process.env.BUSINESS_DISTANCE;
 
@@ -356,26 +354,23 @@ export const bookEvent = AsyncHandler(async (req, res) => {
   );
 
   await Promise.all([
-    sendNotification({
-      user: newUpdates.host._id,
+    sendNotificationToUsersArr({
       title: "New Event Booking 💕",
       body: `${updateUser.name} made a booking - ${newUpdates.title} Event`,
-      feature: "event",
       action: "booking",
       docId: newUpdates._id,
+      feature: "event",
       link: `/event/booking/${newUpdates._id}`,
-      deviceToken: newUpdates.host.FCMToken,
+      userIdArr: [newUpdates.host._id],
     }),
-
-    sendNotification({
-      user: updateUser._id,
+    sendNotificationToUsersArr({
       title: "New Event Booking 💕",
       body: `You made a booking - ${newUpdates.title} Event`,
-      feature: "event",
       action: "booking",
       docId: newUpdates._id,
+      feature: "event",
       link: `/event/booking/${newUpdates._id}`,
-      deviceToken: updateUser.FCMToken,
+      userIdArr: [updateUser._id],
     }),
   ]);
 

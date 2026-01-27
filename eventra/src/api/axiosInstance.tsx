@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    console.log('MAKING A REQUEST -------- ', config);
+    // console.log('MAKING A REQUEST -------- ', config);
 
     // ✅ Handle FormData content type
     if (config.data instanceof FormData) {

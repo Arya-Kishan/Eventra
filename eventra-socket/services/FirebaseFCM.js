@@ -6,21 +6,25 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://app-1dcec-default-rtdb.firebaseio.com",
 });
-
-const sendNotificationFCM = async (
+console.log("link", process.env.APP_LINK);
+const sendChatNotificationFCM = async ({
   deviceToken,
   title,
   body,
-  notification_type = "",
-  link = ""
-) => {
+  feature = "",
+  link = "",
+}) => {
+  if (!deviceToken) {
+    return console.log("FCM TOKEN NOT PROVIDED");
+  }
+
   const message = {
     notification: {
       title: title,
       body: body,
     },
     data: {
-      notification_type: notification_type,
+      feature: feature,
       link: `${process.env.APP_LINK}${link}`,
     },
     android: {
@@ -42,4 +46,4 @@ const sendNotificationFCM = async (
   }
 };
 
-export default sendNotificationFCM;
+export default sendChatNotificationFCM;

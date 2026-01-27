@@ -44,13 +44,11 @@ function CustomCarousel() {
   const getAllBanner = async () => {
     setLoading(true);
     const {success, data} = await getAllBannerApi();
-    console.log('BANNER RESULTS : ', data.data);
     if (success && data) {
       setBanners(data.data);
     }
     setLoading(false);
   };
-  console.log(banners, 'banner');
 
   React.useEffect(() => {
     getAllBanner();

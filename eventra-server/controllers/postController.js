@@ -4,7 +4,7 @@ import {
   deleteFileFromCloudinary,
   uploadFileToCloudinary,
 } from "../services/Cloudinary.js";
-import sendNotification from "../services/FirebaseFCM.js";
+import sendNotificationToUsersArr from "../services/FirebaseFCM.js";
 import AsyncHandler from "../utils/AsyncHandler.js";
 
 export const createPost = AsyncHandler(async (req, res) => {
@@ -184,22 +184,18 @@ export const deletePost = AsyncHandler(async (req, res) => {
 }, "error in deleting post");
 
 const sendNotificationLiked = async (user, likedBy, postId) => {
-  console.log("SENDING NOTIFICATION SERVER : ");
-
   try {
-    const gotLikedUser = await User.findById(user);
     const likedByUser = await User.findById(likedBy);
 
     const now = new Date();
-    sendNotification({
-      deviceToken: gotLikedUser.FCMToken,
-      user: gotLikedUser._id,
+    sendNotificationToUsersArr({
       title: `${likedByUser.name} liked your post`,
       body: `${now.toISOString()}`,
-      feature: "post",
       action: "like",
       docId: postId,
+      feature: "post",
       link: `/post/like/${postId}`,
+      userIdArr: [user],
     });
   } catch (error) {
     console.log("ERROR IN NOTIFICATION OF LIKED");

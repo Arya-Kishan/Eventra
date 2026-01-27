@@ -2,15 +2,13 @@ import ConversationItem from '@components/chat/ConversationItem';
 import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
-import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {getUserConversationsApi} from '@services/ChatService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllConversations} from '@store/reducers/chatSlice';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, userType} from 'types/AppTypes';
 

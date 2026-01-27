@@ -3,9 +3,13 @@ import mongoose, { Schema } from "mongoose";
 const userSchema = new Schema(
   {
     name: { type: String, required: true },
+    fullName: { type: String, default: "" },
     email: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String },
     bio: { type: String, default: "" },
+    phone: { type: String, default: "" },
+    authType: { type: String, enum: ["manual", "google"], default: "manual" },
+    isEmailVerified: { type: Boolean, default: false },
     profilePic: {
       type: { url: String, public_id: String },
       default: {
@@ -23,26 +27,27 @@ const userSchema = new Schema(
     address: {
       type: {
         area: String,
-        city: String,
         state: String,
-        postalCode: String,
         country: String,
-        phone: String,
+        postalCode: String,
       },
       default: {
         area: "",
-        city: "",
         state: "",
         postalCode: "",
         country: "",
-        phone: "",
       },
       _id: false,
     },
     location: {
-      type: { latitude: String, longitude: String },
-      default: { latitude: "", longitude: "" },
-      _id: false,
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point",
+      },
+      coordinates: {
+        type: [Number], // [lng, lat]
+      },
     },
     chats: { type: [mongoose.Schema.Types.ObjectId], ref: "User" },
     active: { type: Date, default: Date.now },
@@ -52,7 +57,7 @@ const userSchema = new Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const User = mongoose.model("User", userSchema);

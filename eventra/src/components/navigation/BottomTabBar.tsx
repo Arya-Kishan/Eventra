@@ -9,34 +9,25 @@ import {s, vs} from 'react-native-size-matters';
 
 import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
+import useDevice from '@hooks/useDevice';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabProfileScreen from '@screens/bottom_tabs_screen/TabProfileScreen';
 import ChatDashboardScreen from '@screens/chat/ChatDashboardScreen';
 import {useAppSelector} from '@store/hooks';
-import Feather from 'react-native-vector-icons/Feather';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import useDevice from '@hooks/useDevice';
 import {View} from 'react-native';
-import CustomSafeScreen from '@components/CustomSafeScreen';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabBar: FC = () => {
   const {unseenMessageCount} = useAppSelector(store => store.chat);
-  const {insets} = useDevice();
-  console.log(insets);
 
   const getMessageCount = (): string => {
     return unseenMessageCount === 0 ? '' : unseenMessageCount.toString();
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingBottom: vs(10),
-        backgroundColor: AppConstants.whiteColor,
-      }}>
+    <View style={styles.main}>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -124,4 +115,10 @@ const BottomTabBar: FC = () => {
 
 export default BottomTabBar;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    paddingBottom: vs(10),
+    backgroundColor: AppConstants.whiteColor,
+  },
+});

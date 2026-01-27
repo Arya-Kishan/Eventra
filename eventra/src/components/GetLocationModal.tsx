@@ -4,6 +4,7 @@ import {AppConstants} from '@constants/AppConstants';
 import {s} from 'react-native-size-matters';
 import CustomModal from './global/CustomModal';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import CustomText from './global/CustomText';
 
 interface GetLocationModalProps {
   show: any;
@@ -91,8 +92,16 @@ const GetLocationModal: FC<GetLocationModalProps> = ({
               height: 0.5,
               backgroundColor: '#E0E0E0',
             },
+            poweredContainer: {
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
           }}
-          listLoaderComponent={() => <ActivityIndicator size="small" />}
+          listLoaderComponent={
+            <View style={{paddingVertical: 10, alignItems: 'center'}}>
+              <ActivityIndicator />
+            </View>
+          }
         />
       </View>
     </CustomModal>

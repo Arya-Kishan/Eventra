@@ -60,7 +60,7 @@ const CompleteProfileScreen = () => {
       errorData = {message: 'Address Not Available', success: false};
     }
 
-    const isHavingPic = pic.url || pic.url;
+    const isHavingPic = pic.url || pic.uri;
     if (!isHavingPic) {
       errorData = {message: 'Pic Not Available', success: false};
     }

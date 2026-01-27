@@ -81,6 +81,7 @@ export function resolveDeepLink({
   openingFrom: openingFromType;
 }) {
   const {docId, action, feature} = parseDeepLinkUrl(url);
+  console.log('NOTIFICATION OPEN OR DEEP LINK : ', {docId, action, feature});
   if (openingFrom === 'cold') {
     return dispatch(setPendingDeepLink(url));
   }
@@ -117,6 +118,15 @@ export function resolveDeepLink({
     navigateDeepLink({
       screen: 'VenueDetailScreen',
       params: {venueId: docId},
+      openingFrom,
+      navigation,
+    });
+  }
+
+  if (feature === 'chat') {
+    navigateDeepLink({
+      screen: 'ChatDashboardScreen',
+      params: {},
       openingFrom,
       navigation,
     });
