@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {userType} from 'types/AppTypes';
+import {asyncStorageType, userType} from 'types/AppTypes';
 
 const auth = '@user_data';
 const TOKEN_KEY = 'fcmToken';
@@ -30,6 +30,7 @@ export const AsyncGetData = async () => {
 export const AsyncDeleteData = async () => {
   try {
     await AsyncStorage.removeItem(auth);
+    await AsyncStorage.removeItem('token');
     return true;
   } catch (e) {
     console.error('Error deleting data:', e);
@@ -51,5 +52,30 @@ export const AsyncSetFCMToken = async (token: string) => {
     await AsyncStorage.setItem(TOKEN_KEY, token);
   } catch (error) {
     console.error('Error deleting data:', error);
+  }
+};
+
+// CREATE ASYNC STORAGE
+export const AsyncSetCustomData = async (
+  type: asyncStorageType,
+  value: any,
+) => {
+  try {
+    await AsyncStorage.setItem(type, JSON.stringify(value));
+    return true;
+  } catch (e) {
+    console.error('Error storing data:', e);
+    return false;
+  }
+};
+
+// READ ASYNC STORAGE
+export const AsyncGetCustomData = async (type: asyncStorageType) => {
+  try {
+    const value = await AsyncStorage.getItem(type);
+    return value;
+  } catch (e) {
+    console.error('Error reading data:', e);
+    return null;
   }
 };

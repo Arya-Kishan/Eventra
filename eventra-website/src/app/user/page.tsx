@@ -4,6 +4,8 @@ import CustomLoader from "@/components/ui/CustomLoader";
 import { useEffect, useState } from "react";
 import { userType } from "@/types/AppTypes";
 import UserCard from "./component/UserCard";
+import { getAlluserApi } from "@/services/UserService";
+import { IoSearch } from "react-icons/io5";
 
 const User = () => {
   const [users, setusers] = useState<userType[] | null>(null);
@@ -12,10 +14,9 @@ const User = () => {
   const getusers = async () => {
     try {
       setLoader(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user`);
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setusers(data.data);
+      const res = await getAlluserApi();
+      console.log(res);
+      setusers(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);
@@ -27,9 +28,10 @@ const User = () => {
   }, []);
 
   return (
-    <div className="px-10">
+    <div className="px-10 bg-[#ffe8e8] flex flex-col gap-12">
       <div className="flex flex-row justify-between items-center py-4">
-        <p className="text-4xl font-bold">user Page</p>
+        <p className="text-4xl font-bold">Users</p>
+        <IoSearch size={25} />
       </div>
 
       {loader ? (
@@ -37,7 +39,7 @@ const User = () => {
       ) : (
         users &&
         users.length > 0 && (
-          <div className="w-full flex flex-row flex-wrap gap-2">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[60px]">
             {users.map((item: userType) => (
               <UserCard item={item} key={item._id} />
             ))}

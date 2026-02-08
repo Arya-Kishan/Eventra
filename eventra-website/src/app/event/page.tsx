@@ -4,6 +4,8 @@ import CustomLoader from "@/components/ui/CustomLoader";
 import { EventType } from "@/types/AppTypes";
 import { useEffect, useState } from "react";
 import EventCard from "./component/EventCard";
+import { getAllEventApi } from "@/services/EventService";
+import { Search } from "lucide-react";
 
 const Event = () => {
   const [events, setEvents] = useState<EventType[] | null>(null);
@@ -12,17 +14,15 @@ const Event = () => {
   const getEvents = async () => {
     try {
       setLoader(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/event/all`,
-      );
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setEvents(data.data);
+      const res = await getAllEventApi();
+      setEvents(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log("all events : ", events);
 
   useEffect(() => {
     getEvents();
@@ -30,8 +30,12 @@ const Event = () => {
 
   return (
     <div className="px-10">
-      <div className="flex flex-row justify-between items-center py-4">
-        <p className="text-4xl font-bold">event Page</p>
+      <div className="w-full flex flex-row justify-between items-center py-4">
+        <p className="text-4xl font-bold">All Events</p>
+        <div className="flex flex-row gap-2 justify-between items-center shadow-lg rounded-xl p-3 border-red-400 border-2">
+          <input className="w-full" type="text" placeholder="Search Event" />
+          <Search className="w-5 h-5 text-gray-400" />
+        </div>
       </div>
 
       {loader ? (

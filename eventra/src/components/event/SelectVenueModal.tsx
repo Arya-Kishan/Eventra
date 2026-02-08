@@ -52,7 +52,7 @@ const SelectVenueModal: FC<SelectVenueModalProps> = ({setShow, show}) => {
         {loader ? (
           <CustomLoader />
         ) : allVenues && allVenues.length === 0 ? (
-          <EmptyData title="nO venues" />
+          <EmptyData title="No Venues" />
         ) : (
           <FlatList
             data={allVenues}

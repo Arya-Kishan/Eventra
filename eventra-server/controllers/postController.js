@@ -49,7 +49,6 @@ export const getSinglePost = AsyncHandler(async (req, res) => {
   const doc = await Post.findById(req.params.id)
     .populate({
       path: "user",
-      select: "name",
     })
     .populate({
       path: "likes",

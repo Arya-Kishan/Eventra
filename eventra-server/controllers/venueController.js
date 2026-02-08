@@ -188,3 +188,23 @@ export const getSearchedVenue = AsyncHandler(async (req, res) => {
 
   res.status(200).json({ data: Venues, message: "Success" });
 }, "error in getting searched Venue");
+
+export const bulkAdd = AsyncHandler("/users/bulk", async (req, res) => {
+  try {
+    const usersArray = req.body; // array of objects
+
+    if (!Array.isArray(usersArray)) {
+      return res.status(400).json({ message: "Expected an array" });
+    }
+
+    const result = await Venue.insertMany(usersArray);
+
+    res.status(201).json({
+      success: true,
+      count: result.length,
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});

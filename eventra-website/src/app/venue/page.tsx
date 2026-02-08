@@ -4,6 +4,7 @@ import CustomLoader from "@/components/ui/CustomLoader";
 import { VenueType } from "@/types/AppTypes";
 import { useEffect, useState } from "react";
 import VenueCard from "./component/VenueCard";
+import { getAllVenueApi } from "@/services/venueService";
 
 const Venue = () => {
   const [venues, setvenues] = useState<VenueType[] | null>(null);
@@ -12,17 +13,15 @@ const Venue = () => {
   const getvenues = async () => {
     try {
       setLoader(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/venue/all`,
-      );
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setvenues(data.data);
+      const res = await getAllVenueApi({ type: "all" });
+      setvenues(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(venues);
 
   useEffect(() => {
     getvenues();

@@ -1,5 +1,6 @@
 // axiosInstance.ts
 import {AppConstants} from '@constants/AppConstants';
+import {AsyncGetCustomData, AsyncSetCustomData} from '@utils/AsyncStorage';
 import axios from 'axios';
 import Config from 'react-native-config';
 
@@ -11,7 +12,7 @@ const axiosInstance = axios.create({
 // ✅ Request Interceptor
 axiosInstance.interceptors.request.use(
   async config => {
-    const token = 'your-auth-token'; // Replace with your logic (AsyncStorage/Redux/Context)
+    const token = await AsyncGetCustomData('token'); // Replace with your logic (AsyncStorage/Redux/Context)
 
     // Add token
     if (token) {
@@ -40,6 +41,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => {
     // console.log('✅ Response:', response);
+    if (response && response.data && response.data.token) {
+      AsyncSetCustomData('token', response.data.token);
+    }
     return response;
   },
   error => {

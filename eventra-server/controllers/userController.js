@@ -1,12 +1,25 @@
-import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
 
 import { User } from "../models/userModel.js";
-import { sendMail } from "../services/NodeMailer.js";
-import AsyncHandler from "../utils/AsyncHandler.js";
 import { uploadFileToCloudinary } from "../services/Cloudinary.js";
+import AsyncHandler from "../utils/AsyncHandler.js";
 const jwtSecret = process.env.JWT_SECRET;
+import jwt from "jsonwebtoken";
 const client = new OAuth2Client(process.env.GOOGLE_WEB_CLIENT_ID);
+
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+      role: user.role, // useful for organiser/user
+    },
+    jwtSecret,
+    {
+      expiresIn: "7d", // token valid for 7 days
+    },
+  );
+};
 
 export const createUser = AsyncHandler(async (req, res) => {
   console.log("BODY : ", req.body);
@@ -21,9 +34,13 @@ export const createUser = AsyncHandler(async (req, res) => {
     });
   }
   const newUser = await User.create(req.body);
-  res
-    .status(200)
-    .json({ data: newUser, message: "User Created", success: true });
+  const token = generateToken({ _id: newUser._id, email: newUser.email });
+  res.status(200).json({
+    data: newUser,
+    message: "User Created",
+    success: true,
+    token,
+  });
 
   // await sendMail("arya12345kishan@gmail.com", "New User Join WebBook", `${newUser.name}`, getNewUserNotificationHtml(newUser.name, newUser.email))
 
@@ -43,12 +60,15 @@ export const loginUser = AsyncHandler(async (req, res) => {
     });
   }
 
+  const token = generateToken({ _id: user._id, email: user.email });
+
   // Google authentication
   if (authType === "google") {
     return res.status(200).json({
       data: user,
       message: "User logged in successfully",
       success: true,
+      token,
     });
   }
 
@@ -66,9 +86,9 @@ export const loginUser = AsyncHandler(async (req, res) => {
       data: user,
       message: "User logged in successfully",
       success: true,
+      token,
     });
   }
-
   // Invalid auth type
   return res.status(400).json({
     data: null,
@@ -119,6 +139,8 @@ export const updateUser = AsyncHandler(async (req, res) => {
   const DoUpdateNormal = {};
   const DoUpdatePush = {};
 
+  console.log("1");
+
   for (let key in req.body) {
     if (normalUpdates.includes(key)) {
       DoUpdateNormal[key] = parsedUpdates.includes(key)
@@ -131,6 +153,8 @@ export const updateUser = AsyncHandler(async (req, res) => {
     }
   }
 
+  console.log("2");
+
   if (req.files && req.files?.image !== undefined) {
     const picUrl = await uploadFileToCloudinary("image", req.files);
     console.log("PIC URL : ", picUrl);
@@ -141,6 +165,10 @@ export const updateUser = AsyncHandler(async (req, res) => {
     DoUpdateNormal.profilePic = picUrl;
   }
 
+  console.log("3");
+  console.log("UPDATE NORMAL : ", DoUpdateNormal);
+  console.log("UPDATE PUSH : ", DoUpdatePush);
+
   const newUpdates = await User.findByIdAndUpdate(
     req.params.id,
     {
@@ -150,10 +178,13 @@ export const updateUser = AsyncHandler(async (req, res) => {
     { new: true },
   );
 
+  console.log("4");
+
   res.status(200).json({ data: newUpdates, message: "Success", success: true });
 }, "error in updating user");
 
 export const getLoggedInUser = AsyncHandler(async (req, res) => {
+  console.log(req.params);
   const doc = await User.findByIdAndUpdate(req.params.userId, {
     active: new Date().toISOString(),
   }).populate({

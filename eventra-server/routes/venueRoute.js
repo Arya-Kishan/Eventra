@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  bulkAdd,
   createVenue,
   deleteVenue,
   getAllVenueByUserId,
@@ -18,6 +19,7 @@ router
   .get("/all", getAllVenues)
   .get("/all/:userId", getAllVenueByUserId)
   .get("/single/:id", getSingleVenue)
-  .get("/search", getSearchedVenue);
+  .get("/search", getSearchedVenue)
+  .post("/bulkAdd", bulkAdd);
 
 export default router;

@@ -4,6 +4,7 @@ import CustomLoader from "@/components/ui/CustomLoader";
 import { PostType } from "@/types/AppTypes";
 import { useEffect, useState } from "react";
 import PostCard from "./component/PostCard";
+import { getAllPostApi } from "@/services/PostService";
 
 const Post = () => {
   const [Posts, setPosts] = useState<PostType[] | null>(null);
@@ -12,17 +13,15 @@ const Post = () => {
   const getPosts = async () => {
     try {
       setLoader(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/Post/all`,
-      );
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setPosts(data.data);
+      const res = await getAllPostApi();
+      setPosts(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log("all posts : ", Posts);
 
   useEffect(() => {
     getPosts();

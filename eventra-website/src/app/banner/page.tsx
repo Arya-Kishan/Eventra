@@ -4,6 +4,7 @@ import CustomLoader from "@/components/ui/CustomLoader";
 import { BannerType } from "@/types/AppTypes";
 import { useEffect, useState } from "react";
 import BannerCard from "./component/BannerCard";
+import { getAllBannerApi } from "@/services/BannerService";
 
 const Banner = () => {
   const [Banners, setBanners] = useState<BannerType[] | null>(null);
@@ -12,12 +13,8 @@ const Banner = () => {
   const getBanners = async () => {
     try {
       setLoader(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/banner/all`,
-      );
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setBanners(data.data);
+      const res = await getAllBannerApi();
+      setBanners(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);

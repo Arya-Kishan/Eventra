@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     gap: s(10),
-    flexWrap: 'wrap',
   },
-  slotBox2: {flexDirection: 'row', gap: 10},
+  slotBox2: {flexDirection: 'row', gap: 10, flexWrap: 'wrap'},
 });

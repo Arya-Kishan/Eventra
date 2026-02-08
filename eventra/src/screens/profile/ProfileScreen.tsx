@@ -12,10 +12,7 @@ import {getUserPostsApi} from '@services/PostService';
 import {getSingleuserApi} from '@services/UserService';
 import {useAppSelector} from '@store/hooks';
 import React, {useEffect, useState} from 'react';
-import {ScrollView} from 'react-native';
-import {FlatList, Modal, StyleSheet, View} from 'react-native';
-import Animated from 'react-native-reanimated';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {FlatList, Modal, ScrollView, StyleSheet, View} from 'react-native';
 import {s, vs} from 'react-native-size-matters';
 import {PostType, RouteProps, userType} from 'types/AppTypes';
 
@@ -80,8 +77,8 @@ const ProfileScreen = () => {
               </View>
 
               <View style={styles.statBox}>
-                <CustomText variant="h4">120</CustomText>
-                <CustomText variant="subtitle2">Apple</CustomText>
+                <CustomText variant="h4">0</CustomText>
+                <CustomText variant="subtitle2">Venue</CustomText>
               </View>
             </View>
 

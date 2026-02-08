@@ -13,7 +13,9 @@ import React, {useState} from 'react';
 import {
   FlatList,
   Image,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -94,175 +96,189 @@ const CreatePostScreen = () => {
   };
 
   return (
-    <CustomSafeScreen style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
-        </Pressable>
-        <CustomText variant="h2" style={styles.headerTitle}>
-          Create Post
-        </CustomText>
-      </View>
+    <CustomSafeScreen style={{flex: 1}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Pressable onPress={() => navigation.goBack()}>
+            <Icon icon="arrow-left" iconType="FontAwesome5" size={s(20)} />
+          </Pressable>
+          <CustomText variant="h2" style={styles.headerTitle}>
+            Create Post
+          </CustomText>
+        </View>
 
-      <ScrollView>
-        <View style={styles.content}>
-          {/* Title */}
-          <View style={styles.section}>
-            <CustomText variant="h6">Title</CustomText>
-            <TextInput
-              value={title}
-              placeholder="Enter Event Name"
-              onChangeText={setTitle}
-              style={styles.input}
-            />
-          </View>
+        <ScrollView>
+          <View style={styles.content}>
+            {/* Title */}
+            <View style={styles.section}>
+              <CustomText variant="h6">Title</CustomText>
+              <TextInput
+                value={title}
+                placeholder="Enter Event Name"
+                onChangeText={setTitle}
+                style={styles.input}
+                placeholderTextColor={AppConstants.grayColor}
+              />
+            </View>
 
-          {/* Description */}
-          <View style={styles.section}>
-            <CustomText variant="h6">Description</CustomText>
-            <TextInput
-              multiline
-              value={description}
-              placeholder="Enter Description"
-              onChangeText={setDescription}
-              style={styles.input}
-              onContentSizeChange={e =>
-                setInputHeight(e.nativeEvent.contentSize.height)
-              }
-            />
-          </View>
+            {/* Description */}
+            <View style={styles.section}>
+              <CustomText variant="h6">Description</CustomText>
+              <TextInput
+                multiline
+                value={description}
+                placeholder="Enter Description"
+                onChangeText={setDescription}
+                placeholderTextColor={AppConstants.grayColor}
+                style={styles.input}
+                onContentSizeChange={e =>
+                  setInputHeight(e.nativeEvent.contentSize.height)
+                }
+              />
+            </View>
 
-          {/* Pic */}
-          <View style={styles.section}>
-            <CustomText variant="h6">Pic</CustomText>
-            <View style={styles.picContainer}>
-              {pic.uri === '' ? (
-                <Pressable onPress={pickImage} style={styles.pickImage}>
-                  <RoundedBox size={s(25)} viewStyle={styles.pickImageBox}>
-                    <Icon icon="plus" iconType="Feather" size={s(20)} />
-                  </RoundedBox>
-                </Pressable>
-              ) : (
-                <View style={styles.picWrapper}>
-                  <Image source={{uri: pic.uri}} style={styles.pic} />
+            {/* Pic */}
+            <View style={styles.section}>
+              <CustomText variant="h6">Pic</CustomText>
+              <View style={styles.picContainer}>
+                {pic.uri === '' ? (
+                  <Pressable onPress={pickImage} style={styles.pickImage}>
+                    <RoundedBox size={s(40)} viewStyle={styles.pickImageBox}>
+                      <Icon icon="image" iconType="Feather" size={s(20)} />
+                    </RoundedBox>
+                  </Pressable>
+                ) : (
+                  <View style={styles.picWrapper}>
+                    <Image source={{uri: pic.uri}} style={styles.pic} />
+                    <RoundedBox
+                      size={s(25)}
+                      viewStyle={styles.removePicBtn}
+                      onPress={() => setPic({uri: '', fileName: '', type: ''})}>
+                      <Icon icon="x" iconType="Feather" size={s(20)} />
+                    </RoundedBox>
+                  </View>
+                )}
+              </View>
+            </View>
+
+            {/* Tags */}
+            <CustomText variant="h6">Tags</CustomText>
+            <View style={styles.tagInputContainer}>
+              <TextInput
+                placeholder="Select Start Time"
+                value={tagText}
+                style={styles.input}
+                onChangeText={setTagText}
+                placeholderTextColor={AppConstants.grayColor}
+              />
+              <RoundedBox
+                size={s(20)}
+                viewStyle={styles.addTagBtn}
+                onPress={handleAddTags}>
+                <Icon icon="plus" iconType="Feather" size={s(20)} />
+              </RoundedBox>
+            </View>
+
+            {/* Selected Tags */}
+            <FlatList
+              data={tags}
+              renderItem={({item}) => (
+                <View style={styles.tagItem}>
+                  <View style={styles.timeBox}>
+                    <CustomText style={styles.tagText}>{item}</CustomText>
+                  </View>
                   <RoundedBox
                     size={s(25)}
-                    viewStyle={styles.removePicBtn}
-                    onPress={() => setPic({uri: '', fileName: '', type: ''})}>
+                    viewStyle={styles.removeTagBtn}
+                    onPress={() => handleDeleteTag(item)}>
                     <Icon icon="x" iconType="Feather" size={s(20)} />
                   </RoundedBox>
                 </View>
               )}
+              horizontal
+              keyExtractor={item => item}
+              contentContainerStyle={styles.tagList}
+              scrollEnabled={false}
+            />
+
+            {/* Event */}
+            <View style={styles.section}>
+              <CustomText variant="h6">Event (optional)</CustomText>
+              <Pressable
+                style={styles.eventSelect}
+                onPress={() => setSelectEventModal(true)}>
+                <TextInput
+                  value={event?.title}
+                  placeholder="Select Event"
+                  onChangeText={setTitle}
+                  editable={false}
+                  style={styles.input}
+                  placeholderTextColor={AppConstants.grayColor}
+                />
+                <Icon
+                  icon="fireplace-off"
+                  iconType="MaterialCommunityIcons"
+                  size={s(18)}
+                  color={AppConstants.redColor}
+                />
+              </Pressable>
+            </View>
+
+            <RoundedButton
+              loading={loader}
+              title="Create"
+              onPress={handleCreatePost}
+            />
+          </View>
+        </ScrollView>
+
+        {/* Event Selection Modal */}
+        <Modal
+          visible={selectEventModal}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setSelectEventModal(false)}>
+          <View style={styles.modalOverlay}>
+            <RoundedBox
+              size={s(49)}
+              viewStyle={styles.modalCloseBtn}
+              onPress={() => setSelectEventModal(false)}>
+              <Icon icon="x" iconType="Feather" size={s(30)} />
+            </RoundedBox>
+            <View style={styles.modalContent}>
+              <FlatList
+                data={allEvents}
+                renderItem={({
+                  item,
+                  index,
+                }: {
+                  item: EventType;
+                  index: number;
+                }) => (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => {
+                      setEvent(item);
+                      setSelectEventModal(false);
+                    }}
+                    style={styles.modalEventItem}>
+                    <SmallEventCard
+                      item={item}
+                      index={index}
+                      navigationScreen="CreatePostScreen"
+                    />
+                  </TouchableOpacity>
+                )}
+                contentContainerStyle={styles.modalList}
+                keyExtractor={item => item._id}
+              />
             </View>
           </View>
-
-          {/* Tags */}
-          <CustomText variant="h6">Tags</CustomText>
-          <View style={styles.tagInputContainer}>
-            <TextInput
-              placeholder="Select Start Time"
-              value={tagText}
-              style={styles.input}
-              onChangeText={setTagText}
-            />
-            <RoundedBox
-              size={s(25)}
-              viewStyle={styles.addTagBtn}
-              onPress={handleAddTags}>
-              <Icon icon="plus" iconType="Feather" size={s(20)} />
-            </RoundedBox>
-          </View>
-
-          {/* Selected Tags */}
-          <FlatList
-            data={tags}
-            renderItem={({item}) => (
-              <View style={styles.tagItem}>
-                <View style={styles.timeBox}>
-                  <CustomText style={styles.tagText}>{item}</CustomText>
-                </View>
-                <RoundedBox
-                  size={s(25)}
-                  viewStyle={styles.removeTagBtn}
-                  onPress={() => handleDeleteTag(item)}>
-                  <Icon icon="x" iconType="Feather" size={s(20)} />
-                </RoundedBox>
-              </View>
-            )}
-            horizontal
-            keyExtractor={item => item}
-            contentContainerStyle={styles.tagList}
-            scrollEnabled={false}
-          />
-
-          {/* Event */}
-          <View style={styles.section}>
-            <CustomText variant="h6">Event (optional)</CustomText>
-            <Pressable
-              style={styles.eventSelect}
-              onPress={() => setSelectEventModal(true)}>
-              <TextInput
-                value={event?.title}
-                placeholder="Select Event"
-                onChangeText={setTitle}
-                editable={false}
-                style={styles.input}
-              />
-              <Icon
-                icon="fireplace-off"
-                iconType="MaterialCommunityIcons"
-                size={s(18)}
-                color={AppConstants.redColor}
-              />
-            </Pressable>
-          </View>
-
-          <RoundedButton
-            loading={loader}
-            title="Create"
-            onPress={handleCreatePost}
-          />
-        </View>
-      </ScrollView>
-
-      {/* Event Selection Modal */}
-      <Modal
-        visible={selectEventModal}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setSelectEventModal(false)}>
-        <View style={styles.modalOverlay}>
-          <RoundedBox
-            size={s(49)}
-            viewStyle={styles.modalCloseBtn}
-            onPress={() => setSelectEventModal(false)}>
-            <Icon icon="x" iconType="Feather" size={s(30)} />
-          </RoundedBox>
-          <View style={styles.modalContent}>
-            <FlatList
-              data={allEvents}
-              renderItem={({item, index}: {item: EventType; index: number}) => (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() => {
-                    setEvent(item);
-                    setSelectEventModal(false);
-                  }}
-                  style={styles.modalEventItem}>
-                  <SmallEventCard
-                    item={item}
-                    index={index}
-                    navigationScreen="CreatePostScreen"
-                  />
-                </TouchableOpacity>
-              )}
-              contentContainerStyle={styles.modalList}
-              keyExtractor={item => item._id}
-            />
-          </View>
-        </View>
-      </Modal>
+        </Modal>
+      </KeyboardAvoidingView>
     </CustomSafeScreen>
   );
 };
@@ -286,17 +302,21 @@ const styles = StyleSheet.create({
     paddingBottom: vs(70),
     paddingTop: vs(10),
   },
-  section: {gap: vs(6)},
+  section: {
+    gap: vs(6),
+  },
   input: {
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.grayLightColor,
     flex: 1,
     padding: s(8),
     width: '100%',
+    borderRadius: AppConstants.borderRadius,
   },
   picContainer: {
     backgroundColor: AppConstants.whiteColor,
     flex: 1,
     height: AppConstants.screenWidth - AppConstants.screenPadding * 2,
+    borderRadius: AppConstants.borderRadius,
   },
   pickImage: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   pickImageBox: {backgroundColor: AppConstants.redColor},
@@ -313,6 +333,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: s(10),
     alignItems: 'center',
+    backgroundColor: AppConstants.grayLightColor,
+    borderRadius: AppConstants.borderRadius,
+    paddingRight: 10,
   },
   addTagBtn: {backgroundColor: AppConstants.redColor},
   tagList: {gap: vs(10)},
@@ -334,8 +357,10 @@ const styles = StyleSheet.create({
   eventSelect: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: s(10),
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.grayLightColor,
+    alignItems: 'center',
+    paddingRight: 10,
+    borderRadius: AppConstants.borderRadius,
   },
   modalOverlay: {
     flex: 1,

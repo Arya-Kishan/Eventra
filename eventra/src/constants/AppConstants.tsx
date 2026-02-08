@@ -7,6 +7,7 @@ const {width, height} = Dimensions.get('window');
 export const AppConstants = {
   // COLORS
   black: '#000000FF',
+  white: '#FFFFFF',
   redColor: '#FF0000FF',
   lightRedColor: '#FF00002D',
   darkRedColor: '#A30000FF',
@@ -16,6 +17,7 @@ export const AppConstants = {
   grayColor: '#CCCCCCFF',
   darkGrayColor: '#797979FF',
   grayLightColor: '#ECECECFF',
+  inputBgColor: '#F9FAFB',
 
   defaultGap: s(16),
   borderRadius: s(10),

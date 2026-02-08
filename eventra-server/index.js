@@ -14,6 +14,8 @@ import userRoutes from "./routes/userRoute.js";
 import venueRoutes from "./routes/venueRoute.js";
 import bannerRoutes from "./routes/bannerRoute.js";
 import noticeRoutes from "./routes/noticeRoute.js";
+import authMiddleware from "./middlewares/auth_middleware.js";
+import jwt from "jsonwebtoken";
 
 const server = express();
 
@@ -28,17 +30,17 @@ server.use(express.urlencoded({ extended: true }));
 dbConnection();
 
 server.use("/user", userRoutes);
-server.use("/event", eventRoutes);
-server.use("/venue", venueRoutes);
-server.use("/post", postRoutes);
-server.use("/postComment", postCommentRoute);
-server.use("/product", productRoute);
-server.use("/order", orderRoute);
-server.use("/notification", notificationRoute);
-server.use("/spotLight", spotlightRoute);
-server.use("/otp", otpRoute);
-server.use("/banner", bannerRoutes);
-server.use("/notice", noticeRoutes);
+server.use("/event", authMiddleware, eventRoutes);
+server.use("/venue", authMiddleware, venueRoutes);
+server.use("/post", authMiddleware, postRoutes);
+server.use("/postComment", authMiddleware, postCommentRoute);
+server.use("/product", authMiddleware, productRoute);
+server.use("/order", authMiddleware, orderRoute);
+server.use("/notification", authMiddleware, notificationRoute);
+server.use("/spotLight", authMiddleware, spotlightRoute);
+server.use("/otp", authMiddleware, otpRoute);
+server.use("/banner", authMiddleware, bannerRoutes);
+server.use("/notice", authMiddleware, noticeRoutes);
 
 server.use((err, req, res, next) => {
   console.log(err);
@@ -46,6 +48,12 @@ server.use((err, req, res, next) => {
     .status(err.statusCode || 500)
     .json({ data: null, message: err.message || "something went wrong" });
 });
+
+const decoded = jwt.verify(
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjM5NjYzYmQwYTA3ZDUxM2IwZDIxYyIsImVtYWlsIjoiYXJ5YUBnbWFpbC5jb20iLCJpYXQiOjE3NzAyMjg2NDEsImV4cCI6MTc3MDgzMzQ0MX0.ZwZsRhGSgKI2OLjcRYpUcaCEyto221CamwoiD8YtAM8",
+  process.env.JWT_SECRET,
+);
+console.log("DECODED : ", decoded);
 
 server.listen(8000, () => {
   console.log("SERVER LISTENED AT 8000");

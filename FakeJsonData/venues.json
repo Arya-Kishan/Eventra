@@ -1,0 +1,2989 @@
+[
+  {
+    "_id": {
+      "$oid": "69876b246c4a0d7034e79a71"
+    },
+    "title": "Zaika Restaurant ",
+    "description": "Most delicious biryani and burger house, Eat and feel healthy ",
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [
+      {
+        "$oid": "69876ce36c4a0d7034e79ab4"
+      }
+    ],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": true,
+        "event": {
+          "$oid": "69876ce36c4a0d7034e79ab4"
+        },
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a72"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a73"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a74"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a75"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a76"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a77"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a78"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a79"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69876b246c4a0d7034e79a7a"
+        }
+      }
+    ],
+    "price": "1",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-07T16:41:08.369Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-07T16:48:35.081Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "title": "Royal Palace Banquet Hall",
+    "description": "Elegant banquet hall perfect for weddings, corporate events, and celebrations. Features premium decor, spacious dance floor, and world-class catering services.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab13"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab14"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab15"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab16"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab17"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab18"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab19"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab1a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876d3a8f5b2c9045f8ab1b"
+        }
+      }
+    ],
+    "price": "5000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-15T10:25:30.450Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-15T10:25:30.450Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65876e7c4d3a1e5678c9de23"
+    },
+    "title": "Sunset Garden Café",
+    "description": "Charming outdoor café with beautiful garden seating, live music setup, and organic menu options. Perfect for intimate gatherings, birthday parties, and casual meet-ups.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de24"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de25"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de26"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de27"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de28"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de29"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de2a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de2b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876e7c4d3a1e5678c9de2c"
+        }
+      }
+    ],
+    "price": "2500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-28T14:15:45.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-28T14:15:45.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65876f9a2b8c4d7056e1bc34"
+    },
+    "title": "The Grand Maharaja Convention Center",
+    "description": "Luxurious convention center with state-of-the-art audio-visual equipment, multiple halls, and professional event management team. Ideal for conferences, seminars, and large-scale events.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc35"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc36"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc37"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc38"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc39"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc3a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc3b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc3c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65876f9a2b8c4d7056e1bc3d"
+        }
+      }
+    ],
+    "price": "8500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-20T08:45:12.678Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-20T08:45:12.678Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "658770bc3e5f2a8167d2ef45"
+    },
+    "title": "Spice Villa Multi-Cuisine Restaurant",
+    "description": "Authentic multi-cuisine restaurant specializing in North Indian, South Indian, and Chinese delicacies. Cozy ambiance with private dining rooms available for family gatherings and small parties.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef46"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef47"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef48"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef49"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef4a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef4b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef4c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef4d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658770bc3e5f2a8167d2ef4e"
+        }
+      }
+    ],
+    "price": "1500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-01T11:30:22.345Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-01T11:30:22.345Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "658771de5a6b3c9278f3ab56"
+    },
+    "title": "Lakeside Resort & Party Lawn",
+    "description": "Scenic lakeside venue with sprawling lawns, perfect for outdoor weddings, theme parties, and corporate retreats. Features boating facilities, bonfire area, and stunning sunset views.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab57"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab58"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab59"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658771de5a6b3c9278f3ab5f"
+        }
+      }
+    ],
+    "price": "12000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-10T16:20:55.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-10T16:20:55.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "658772fa6c7d4e0389a4cd67"
+    },
+    "title": "Urban Sky Rooftop Lounge",
+    "description": "Trendy rooftop lounge with panoramic city views, DJ console, bar setup, and modern lighting. Perfect for cocktail parties, product launches, and evening celebrations.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd68"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd69"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd6f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658772fa6c7d4e0389a4cd70"
+        }
+      }
+    ],
+    "price": "6500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-25T09:10:40.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-25T09:10:40.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6587741c7d8e5f149ab5ef78"
+    },
+    "title": "Heritage Haveli Restaurant",
+    "description": "Traditional haveli-style restaurant offering authentic Rajasthani and Mughlai cuisine. Features live folk music, cultural performances, and royal dining experience in traditional ambiance.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef79"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef7f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef80"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587741c7d8e5f149ab5ef81"
+        }
+      }
+    ],
+    "price": "3500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-18T13:55:18.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-18T13:55:18.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6587753e8e9f6025abc6ba89"
+    },
+    "title": "Green Valley Farm House",
+    "description": "Peaceful farmhouse venue surrounded by lush greenery and open fields. Includes outdoor games, organic farm-to-table catering, and accommodation facilities for weekend getaways and destination events.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba8f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba90"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba91"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6587753e8e9f6025abc6ba92"
+        }
+      }
+    ],
+    "price": "15000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-12T07:40:33.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-12T07:40:33.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "658776609fa07136bcd7dc93"
+    },
+    "title": "The Executive Business Hub",
+    "description": "Professional conference venue with smart meeting rooms, high-speed internet, video conferencing facilities, and business center services. Ideal for board meetings, training sessions, and corporate workshops.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc94"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc95"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc96"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc97"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc98"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc99"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc9a"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc9b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "658776609fa07136bcd7dc9c"
+        }
+      }
+    ],
+    "price": "4500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-03T15:05:27.912Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-03T15:05:27.912Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65877782a0b18247cde8fe9d"
+    },
+    "title": "Coastal Breeze Beach Shack",
+    "description": "Beachfront casual dining shack with fresh seafood, tropical drinks, and laid-back atmosphere. Perfect for beach parties, sunset gatherings, and relaxed weekend brunches with ocean views.",
+    "host": {
+      "$oid": "65876488536e4a14cbad14a3"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770482467/Eventra/mvyayjt9izkdw3s4zlma.jpg",
+      "public_id": "Eventra/mvyayjt9izkdw3s4zlma",
+      "success": true
+    },
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-07T03:30:00.000Z",
+          "end": "2026-02-07T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fe9e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T04:30:00.000Z",
+          "end": "2026-02-07T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fe9f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T05:30:00.000Z",
+          "end": "2026-02-07T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea0"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T06:30:00.000Z",
+          "end": "2026-02-07T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea1"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T07:30:00.000Z",
+          "end": "2026-02-07T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea2"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T08:30:00.000Z",
+          "end": "2026-02-07T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea3"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T09:30:00.000Z",
+          "end": "2026-02-07T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea4"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T10:30:00.000Z",
+          "end": "2026-02-07T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea5"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-07T11:30:00.000Z",
+          "end": "2026-02-07T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "65877782a0b18247cde8fea6"
+        }
+      }
+    ],
+    "price": "3000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-22T12:50:14.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-22T12:50:14.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698810bd4da4fde9b1c5534a"
+    },
+    "title": "The Family Restaurant ",
+    "description": "This is a family restaurant, visit and celebrate it",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c5534b"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c5534c"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c5534d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c5534e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c5534f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c55350"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c55351"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c55352"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810bd4da4fde9b1c55353"
+        }
+      }
+    ],
+    "price": "1",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-08T04:27:41.101Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T04:27:41.101Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698810cd5ea5fee0c2d6645c"
+    },
+    "title": "Golden Palace Banquet Hall",
+    "description": "Luxurious banquet hall perfect for grand weddings, receptions, and corporate events. Features elegant decor, spacious seating, and excellent catering services.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d6645d"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d6645e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d6645f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66460"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66461"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66462"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66463"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66464"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698810cd5ea5fee0c2d66465"
+        }
+      }
+    ],
+    "price": "7500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-15T08:30:22.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-15T08:30:22.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698811de6fb6aff1d3e7756d"
+    },
+    "title": "Riverside Garden Restaurant",
+    "description": "Beautiful outdoor restaurant with river views and garden seating. Specializes in authentic Indian cuisine with a peaceful ambiance perfect for family gatherings and celebrations.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e7756e"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e7756f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77570"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77571"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77572"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77573"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77574"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77575"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698811de6fb6aff1d3e77576"
+        }
+      }
+    ],
+    "price": "2500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-22T14:20:15.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-22T14:20:15.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698812ef70c7ba02e4f8867e"
+    },
+    "title": "Royal Convention Center",
+    "description": "State-of-the-art convention center with modern facilities, audio-visual equipment, and professional event management. Ideal for conferences, seminars, and business meetings.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f8867f"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88680"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88681"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88682"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88683"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88684"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88685"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88686"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "698812ef70c7ba02e4f88687"
+        }
+      }
+    ],
+    "price": "10000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-10T10:45:33.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-10T10:45:33.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881300a1d8cb13f5a9978f"
+    },
+    "title": "Spice Junction Multi-Cuisine",
+    "description": "Popular multi-cuisine restaurant offering North Indian, South Indian, Chinese, and Continental dishes. Cozy atmosphere with private dining areas for parties and events.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99790"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99791"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99792"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99793"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99794"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99795"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99796"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99797"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881300a1d8cb13f5a99798"
+        }
+      }
+    ],
+    "price": "1800",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-01T16:12:45.678Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-01T16:12:45.678Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881411b2e9dc24a6ba0890"
+    },
+    "title": "Sunrise Lawn & Party Hall",
+    "description": "Spacious outdoor lawn and indoor party hall perfect for weddings, birthday parties, and social gatherings. Beautiful landscaping with modern amenities and parking facilities.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0891"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0892"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0893"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0894"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0895"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0896"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0897"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0898"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881411b2e9dc24a6ba0899"
+        }
+      }
+    ],
+    "price": "12000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-28T09:35:20.345Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-28T09:35:20.345Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881522c3faed35b7cb19a1"
+    },
+    "title": "Heritage Dhaba & Restaurant",
+    "description": "Traditional dhaba-style restaurant serving authentic Punjabi and North Indian cuisine. Famous for tandoori dishes and rich flavors in a rustic ambiance.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a2"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a3"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a4"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a5"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a6"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a7"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a8"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19a9"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881522c3faed35b7cb19aa"
+        }
+      }
+    ],
+    "price": "3200",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-18T11:50:40.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-18T11:50:40.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881633d4abfe46c8dc2ab2"
+    },
+    "title": "Green Valley Farmhouse",
+    "description": "Peaceful farmhouse venue surrounded by nature, perfect for destination weddings, team outings, and weekend retreats. Includes accommodation, outdoor activities, and organic catering.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab3"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab4"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab5"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab6"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab7"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab8"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2ab9"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2aba"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881633d4abfe46c8dc2abb"
+        }
+      }
+    ],
+    "price": "18000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-05T07:15:55.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-05T07:15:55.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881744e5bcaf57d9ed3bc3"
+    },
+    "title": "Sky Lounge Rooftop Restaurant",
+    "description": "Premium rooftop restaurant with panoramic city views, live music, and bar facilities. Perfect for romantic dinners, celebrations, and cocktail parties.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc4"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc5"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc6"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc7"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc8"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bc9"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bca"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bcb"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881744e5bcaf57d9ed3bcc"
+        }
+      }
+    ],
+    "price": "5500",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-02-05T13:42:18.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-05T13:42:18.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69881855f6cdba68eafe4cd4"
+    },
+    "title": "The Grand Celebration Hall",
+    "description": "Magnificent celebration hall with elegant interiors, crystal chandeliers, and VIP lounges. Complete wedding planning services and world-class hospitality.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cd5"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cd6"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cd7"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cd8"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cd9"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cda"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cdb"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cdc"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "69881855f6cdba68eafe4cdd"
+        }
+      }
+    ],
+    "price": "15000",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-12T15:28:30.012Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-12T15:28:30.012Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6988196607decb79fbaf5de5"
+    },
+    "title": "Café Moments Bistro",
+    "description": "Trendy café and bistro offering continental cuisine, specialty coffees, and desserts. Comfortable seating with free WiFi, ideal for casual meetings and small gatherings.",
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "pic": {
+      "url": "https://res.cloudinary.com/dwvuqahw2/image/upload/v1770524860/Eventra/qx93xbbyqd1ueyssehdi.jpg",
+      "public_id": "Eventra/qx93xbbyqd1ueyssehdi",
+      "success": true
+    },
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "bookedEvents": [],
+    "slots": [
+      {
+        "time": {
+          "start": "2026-02-08T03:30:00.000Z",
+          "end": "2026-02-08T04:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5de6"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T04:30:00.000Z",
+          "end": "2026-02-08T05:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5de7"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T05:30:00.000Z",
+          "end": "2026-02-08T06:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5de8"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T06:30:00.000Z",
+          "end": "2026-02-08T07:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5de9"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T07:30:00.000Z",
+          "end": "2026-02-08T08:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5dea"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T08:30:00.000Z",
+          "end": "2026-02-08T09:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5deb"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T09:30:00.000Z",
+          "end": "2026-02-08T10:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5dec"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T10:30:00.000Z",
+          "end": "2026-02-08T11:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5ded"
+        }
+      },
+      {
+        "time": {
+          "start": "2026-02-08T11:30:00.000Z",
+          "end": "2026-02-08T12:30:00.000Z"
+        },
+        "isBooked": false,
+        "event": null,
+        "_id": {
+          "$oid": "6988196607decb79fbaf5dee"
+        }
+      }
+    ],
+    "price": "800",
+    "reviews": [],
+    "createdAt": {
+      "$date": "2026-01-25T18:55:12.901Z"
+    },
+    "updatedAt": {
+      "$date": "2026-01-25T18:55:12.901Z"
+    },
+    "__v": 0
+  }
+]

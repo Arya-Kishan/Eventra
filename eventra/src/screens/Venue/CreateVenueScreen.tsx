@@ -21,7 +21,6 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import uuid from 'react-native-uuid';
 import {addressesType, NavigationProps, RouteProps} from 'types/AppTypes';
@@ -35,7 +34,6 @@ const CreateVenueScreen: FC = () => {
   const [addresses, setAddresses] = useState<addressesType | any>(null);
   const [showLocationModal, setShowLocationModal] = useState<boolean>(false);
   const [addLoader, setAddLoader] = useState(false);
-  const [inputHeight, setInputHeight] = useState(40);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [pic, setPic] = useState<any>('');
@@ -126,6 +124,12 @@ const CreateVenueScreen: FC = () => {
         description: 'New Venue Created',
         type: 'success',
       });
+      setTitle('');
+      setDescription('');
+      setTime({end: '', start: ''});
+      setPic('');
+      setAddresses(null);
+      setSlots([]);
     }
     setAddLoader(false);
   };
@@ -209,7 +213,7 @@ const CreateVenueScreen: FC = () => {
             <TextInput
               value={title}
               placeholder="Enter Venue Name..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               onChangeText={setTitle}
               style={styles.input}
             />
@@ -222,14 +226,11 @@ const CreateVenueScreen: FC = () => {
               multiline
               value={description}
               placeholder="Enter Description..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               onChangeText={setDescription}
               style={styles.inputDesc}
               textAlign="left"
               textAlignVertical="top"
-              onContentSizeChange={e =>
-                setInputHeight(e.nativeEvent.contentSize.height)
-              }
             />
           </View>
 
@@ -266,7 +267,7 @@ const CreateVenueScreen: FC = () => {
                 viewStyle={styles.timeBox}>
                 <TextInput
                   placeholder="Start Time..."
-                  placeholderTextColor={AppConstants.grayLightColor}
+                  placeholderTextColor={AppConstants.grayColor}
                   value={formatTime(time.start)}
                   editable={false}
                   style={styles.input}
@@ -285,7 +286,7 @@ const CreateVenueScreen: FC = () => {
                 viewStyle={styles.timeBox}>
                 <TextInput
                   placeholder="End Time"
-                  placeholderTextColor={AppConstants.grayLightColor}
+                  placeholderTextColor={AppConstants.grayColor}
                   value={formatTime(time.end)}
                   editable={false}
                   style={styles.input}
@@ -358,7 +359,7 @@ const CreateVenueScreen: FC = () => {
               value={addresses?.area}
               onChangeText={() => {}}
               placeholder="Location..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               style={[
                 styles.input,
                 isUpdate && {color: AppConstants.grayColor},
@@ -405,14 +406,15 @@ const styles = StyleSheet.create({
   },
   section: {gap: vs(6)},
   input: {
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
     flex: 1,
     padding: s(8),
     height: vs(30),
     color: AppConstants.black,
   },
   inputDesc: {
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
     flex: 1,
     padding: s(8),
     height: vs(80),
@@ -430,7 +432,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
     paddingHorizontal: s(5),
     height: vs(30),
   },
@@ -454,7 +456,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
   },
   removeSlotBtn: {backgroundColor: AppConstants.redColor},
   slotList: {gap: vs(10), marginVertical: vs(10)},
@@ -469,7 +471,14 @@ const styles = StyleSheet.create({
     gap: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
   },
-  picWrapper: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  picWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
+  },
 });

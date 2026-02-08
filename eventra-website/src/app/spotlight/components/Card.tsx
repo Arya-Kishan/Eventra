@@ -24,7 +24,7 @@ const Card: FC<Props> = ({ item }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            //  Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             isApproved: !val.isApproved,

@@ -19,6 +19,9 @@ export type SearchType = "user" | "venue" | "event";
 
 export type userType = {
   name: string;
+  fullName: string;
+  createdAt: string;
+  updatedAt: string;
   email: string;
   password?: string;
   bio?: string;
@@ -142,6 +145,8 @@ export type PostType = {
   tags: string[];
   likes: userType[] | null;
   comments: string[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type AssetType = {

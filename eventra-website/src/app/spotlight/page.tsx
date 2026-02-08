@@ -5,6 +5,7 @@ import SwitchTab from "@/components/ui/SwitchTab";
 import { SpotLightType } from "@/types/AppTypes";
 import { useEffect, useState } from "react";
 import Card from "./components/Card";
+import { getAllSpotLightApi } from "@/services/SpotLightService";
 
 const Spotlight = () => {
   const [spotlights, setSpotlights] = useState<SpotLightType[] | null>(null);
@@ -16,13 +17,9 @@ const Spotlight = () => {
   const getSpotLights = async () => {
     try {
       setLoader(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/spotLight/all`,
-      );
-      const data = await res.json();
-      console.log("SPLOT LIHGT DAT", data);
-      setSpotlights(data.data);
-      setCopySpotlights(data.data);
+      const res = await getAllSpotLightApi();
+      setSpotlights(res.data.data);
+      setCopySpotlights(res.data.data);
       setLoader(false);
     } catch (error) {
       console.log(error);

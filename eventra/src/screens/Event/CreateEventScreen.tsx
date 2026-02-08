@@ -31,7 +31,6 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {s, vs} from 'react-native-size-matters';
 import {
   AssetType,
@@ -230,7 +229,7 @@ const CreateEventScreen: FC = () => {
             <TextInput
               value={title}
               placeholder="Enter Event Name..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               onChangeText={val => dispatch(setTitle(val))}
               style={styles.input}
             />
@@ -243,7 +242,7 @@ const CreateEventScreen: FC = () => {
               numberOfLines={4}
               value={description}
               placeholder="Enter Description..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               onChangeText={val => dispatch(setDescription(val))}
               style={styles.input}
             />
@@ -263,7 +262,7 @@ const CreateEventScreen: FC = () => {
               <TextInput
                 placeholder="Choose Date..."
                 value={formatDate(date)}
-                placeholderTextColor={AppConstants.grayLightColor}
+                placeholderTextColor={AppConstants.grayColor}
                 onChangeText={setDate}
                 editable={false}
                 style={[
@@ -291,7 +290,7 @@ const CreateEventScreen: FC = () => {
                 <TextInput
                   value={typeof venue !== 'string' ? venue.title : ''}
                   placeholder="Choose Venue..."
-                  placeholderTextColor={AppConstants.grayLightColor}
+                  placeholderTextColor={AppConstants.grayColor}
                   onChangeText={() => {}}
                   style={[
                     styles.input,
@@ -313,7 +312,7 @@ const CreateEventScreen: FC = () => {
               <View style={styles.timeInputWrapper}>
                 <TextInput
                   placeholder="Start Time"
-                  placeholderTextColor={AppConstants.grayLightColor}
+                  placeholderTextColor={AppConstants.grayColor}
                   value={formatTime(time.start)}
                   onChangeText={() => {}}
                   editable={false}
@@ -332,7 +331,7 @@ const CreateEventScreen: FC = () => {
               <View style={styles.timeInputWrapper}>
                 <TextInput
                   placeholder="End Time"
-                  placeholderTextColor={AppConstants.grayLightColor}
+                  placeholderTextColor={AppConstants.grayColor}
                   value={formatTime(time.end)}
                   onChangeText={() => {}}
                   editable={false}
@@ -383,7 +382,7 @@ const CreateEventScreen: FC = () => {
             <TextInput
               value={category}
               placeholder="music, game, sports, party"
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               onChangeText={(val: string) => {
                 dispatch(setCategory(val));
               }}
@@ -397,7 +396,7 @@ const CreateEventScreen: FC = () => {
             <TextInput
               value={headcount}
               placeholder="Enter..."
-              placeholderTextColor={AppConstants.grayLightColor}
+              placeholderTextColor={AppConstants.grayColor}
               keyboardType="numeric"
               onChangeText={val => dispatch(setHeadcount(val))}
               style={styles.input}
@@ -447,7 +446,8 @@ const styles = StyleSheet.create({
     gap: vs(10),
   },
   input: {
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
     flex: 1,
     height: vs(30),
     padding: s(10),
@@ -455,14 +455,16 @@ const styles = StyleSheet.create({
   dateSelector: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
     alignItems: 'center',
     paddingHorizontal: s(5),
   },
   venue: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
     alignItems: 'center',
     paddingHorizontal: s(5),
   },
@@ -472,7 +474,7 @@ const styles = StyleSheet.create({
     gap: s(10),
   },
   timeInputWrapper: {
-    backgroundColor: AppConstants.whiteColor,
+    backgroundColor: AppConstants.inputBgColor,
     alignItems: 'center',
     flexDirection: 'row',
     width: '48%',
@@ -493,5 +495,11 @@ const styles = StyleSheet.create({
     height: vs(200),
   },
   pic: {flex: 1},
-  picWrapper: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  picWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: AppConstants.inputBgColor,
+    borderRadius: AppConstants.borderRadius,
+  },
 });

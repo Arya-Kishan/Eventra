@@ -259,6 +259,8 @@ export type NoticeType = {
   _id?: string;
 };
 
+export type asyncStorageType = 'token' | 'user';
+
 export type notificationFeatureType =
   | 'main'
   | 'event'

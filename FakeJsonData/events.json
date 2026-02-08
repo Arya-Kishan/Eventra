@@ -1,0 +1,2065 @@
+[
+  {
+    "_id": {
+      "$oid": "698820a1a1b2c3d4e5f60711"
+    },
+    "title": "Summer Music Festival 2026",
+    "description": "Live performances by top local bands, DJ sets, and food stalls. Enjoy an evening of great music and entertainment under the stars.",
+    "time": {
+      "start": {
+        "$date": "2026-07-15T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-15T22:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-15T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "music",
+    "headcount": 500,
+    "price": "500",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T05:10:15.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T05:10:15.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698821b2b2c3d4e5f6071822"
+    },
+    "title": "Corporate Leadership Summit",
+    "description": "A full-day conference featuring keynote speakers, panel discussions, and networking opportunities for business leaders and entrepreneurs.",
+    "time": {
+      "start": {
+        "$date": "2026-08-20T04:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-20T13:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-20T04:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876f9a2b8c4d7056e1bc34"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 300,
+    "price": "2500",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T05:25:30.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T05:25:30.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698822c3c3d4e5f607182933"
+    },
+    "title": "Traditional Food Festival",
+    "description": "Experience authentic regional cuisine with cooking demonstrations, tasting sessions, and food competitions. Celebrate the rich culinary heritage of Bihar.",
+    "time": {
+      "start": {
+        "$date": "2026-09-10T06:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-10T14:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-10T06:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658770bc3e5f2a8167d2ef45"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 200,
+    "price": "300",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T05:40:45.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T05:40:45.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698823d4d4e5f60718293a44"
+    },
+    "title": "Wedding Celebration - Priya & Rahul",
+    "description": "Join us in celebrating the union of Priya and Rahul with traditional ceremonies, dinner, and dancing. A joyous occasion with family and friends.",
+    "time": {
+      "start": {
+        "$date": "2026-10-05T09:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-05T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-05T09:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658771de5a6b3c9278f3ab56"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "wedding",
+    "headcount": 800,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T05:55:20.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T05:55:20.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698824e5e5f60718293a4b55"
+    },
+    "title": "Sunset Jazz Evening",
+    "description": "Relax with smooth jazz performances, premium cocktails, and city skyline views. An elegant evening for music lovers and socialites.",
+    "time": {
+      "start": {
+        "$date": "2026-06-25T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-06-25T17:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-06-25T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658772fa6c7d4e0389a4cd67"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "music",
+    "headcount": 100,
+    "price": "1200",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T06:10:35.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T06:10:35.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698825f6f6071829394b5c66"
+    },
+    "title": "Cultural Heritage Festival",
+    "description": "Celebrate traditional folk music, dance performances, handicraft exhibitions, and authentic regional cuisine. A celebration of Bihar's rich cultural heritage.",
+    "time": {
+      "start": {
+        "$date": "2026-11-12T05:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-11-12T15:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-11-12T05:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6587741c7d8e5f149ab5ef78"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "cultural",
+    "headcount": 400,
+    "price": "200",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T06:25:50.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T06:25:50.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698827071829394b5c6d7777"
+    },
+    "title": "Corporate Team Building Retreat",
+    "description": "Two-day outdoor team building activities, leadership workshops, and bonding exercises in a peaceful farmhouse setting. Strengthen your team dynamics.",
+    "time": {
+      "start": {
+        "$date": "2026-07-08T03:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-09T12:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-08T03:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6587753e8e9f6025abc6ba89"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 50,
+    "price": "3500",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T06:40:15.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T06:40:15.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6988281829394b5c6d778888"
+    },
+    "title": "Product Launch Event - TechNova",
+    "description": "Exclusive product launch with live demonstrations, media coverage, and networking opportunities. Unveiling the next generation of smart technology.",
+    "time": {
+      "start": {
+        "$date": "2026-08-15T08:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-15T12:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-15T08:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658776609fa07136bcd7dc93"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 150,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T06:55:40.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T06:55:40.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698829293a4b5c6d77889999"
+    },
+    "title": "Seafood & Sunset Party",
+    "description": "Beach party with fresh seafood BBQ, tropical drinks, live acoustic music, and bonfire. Enjoy the ocean breeze and stunning sunset views.",
+    "time": {
+      "start": {
+        "$date": "2026-09-20T11:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-20T17:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-20T11:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65877782a0b18247cde8fe9d"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 80,
+    "price": "800",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T07:10:25.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T07:10:25.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882a3a4b5c6d7788990aaa"
+    },
+    "title": "Garden Brunch & Live Music",
+    "description": "Sunday brunch with organic food, fresh juices, and live acoustic performances in a beautiful garden setting. Perfect for families and friends.",
+    "time": {
+      "start": {
+        "$date": "2026-10-18T05:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-18T09:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-18T05:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876e7c4d3a1e5678c9de23"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 120,
+    "price": "600",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T07:25:50.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T07:25:50.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882b4b5c6d77889a0b0bbb"
+    },
+    "title": "Annual Charity Gala Dinner",
+    "description": "Black-tie charity event with dinner, auctions, and entertainment. All proceeds support local education initiatives. Make a difference while enjoying an elegant evening.",
+    "time": {
+      "start": {
+        "$date": "2026-12-05T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-12-05T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-12-05T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "charity",
+    "headcount": 250,
+    "price": "5000",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T07:40:35.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T07:40:35.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882c5c6d77889a0b1c0ccc"
+    },
+    "title": "Kids' Birthday Party - Aarav Turns 5",
+    "description": "Magical birthday celebration with clowns, magic shows, games, and cake. A fun-filled afternoon for children and families.",
+    "time": {
+      "start": {
+        "$date": "2026-06-15T06:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-06-15T10:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-06-15T06:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "698810cd5ea5fee0c2d6645c"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "celebration",
+    "headcount": 50,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T07:55:20.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T07:55:20.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882d6d77889a0b1c2d0ddd"
+    },
+    "title": "Wine Tasting Evening",
+    "description": "Exclusive wine tasting session featuring premium selections, paired appetizers, and sommelier guidance. An sophisticated evening for wine enthusiasts.",
+    "time": {
+      "start": {
+        "$date": "2026-07-30T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-30T17:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-30T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "698811de6fb6aff1d3e7756d"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 40,
+    "price": "1500",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T08:10:45.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T08:10:45.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882e7e889a0b1c2d3e0eee"
+    },
+    "title": "Technology & Innovation Conference",
+    "description": "Three-day conference on emerging technologies, AI, blockchain, and digital transformation. Expert speakers, workshops, and networking sessions.",
+    "time": {
+      "start": {
+        "$date": "2026-09-15T04:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-17T14:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-15T04:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "698812ef70c7ba02e4f8867e"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 400,
+    "price": "3000",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T08:25:30.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T08:25:30.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69882f8f9a0b1c2d3e4f0fff"
+    },
+    "title": "Street Food Carnival",
+    "description": "Explore diverse street food from across India with 50+ stalls, live cooking demos, and eating competitions. A paradise for food lovers.",
+    "time": {
+      "start": {
+        "$date": "2026-11-08T07:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-11-08T15:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-11-08T07:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881300a1d8cb13f5a9978f"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 500,
+    "price": "100",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T08:40:15.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T08:40:15.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698830a00b1c2d3e4f501000"
+    },
+    "title": "Outdoor Wedding Ceremony - Anjali & Vikram",
+    "description": "Beautiful lawn wedding with traditional rituals, floral decorations, catered dinner, and DJ. Celebrate love in an elegant outdoor setting.",
+    "time": {
+      "start": {
+        "$date": "2026-12-20T10:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-12-20T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-12-20T10:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881411b2e9dc24a6ba0890"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "wedding",
+    "headcount": 600,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T08:55:40.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T08:55:40.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698831b11c2d3e4f50611111"
+    },
+    "title": "Punjabi Night - Dhaba Experience",
+    "description": "Authentic Punjabi dinner with live bhangra performances, traditional music, and rustic dhaba ambiance. A true taste of Punjab.",
+    "time": {
+      "start": {
+        "$date": "2026-08-05T12:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-05T16:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-05T12:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881522c3faed35b7cb19a1"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 150,
+    "price": "700",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T09:10:25.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T09:10:25.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698832c22d3e4f5061722222"
+    },
+    "title": "Yoga & Wellness Retreat",
+    "description": "Weekend wellness retreat with yoga sessions, meditation, organic meals, and nature walks. Rejuvenate your mind, body, and soul in a peaceful farmhouse.",
+    "time": {
+      "start": {
+        "$date": "2026-10-10T03:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-11T12:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-10T03:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881633d4abfe46c8dc2ab2"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "wellness",
+    "headcount": 30,
+    "price": "4500",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T09:25:50.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T09:25:50.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698833d33e4f5061728333333"
+    },
+    "title": "Rooftop Comedy Night",
+    "description": "Stand-up comedy show featuring top comedians, drinks, and appetizers with stunning city views. A night full of laughter and entertainment.",
+    "time": {
+      "start": {
+        "$date": "2026-07-22T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-22T17:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-22T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881744e5bcaf57d9ed3bc3"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "entertainment",
+    "headcount": 80,
+    "price": "900",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T09:40:35.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T09:40:35.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698834e44f5061728394444444"
+    },
+    "title": "Grand Wedding Reception - Neha & Arjun",
+    "description": "Luxurious wedding reception with crystal chandeliers, gourmet dinner, live orchestra, and dance floor. An unforgettable celebration of love.",
+    "time": {
+      "start": {
+        "$date": "2026-11-25T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-11-25T19:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-11-25T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881855f6cdba68eafe4cd4"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "wedding",
+    "headcount": 700,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T09:55:20.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T09:55:20.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698835f5506172839405555555"
+    },
+    "title": "Coffee & Conversations",
+    "description": "Casual networking meetup for entrepreneurs and professionals. Enjoy specialty coffee, light snacks, and meaningful conversations in a cozy bistro.",
+    "time": {
+      "start": {
+        "$date": "2026-06-18T04:30:00.000Z"
+      },
+      "end": {
+        "$date": "2026-06-18T07:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-06-18T04:30:00.000Z"
+    },
+    "venue": {
+      "$oid": "6988196607decb79fbaf5de5"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "networking",
+    "headcount": 35,
+    "price": "200",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T10:10:45.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T10:10:45.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698837066172839405166666"
+    },
+    "title": "Rock Band Live Concert",
+    "description": "High-energy rock concert featuring popular local and regional bands. Prepare for an electrifying night of music, mosh pits, and memorable performances.",
+    "time": {
+      "start": {
+        "$date": "2026-08-28T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-28T20:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-28T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "music",
+    "headcount": 600,
+    "price": "700",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T10:25:30.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T10:25:30.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698838177283940516777777"
+    },
+    "title": "Biryani Eating Championship",
+    "description": "Competitive eating contest featuring delicious biryanis. Participants compete to finish the most plates. Prizes for winners and fun for spectators.",
+    "time": {
+      "start": {
+        "$date": "2026-09-05T08:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-05T11:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-05T08:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658770bc3e5f2a8167d2ef45"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 150,
+    "price": "50",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T10:40:15.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T10:40:15.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698839288394051678888888"
+    },
+    "title": "Art Exhibition & Gallery Opening",
+    "description": "Contemporary art exhibition featuring local artists. Wine, hors d'oeuvres, and opportunity to meet the artists and purchase original artwork.",
+    "time": {
+      "start": {
+        "$date": "2026-10-22T11:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-22T16:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-22T11:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658772fa6c7d4e0389a4cd67"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "art",
+    "headcount": 100,
+    "price": "300",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T10:55:40.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T10:55:40.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883a399405167899999999"
+    },
+    "title": "Classical Dance Performance - Kathak Night",
+    "description": "Mesmerizing Kathak performance by renowned dancers, showcasing traditional Indian classical dance. A cultural evening celebrating artistic excellence.",
+    "time": {
+      "start": {
+        "$date": "2026-11-18T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-11-18T16:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-11-18T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6587741c7d8e5f149ab5ef78"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "cultural",
+    "headcount": 200,
+    "price": "400",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T11:10:25.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T11:10:25.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883b4a40516789a0aaaaaa"
+    },
+    "title": "Startup Pitch Competition",
+    "description": "Entrepreneurs pitch innovative business ideas to investors and judges. Networking opportunities, mentorship sessions, and prizes for winning startups.",
+    "time": {
+      "start": {
+        "$date": "2026-07-12T05:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-12T13:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-12T05:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876f9a2b8c4d7056e1bc34"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 250,
+    "price": "500",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T11:25:50.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T11:25:50.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883c5b516789a0b1bbbbbb"
+    },
+    "title": "Adventure Sports Day",
+    "description": "Full day of outdoor adventure activities including zip-lining, rock climbing, archery, and team challenges. Perfect for thrill-seekers and team building.",
+    "time": {
+      "start": {
+        "$date": "2026-08-08T04:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-08T14:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-08T04:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6587753e8e9f6025abc6ba89"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "sports",
+    "headcount": 100,
+    "price": "2000",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T11:40:35.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T11:40:35.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883d6c6789a0b1c2cccccc"
+    },
+    "title": "Fashion Show - Spring Collection 2026",
+    "description": "Runway fashion show featuring emerging designers' spring collections. Models, music, and style in an exclusive event for fashion enthusiasts.",
+    "time": {
+      "start": {
+        "$date": "2026-09-25T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-25T16:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-25T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "fashion",
+    "headcount": 300,
+    "price": "1500",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T11:55:20.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T11:55:20.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883e7d789a0b1c2d3ddddd"
+    },
+    "title": "Cooking Masterclass - Italian Cuisine",
+    "description": "Hands-on cooking class with professional chef teaching authentic Italian recipes. Learn to make pasta, risotto, and tiramisu. Includes dinner and wine.",
+    "time": {
+      "start": {
+        "$date": "2026-10-30T10:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-30T14:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-30T10:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "698811de6fb6aff1d3e7756d"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "food",
+    "headcount": 25,
+    "price": "2500",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T12:10:45.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T12:10:45.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69883f8e89a0b1c2d3e4eeee"
+    },
+    "title": "Diwali Celebration & Fireworks",
+    "description": "Grand Diwali celebration with traditional rituals, diyas, rangoli, festive dinner, and spectacular fireworks display. Celebrate the festival of lights with joy.",
+    "time": {
+      "start": {
+        "$date": "2026-11-05T12:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-11-05T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-11-05T12:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658771de5a6b3c9278f3ab56"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "cultural",
+    "headcount": 500,
+    "price": "100",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T12:25:30.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T12:25:30.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698840a09fa0b1c2d3e4f5ff"
+    },
+    "title": "Photography Workshop & Photo Walk",
+    "description": "Learn photography techniques from professionals followed by guided photo walk. Covers composition, lighting, and editing. Suitable for beginners and enthusiasts.",
+    "time": {
+      "start": {
+        "$date": "2026-06-28T04:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-06-28T10:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-06-28T04:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881633d4abfe46c8dc2ab2"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "education",
+    "headcount": 40,
+    "price": "1500",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T12:40:15.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T12:40:15.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698841b1a0b1c2d3e4f50600"
+    },
+    "title": "New Year's Eve Bash 2027",
+    "description": "Ring in the new year with DJ, dance floor, unlimited food and drinks, live countdown, and midnight fireworks. The ultimate party to welcome 2027.",
+    "time": {
+      "start": {
+        "$date": "2026-12-31T16:00:00.000Z"
+      },
+      "end": {
+        "$date": "2027-01-01T02:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-12-31T16:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "658772fa6c7d4e0389a4cd67"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "celebration",
+    "headcount": 300,
+    "price": "3000",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T12:55:40.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T12:55:40.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698842c2b1c2d3e4f5061711"
+    },
+    "title": "Book Club Meet - Monthly Discussion",
+    "description": "Monthly book club gathering to discuss recent reads over coffee and pastries. Open to all book lovers. This month's book: 'The Midnight Library'.",
+    "time": {
+      "start": {
+        "$date": "2026-07-19T10:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-07-19T12:30:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-07-19T10:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6988196607decb79fbaf5de5"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "education",
+    "headcount": 20,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T13:10:25.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T13:10:25.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698843d3c2d3e4f506172822"
+    },
+    "title": "Holi Color Festival",
+    "description": "Vibrant Holi celebration with organic colors, music, dance, traditional sweets, and thandai. Experience the festival of colors in full spirit.",
+    "time": {
+      "start": {
+        "$date": "2026-03-15T05:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-03-15T11:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-03-15T05:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881411b2e9dc24a6ba0890"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "cultural",
+    "headcount": 400,
+    "price": "150",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T13:25:50.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T13:25:50.234Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698844e4d3e4f50617283933"
+    },
+    "title": "Pet Adoption Drive & Awareness",
+    "description": "Pet adoption event with rescued animals, veterinary consultations, pet care workshops, and awareness sessions on animal welfare.",
+    "time": {
+      "start": {
+        "$date": "2026-08-22T06:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-08-22T12:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-08-22T06:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "6587753e8e9f6025abc6ba89"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "charity",
+    "headcount": 150,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T13:40:35.567Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T13:40:35.567Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698845f5e4f5061728394044"
+    },
+    "title": "Salsa Dance Workshop & Social",
+    "description": "Learn salsa dancing from professional instructors followed by social dancing. All levels welcome. Great way to meet new people and have fun.",
+    "time": {
+      "start": {
+        "$date": "2026-09-12T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-09-12T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-09-12T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876d3a8f5b2c9045f8ab12"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "entertainment",
+    "headcount": 80,
+    "price": "600",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T13:55:20.890Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T13:55:20.890Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698847065f50617283940515"
+    },
+    "title": "Vintage Car & Bike Show",
+    "description": "Exhibition of classic and vintage automobiles with owner meet-and-greet, photo opportunities, and awards for best vehicles. A treat for automobile enthusiasts.",
+    "time": {
+      "start": {
+        "$date": "2026-10-17T06:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-10-17T13:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-10-17T06:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881411b2e9dc24a6ba0890"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "exhibition",
+    "headcount": 300,
+    "price": "200",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T14:10:45.123Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T14:10:45.123Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698848176061728394051626"
+    },
+    "title": "Corporate Annual Party 2026",
+    "description": "Year-end company celebration with awards ceremony, dinner, entertainment, and team bonding activities. Celebrating achievements and building team spirit.",
+    "time": {
+      "start": {
+        "$date": "2026-12-15T13:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-12-15T19:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-12-15T13:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "69881855f6cdba68eafe4cd4"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "business",
+    "headcount": 200,
+    "price": "0",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T14:25:30.456Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T14:25:30.456Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "698849287172839405162737"
+    },
+    "title": "Marathon for Health Awareness",
+    "description": "5K and 10K marathon to promote fitness and raise awareness about healthy living. Includes warm-up sessions, refreshments, and prizes for winners.",
+    "time": {
+      "start": {
+        "$date": "2026-05-20T04:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-05-20T09:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-05-20T04:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "698810cd5ea5fee0c2d6645c"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "6987610538f490765455db8b"
+    },
+    "participants": [],
+    "category": "sports",
+    "headcount": 350,
+    "price": "250",
+    "status": "pending",
+    "address": {
+      "area": "Sitamarhi, Bihar, India",
+      "state": "Bihar",
+      "country": "India"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.5012971, 26.5886976]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T14:40:15.789Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T14:40:15.789Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "69884a398283940516273848"
+    },
+    "title": "Acoustic Night Under the Stars",
+    "description": "Intimate acoustic music performance in a garden setting. Local musicians, refreshments, and a magical atmosphere under the night sky.",
+    "time": {
+      "start": {
+        "$date": "2026-06-12T14:00:00.000Z"
+      },
+      "end": {
+        "$date": "2026-06-12T18:00:00.000Z"
+      }
+    },
+    "date": {
+      "$date": "2026-06-12T14:00:00.000Z"
+    },
+    "venue": {
+      "$oid": "65876e7c4d3a1e5678c9de23"
+    },
+    "pic": {
+      "url": "",
+      "public_id": "",
+      "success": true
+    },
+    "host": {
+      "$oid": "69876488536e4a14cbad14a3"
+    },
+    "participants": [],
+    "category": "music",
+    "headcount": 90,
+    "price": "450",
+    "status": "pending",
+    "address": {
+      "area": "Barbatta, Sonepur, Bihar, India",
+      "state": "Bihar",
+      "country": "India",
+      "postalCode": "841101"
+    },
+    "location": {
+      "type": "Point",
+      "coordinates": [85.1595857, 25.7001491]
+    },
+    "isCancelled": false,
+    "createdAt": {
+      "$date": "2026-02-08T14:55:40.234Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-08T14:55:40.234Z"
+    },
+    "__v": 0
+  }
+]
