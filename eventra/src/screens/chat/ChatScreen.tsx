@@ -32,8 +32,8 @@ const ChatScreen = () => {
   const navigation = useNavigation<NavigationProps<'ChatScreen'>>();
   let opponentUser = user;
   const dispatch = useAppDispatch();
-  const {isKeyboardVisible, insets} = useDevice();
-  const bottomInsets = insets.bottom > 0 ? insets.bottom : insets.top;
+  const {appState} = useDevice();
+  console.log(appState);
 
   const {globalSocket} = useSocket();
 
@@ -100,12 +100,21 @@ const ChatScreen = () => {
   useEffect(() => {
     if (!conversationId) return;
 
-    globalSocket.emit('active_chat', {
-      chatId: conversationId,
-      currentUser: {_id: loggedInUser?._id, name: loggedInUser?.name},
-      receiver: {_id: opponentUser._id, name: opponentUser.name},
-      type: 'active',
-    });
+    if (appState === 'active') {
+      globalSocket.emit('active_chat', {
+        chatId: conversationId,
+        currentUser: {_id: loggedInUser?._id, name: loggedInUser?.name},
+        receiver: {_id: opponentUser._id, name: opponentUser.name},
+        type: 'active',
+      });
+    } else {
+      globalSocket.emit('active_chat', {
+        chatId: conversationId,
+        currentUser: {_id: loggedInUser?._id, name: loggedInUser?.name},
+        receiver: {_id: opponentUser._id, name: opponentUser.name},
+        type: 'unactive',
+      });
+    }
 
     return () => {
       globalSocket.emit('active_chat', {
@@ -114,6 +123,11 @@ const ChatScreen = () => {
         receiver: {_id: opponentUser._id, name: opponentUser.name},
         type: 'unactive',
       });
+    };
+  }, [conversationId, appState]);
+
+  useEffect(() => {
+    return () => {
       globalSocket.emit('chat-mode', {
         isInCognito: false,
         senderId: loggedInUser?._id,

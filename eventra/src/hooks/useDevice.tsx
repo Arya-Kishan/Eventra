@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Keyboard} from 'react-native';
+import {AppState, Keyboard} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -7,6 +7,7 @@ const useDevice = () => {
   const {top: statusBarHeight} = useSafeAreaInsets();
 
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [appState, setAppState] = useState<'active' | 'inactive'>('active');
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const insets = useSafeAreaInsets();
   const [deviceInfo, setDeviceInfo] = useState({
@@ -53,10 +54,21 @@ const useDevice = () => {
       setKeyboardHeight(0);
     });
 
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background') {
+        setAppState('inactive');
+      }
+
+      if (nextAppState === 'active') {
+        setAppState('active');
+      }
+    });
+
     fetchDeviceInfo();
     return () => {
       showSub.remove();
       hideSub.remove();
+      subscription.remove();
     };
   }, []);
 
@@ -66,6 +78,7 @@ const useDevice = () => {
     keyboardHeight,
     deviceInfo,
     insets,
+    appState,
   };
 };
 

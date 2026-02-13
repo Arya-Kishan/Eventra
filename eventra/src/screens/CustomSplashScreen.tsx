@@ -91,8 +91,7 @@ const CustomSplashScreen = () => {
           style={[
             styles.headingTxt,
             {
-              color:
-                theme === 'dark' ? AppConstants.white : AppConstants.redColor,
+              color: AppConstants.redColor,
             },
           ]}>
           EVENTRA
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: AppConstants.screenWidth,
     height: AppConstants.screenHeight,
+    backgroundColor: AppConstants.white,
   },
   main2: {
     backgroundColor: AppConstants.redColor,
