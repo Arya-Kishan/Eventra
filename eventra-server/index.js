@@ -49,12 +49,6 @@ server.use((err, req, res, next) => {
     .json({ data: null, message: err.message || "something went wrong" });
 });
 
-const decoded = jwt.verify(
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjM5NjYzYmQwYTA3ZDUxM2IwZDIxYyIsImVtYWlsIjoiYXJ5YUBnbWFpbC5jb20iLCJpYXQiOjE3NzAyMjg2NDEsImV4cCI6MTc3MDgzMzQ0MX0.ZwZsRhGSgKI2OLjcRYpUcaCEyto221CamwoiD8YtAM8",
-  process.env.JWT_SECRET,
-);
-console.log("DECODED : ", decoded);
-
 server.listen(8000, () => {
   console.log("SERVER LISTENED AT 8000");
 });

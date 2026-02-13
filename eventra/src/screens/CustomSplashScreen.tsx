@@ -64,10 +64,7 @@ const CustomSplashScreen = () => {
     }
   }, [loggedInUser, loader, isAnimationCompeleted]);
 
-  console.log({isAnimationCompeleted});
-
   const onAnimationComplete = () => {
-    console.log('MAKE TRUE');
     setIsAnimationCompeleted(true);
   };
 
