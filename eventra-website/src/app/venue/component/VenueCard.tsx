@@ -1,18 +1,21 @@
 "use client";
 
+import { Calendar, Clock, DollarSign, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, DollarSign, Clock, User, Calendar, Star } from "lucide-react";
 
-export default function VenueCard({ item }) {
+export default function VenueCard({ item }: { item: any }) {
   const venue = item;
-  const availableSlots = venue.slots.filter((slot) => !slot.isBooked).length;
-  const totalSlots = venue.slots.length;
+  const availableSlots = venue.slots.filter(
+    (slot: any) => !slot.isBooked,
+  ).length;
   const averageRating =
     venue.reviews.length > 0
       ? (
-          venue.reviews.reduce((acc, review) => acc + review.rating, 0) /
-          venue.reviews.length
+          venue.reviews.reduce(
+            (acc: any, review: any) => acc + review.rating,
+            0,
+          ) / venue.reviews.length
         ).toFixed(1)
       : "New";
 

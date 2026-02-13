@@ -1,11 +1,11 @@
 import UserDetail from "../component/UserDetail";
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 };
 
-export default function UserPage({ params }: Props) {
-  return <UserDetail userId={params.id} />;
+export default async function UserPage({ params }: Props) {
+  const { id } = await params;
+
+  return <UserDetail userId={id} />;
 }

@@ -1,11 +1,11 @@
 import PostDetail from "../component/PostDetail";
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 };
 
-export default function PostDetails({ params }: Props) {
-  return <PostDetail postId={params.id} />;
+export default async function PostDetails({ params }: Props) {
+  const { id } = await params;
+
+  return <PostDetail postId={id} />;
 }

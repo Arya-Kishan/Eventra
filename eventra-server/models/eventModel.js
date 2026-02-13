@@ -18,7 +18,7 @@ const eventSchema = new Schema(
     status: {
       type: String,
       default: "pending",
-      enum: ["pending", "rejected", "accepted"],
+      enum: ["pending", "rejected", "accepted", "cancelled"],
     },
     address: {
       type: {

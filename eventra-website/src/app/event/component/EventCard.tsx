@@ -4,7 +4,7 @@ import { Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard({ item }) {
+export default function EventCard({ item }: { item: any }) {
   const event = item;
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);

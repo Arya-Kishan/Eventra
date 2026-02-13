@@ -1,27 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Heart,
-  MessageCircle,
-  Share2,
-  Bookmark,
-  MoreHorizontal,
-  Tag,
-} from "lucide-react";
 
-export default function PostCard({ item }) {
+export default function PostCard({ item }: { item: any }) {
   const post = item;
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-  const [likesCount, setLikesCount] = useState(post.likes.length);
-
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-  };
 
   const getTimeAgo = (dateString: string): string => {
     const date = new Date(dateString);

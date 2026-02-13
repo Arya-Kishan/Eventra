@@ -1,11 +1,10 @@
 import EventDetail from "../component/EventDetail";
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 };
 
-export default function EventDetails({ params }: Props) {
-  return <EventDetail eventId={params.id} />;
+export default async function EventDetails({ params }: Props) {
+  const { id } = await params;
+  return <EventDetail eventId={id} />;
 }

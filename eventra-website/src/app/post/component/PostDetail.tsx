@@ -2,6 +2,7 @@
 
 import CustomEmpty from "@/components/ui/CustomEmpty";
 import CustomLoader from "@/components/ui/CustomLoader";
+import { AppConstants } from "@/constants";
 import { getSinglePostApi } from "@/services/PostService";
 import { PostType } from "@/types/AppTypes";
 import {
@@ -23,7 +24,9 @@ export default function PostDetail({ postId }: { postId: string }) {
   const [post, setPost] = useState<PostType | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [likesCount, setLikesCount] = useState(post ? post.likes.length : 0);
+  const [likesCount, setLikesCount] = useState(
+    post && post.likes ? post!.likes!.length : 0,
+  );
   const [commentText, setCommentText] = useState("");
   const [showShareModal, setShowShareModal] = useState(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -63,15 +66,6 @@ export default function PostDetail({ postId }: { postId: string }) {
       month: "long",
       day: "numeric",
       year: "numeric",
-    });
-  };
-
-  const formatTime = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
     });
   };
 
@@ -139,7 +133,11 @@ export default function PostDetail({ postId }: { postId: string }) {
                   {/* Image */}
                   <div className="relative w-full aspect-square bg-gray-900">
                     <Image
-                      src={post.file.url}
+                      src={
+                        post.file
+                          ? (post.file.url as string)
+                          : AppConstants.fallbackProfilePic
+                      }
                       alt={post.title}
                       fill
                       className="object-contain"
@@ -221,10 +219,12 @@ export default function PostDetail({ postId }: { postId: string }) {
                           Related Event
                         </p>
                         <h3 className="text-2xl font-bold">
-                          {post.event.title}
+                          {typeof post.event !== "string" && post.event.title}
                         </h3>
                       </div>
-                      <Link href={`/events/${post.event._id}`}>
+                      <Link
+                        href={`/events/${typeof post.event !== "string" && post.event._id}`}
+                      >
                         <button className="px-4 py-2 bg-white text-red-600 rounded-full font-semibold hover:bg-red-50 transition-colors">
                           View Event
                         </button>
@@ -237,36 +237,40 @@ export default function PostDetail({ postId }: { postId: string }) {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Author Card */}
-                <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
-                  <div className="flex items-start gap-4 mb-4">
-                    <Link href={`/profile/${post.user._id}`}>
-                      <div className="relative">
-                        <Image
-                          src={post.user.profilePic.url}
-                          alt={post.user.fullName}
-                          width={60}
-                          height={60}
-                          className="rounded-full border-3 border-red-100 hover:border-red-300 transition-colors cursor-pointer"
-                        />
-                      </div>
-                    </Link>
-
-                    <div className="flex-1">
+                {typeof post.user !== "string" && (
+                  <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
+                    <div className="flex items-start gap-4 mb-4">
                       <Link href={`/profile/${post.user._id}`}>
-                        <h3 className="font-bold text-lg text-gray-900 hover:text-red-600 transition-colors cursor-pointer">
-                          {post.user.fullName}
-                        </h3>
+                        <div className="relative">
+                          <Image
+                            src={post.user.profilePic!.url}
+                            alt={post.user.fullName}
+                            width={60}
+                            height={60}
+                            className="rounded-full border-3 border-red-100 hover:border-red-300 transition-colors cursor-pointer"
+                          />
+                        </div>
                       </Link>
-                      <p className="text-sm text-gray-600">@{post.user.name}</p>
-                    </div>
-                  </div>
 
-                  <Link href={`/profile/${post.user._id}`}>
-                    <button className="w-full py-2.5 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-full font-semibold hover:shadow-lg transition-all">
-                      View Profile
-                    </button>
-                  </Link>
-                </div>
+                      <div className="flex-1">
+                        <Link href={`/profile/${post.user._id}`}>
+                          <h3 className="font-bold text-lg text-gray-900 hover:text-red-600 transition-colors cursor-pointer">
+                            {post.user.fullName}
+                          </h3>
+                        </Link>
+                        <p className="text-sm text-gray-600">
+                          @{post.user.name}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Link href={`/profile/${post.user._id}`}>
+                      <button className="w-full py-2.5 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-full font-semibold hover:shadow-lg transition-all">
+                        View Profile
+                      </button>
+                    </Link>
+                  </div>
+                )}
 
                 {/* Post Details */}
                 <div className="bg-white rounded-3xl shadow-lg p-6 border border-gray-100">
@@ -362,7 +366,11 @@ export default function PostDetail({ postId }: { postId: string }) {
                   <div className="p-4 border-b border-gray-100">
                     <div className="flex items-center gap-3">
                       <Image
-                        src={post.user.profilePic.url}
+                        src={
+                          typeof post.user !== "string"
+                            ? post.user.profilePic!.url
+                            : AppConstants.fallbackProfilePic
+                        }
                         alt="Your profile"
                         width={36}
                         height={36}
@@ -405,7 +413,7 @@ export default function PostDetail({ postId }: { postId: string }) {
                       </div>
                     ) : (
                       <div className="divide-y divide-gray-100">
-                        {post.comments.map((comment) => (
+                        {post.comments.map((comment: any) => (
                           <div
                             key={comment._id}
                             className="p-4 hover:bg-gray-50 transition-colors"

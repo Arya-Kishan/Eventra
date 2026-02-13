@@ -19,10 +19,11 @@ import {
   Tag,
   Info,
 } from "lucide-react";
-import { EventType } from "@/types/AppTypes";
+import { EventType, userType } from "@/types/AppTypes";
 import { getSingleEvent } from "@/services/EventService";
 import CustomLoader from "@/components/ui/CustomLoader";
 import CustomEmpty from "@/components/ui/CustomEmpty";
+import { AppConstants } from "@/constants";
 
 export default function EventDetail({ eventId }: { eventId: string }) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -151,10 +152,10 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                     </span>
                     <span
                       className={`px-4 py-2 rounded-full text-sm font-semibold border flex items-center gap-2 ${getStatusColor(
-                        event.status,
+                        event.status as string,
                       )}`}
                     >
-                      {getStatusIcon(event.status)}
+                      {getStatusIcon(event.status as string)}
                       {event.status}
                     </span>
                   </div>
@@ -204,14 +205,14 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                       <div className="flex-1">
                         <p className="text-sm text-gray-600 mb-1">Location</p>
                         <p className="text-lg font-semibold text-gray-900">
-                          {event.address.area}
+                          {event!.address!.area}
                         </p>
                         <p className="text-sm text-gray-600 mt-1">
-                          {event.address.state}, {event.address.country} -{" "}
-                          {event.address.postalCode}
+                          {event.address!.state}, {event.address!.country} -{" "}
+                          {event.address!.postalCode}
                         </p>
                         <a
-                          href={`https://www.google.com/maps?q=${event.location.coordinates[1]},${event.location.coordinates[0]}`}
+                          href={`https://www.google.com/maps?q=${event.location!.coordinates[1]},${event.location!.coordinates[0]}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 mt-3 text-red-600 hover:text-red-700 font-medium text-sm"
@@ -266,32 +267,34 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                     Venue Information
                   </h2>
 
-                  <div className="flex gap-4">
-                    <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
-                      <Image
-                        src={event.venue.pic.url}
-                        alt={event.venue.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        {event.venue.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-3">
-                        {event.venue.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 text-red-600" />
-                        <span>{event.venue.address.area}</span>
+                  {typeof event.venue !== "string" && (
+                    <div className="flex gap-4">
+                      <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                        <Image
+                          src={event.venue.pic.url}
+                          alt={event.venue.title}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
-                        <Tag className="w-4 h-4 text-green-600" />
-                        <span>Venue Price: ${event.venue.price}</span>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          {event.venue.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-3">
+                          {event.venue.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <MapPin className="w-4 h-4 text-red-600" />
+                          <span>{event.venue.address!.area}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                          <Tag className="w-4 h-4 text-green-600" />
+                          <span>Venue Price: ${event.venue.price}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Available Slots */}
                   <div className="mt-6 pt-6 border-t border-gray-200">
@@ -299,37 +302,38 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                       Available Time Slots
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {event.venue.slots.map((slot, index) => (
-                        <div
-                          key={index}
-                          className={`p-3 rounded-lg border ${
-                            slot.isBooked
-                              ? "bg-red-50 border-red-200"
-                              : "bg-green-50 border-green-200"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Clock
-                                className={`w-4 h-4 ${slot.isBooked ? "text-red-600" : "text-green-600"}`}
-                              />
-                              <span className="text-sm font-medium text-gray-900">
-                                {formatTime(slot.time.start)} -{" "}
-                                {formatTime(slot.time.end)}
+                      {typeof event.venue !== "string" &&
+                        event.venue.slots.map((slot, index) => (
+                          <div
+                            key={index}
+                            className={`p-3 rounded-lg border ${
+                              slot.isBooked
+                                ? "bg-red-50 border-red-200"
+                                : "bg-green-50 border-green-200"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Clock
+                                  className={`w-4 h-4 ${slot.isBooked ? "text-red-600" : "text-green-600"}`}
+                                />
+                                <span className="text-sm font-medium text-gray-900">
+                                  {formatTime(slot.time.start)} -{" "}
+                                  {formatTime(slot.time.end)}
+                                </span>
+                              </div>
+                              <span
+                                className={`text-xs font-semibold ${
+                                  slot.isBooked
+                                    ? "text-red-700"
+                                    : "text-green-700"
+                                }`}
+                              >
+                                {slot.isBooked ? "Booked" : "Available"}
                               </span>
                             </div>
-                            <span
-                              className={`text-xs font-semibold ${
-                                slot.isBooked
-                                  ? "text-red-700"
-                                  : "text-green-700"
-                              }`}
-                            >
-                              {slot.isBooked ? "Booked" : "Available"}
-                            </span>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -341,13 +345,17 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                   </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {event.participants.map((participant) => (
+                    {event.participants.map((participant: userType) => (
                       <div
                         key={participant._id}
                         className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-red-50 transition-colors border border-gray-200 hover:border-red-200"
                       >
                         <Image
-                          src={participant.profilePic.url}
+                          src={
+                            participant.profilePic
+                              ? participant.profilePic.url
+                              : AppConstants.fallbackProfilePic
+                          }
                           alt={participant.name}
                           width={48}
                           height={48}
@@ -384,30 +392,35 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                   <h3 className="text-lg font-bold text-gray-900 mb-4">
                     Hosted By
                   </h3>
-                  <div className="flex flex-col items-center text-center">
-                    <Image
-                      src={event.host.profilePic.url}
-                      alt={event.host.name}
-                      width={80}
-                      height={80}
-                      className="rounded-full border-4 border-red-100 mb-3"
-                    />
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {event.host.name}
-                    </h4>
-                    <p className="text-sm text-gray-600 mb-2">
-                      {event.host.email}
-                    </p>
-                    <p className="text-sm text-gray-700 mb-4">
-                      {event.host.bio}
-                    </p>
-                    <Link
-                      href={`/profile/${event.host._id}`}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
-                    >
-                      View Profile
-                    </Link>
-                  </div>
+                  {typeof event.host !== "string" && (
+                    <div className="flex flex-col items-center text-center">
+                      <Image
+                        src={
+                          event.host.profilePic!.url ??
+                          AppConstants.fallbackProfilePic
+                        }
+                        alt={event.host.name}
+                        width={80}
+                        height={80}
+                        className="rounded-full border-4 border-red-100 mb-3"
+                      />
+                      <h4 className="text-xl font-bold text-gray-900">
+                        {event.host.name}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {event.host.email}
+                      </p>
+                      <p className="text-sm text-gray-700 mb-4">
+                        {event.host.bio}
+                      </p>
+                      <Link
+                        href={`/profile/${event.host._id}`}
+                        className="w-full px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                      >
+                        View Profile
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Card */}
@@ -421,7 +434,7 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                     <div className="flex items-center justify-between text-sm">
                       <span>Spots Left:</span>
                       <span className="font-semibold">
-                        {event.headcount - event.participants.length}
+                        {(event.headcount as any) - event.participants.length}
                       </span>
                     </div>
                   </div>
@@ -444,13 +457,13 @@ export default function EventDetail({ eventId }: { eventId: string }) {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Created:</span>
                       <span className="font-medium text-gray-900">
-                        {new Date(event.createdAt).toLocaleDateString()}
+                        {new Date(event.createdAt!).toLocaleDateString()}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Last Updated:</span>
                       <span className="font-medium text-gray-900">
-                        {new Date(event.updatedAt).toLocaleDateString()}
+                        {new Date(event.updatedAt!).toLocaleDateString()}
                       </span>
                     </div>
                     <div className="flex justify-between">

@@ -1,31 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import CustomEmpty from "@/components/ui/CustomEmpty";
+import CustomLoader from "@/components/ui/CustomLoader";
+import { AppConstants } from "@/constants";
+import { getSingleVenueApi } from "@/services/venueService";
+import { VenueType } from "@/types/AppTypes";
+import {
+  ArrowLeft,
+  Calendar,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Heart,
+  Info,
+  Mail,
+  MapPin,
+  Navigation,
+  Phone,
+  Share2,
+  Star,
+  Users,
+  XCircle,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  MapPin,
-  DollarSign,
-  Clock,
-  Calendar,
-  Star,
-  ArrowLeft,
-  Share2,
-  Heart,
-  Navigation,
-  CheckCircle,
-  XCircle,
-  Mail,
-  Phone,
-  Info,
-  Users,
-} from "lucide-react";
-import { VenueType } from "@/types/AppTypes";
-import { getSingleVenueApi } from "@/services/venueService";
-import CustomLoader from "@/components/ui/CustomLoader";
-import CustomEmpty from "@/components/ui/CustomEmpty";
+import { useEffect, useState } from "react";
 
-export default function VenueDetail({ venueId }: { venueId: stirng }) {
+export default function VenueDetail({ venueId }: { venueId: string }) {
   const [venue, setVenue] = useState<VenueType | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -49,11 +50,13 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
-  const availableSlots =
-    venue && venue.slots.filter((slot) => !slot.isBooked).length;
-  const bookedSlots =
-    venue && venue.slots.filter((slot) => slot.isBooked).length;
-  const totalSlots = venue && venue.slots.length;
+  const availableSlots = venue
+    ? venue.slots.filter((slot) => !slot.isBooked).length
+    : 0;
+  const bookedSlots = venue
+    ? venue.slots.filter((slot) => slot.isBooked).length
+    : 0;
+  const totalSlots = venue ? venue.slots.length : 0;
   const occupancyRate =
     venue && totalSlots > 0
       ? ((bookedSlots / totalSlots) * 100).toFixed(0)
@@ -62,8 +65,10 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
   const averageRating =
     venue && venue.reviews.length > 0
       ? (
-          venue.reviews.reduce((acc, review) => acc + review.rating, 0) /
-          venue.reviews.length
+          venue.reviews.reduce(
+            (acc: any, review: any) => acc + review.rating,
+            0,
+          ) / venue.reviews.length
         ).toFixed(1)
       : 0;
 
@@ -190,7 +195,7 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                   <div className="flex items-center gap-2 text-lg">
                     <MapPin className="w-5 h-5" />
                     <span>
-                      {venue.address.area}, {venue.address.state}
+                      {venue.address!.area}, {venue.address!.state}
                     </span>
                   </div>
                 </div>
@@ -261,14 +266,14 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                           Full Address
                         </p>
                         <p className="text-lg font-semibold text-gray-900 mb-1">
-                          {venue.address.area}
+                          {venue.address!.area}
                         </p>
                         <p className="text-sm text-gray-600">
-                          {venue.address.state}, {venue.address.country} -{" "}
-                          {venue.address.postalCode}
+                          {venue.address!.state}, {venue.address!.country} -{" "}
+                          {venue.address!.postalCode}
                         </p>
                         <a
-                          href={`https://www.google.com/maps?q=${venue.location.coordinates[1]},${venue.location.coordinates[0]}`}
+                          href={`https://www.google.com/maps?q=${venue.location!.coordinates[1]},${venue.location!.coordinates[0]}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 mt-3 text-red-600 hover:text-red-700 font-medium text-sm"
@@ -302,12 +307,14 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      {venue.slots.map((slot) => (
+                      {venue.slots.map((slot: any) => (
                         <div
                           key={slot._id}
-                          onClick={() =>
-                            !slot.isBooked && setSelectedSlot(slot._id)
-                          }
+                          onClick={() => {
+                            if (!slot.isBooked) {
+                              setSelectedSlot(slot ? slot._id : "");
+                            }
+                          }}
                           className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
                             slot.isBooked
                               ? "bg-gray-50 border-gray-200 opacity-60 cursor-not-allowed"
@@ -392,7 +399,7 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {venue.reviews.map((review) => (
+                      {venue.reviews.map((review: any) => (
                         <div
                           key={review._id}
                           className="p-4 bg-gray-50 rounded-xl border border-gray-200"
@@ -479,41 +486,46 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                   <h3 className="text-lg font-bold text-gray-900 mb-4">
                     Venue Host
                   </h3>
-                  <div className="flex flex-col items-center text-center">
-                    <Image
-                      src={venue.host.profilePic.url}
-                      alt={venue.host.fullName}
-                      width={80}
-                      height={80}
-                      className="rounded-full border-4 border-red-100 mb-3"
-                    />
-                    <h4 className="text-xl font-bold text-gray-900">
-                      {venue.host.fullName}
-                    </h4>
-                    <p className="text-sm text-gray-600 mb-3">
-                      {venue.host.bio}
-                    </p>
+                  {typeof venue.host !== "string" && venue.host && (
+                    <div className="flex flex-col items-center text-center">
+                      <Image
+                        src={
+                          venue.host.profilePic!.url ??
+                          AppConstants.fallbackProfilePic
+                        }
+                        alt={venue.host.fullName}
+                        width={80}
+                        height={80}
+                        className="rounded-full border-4 border-red-100 mb-3"
+                      />
+                      <h4 className="text-xl font-bold text-gray-900">
+                        {venue.host.fullName}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-3">
+                        {venue.host.bio}
+                      </p>
 
-                    <div className="w-full space-y-2 mb-4">
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Mail className="w-4 h-4 text-red-600" />
-                        <span className="truncate">{venue.host.email}</span>
-                      </div>
-                      {venue.host.phone && (
+                      <div className="w-full space-y-2 mb-4">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <Phone className="w-4 h-4 text-red-600" />
-                          <span>{venue.host.phone}</span>
+                          <Mail className="w-4 h-4 text-red-600" />
+                          <span className="truncate">{venue.host.email}</span>
                         </div>
-                      )}
-                    </div>
+                        {venue.host.phone && (
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <Phone className="w-4 h-4 text-red-600" />
+                            <span>{venue.host.phone}</span>
+                          </div>
+                        )}
+                      </div>
 
-                    <Link
-                      href={`/profile/${venue.host._id}`}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
-                    >
-                      View Host Profile
-                    </Link>
-                  </div>
+                      <Link
+                        href={`/profile/${venue.host._id}`}
+                        className="w-full px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                      >
+                        View Host Profile
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
                 {/* Venue Info */}
@@ -526,13 +538,13 @@ export default function VenueDetail({ venueId }: { venueId: stirng }) {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Listed on:</span>
                       <span className="font-medium text-gray-900">
-                        {formatDate(venue.createdAt)}
+                        {formatDate(venue.createdAt as string)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Last Updated:</span>
                       <span className="font-medium text-gray-900">
-                        {formatDate(venue.updatedAt)}
+                        {formatDate(venue.updatedAt as string)}
                       </span>
                     </div>
                     <div className="flex justify-between">

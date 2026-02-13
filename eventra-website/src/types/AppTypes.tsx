@@ -23,6 +23,7 @@ export type userType = {
   createdAt: string;
   updatedAt: string;
   email: string;
+  phone?: string;
   password?: string;
   bio?: string;
   profilePic?: { url: string; public_id: string };
@@ -66,13 +67,14 @@ export type EventType = {
   time: { start: string; end: string };
   date: string;
   pic: any;
+  price?: number;
   host: userType | string;
   participants: [];
   venue: VenueType | string;
   headcount: string;
   category: string;
   isCancelled?: boolean;
-  status?: "pending" | "rejected" | "accepted";
+  status?: "pending" | "rejected" | "accepted" | "cancelled";
   _id: string;
   address?: {
     area: string;
@@ -84,10 +86,10 @@ export type EventType = {
     type: {
       type: string;
     };
-    coordinates: {
-      type: [number];
-    };
+    coordinates: [number, number];
   };
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type slotType = {
@@ -115,8 +117,10 @@ export type VenueType = {
   title: string;
   description: string;
   pic: pic;
+  price?: number;
   bookedEvents: any;
   slots: slotType[];
+  host?: userType | string;
   reviews: [];
   _id: string;
   location?: { type: string; coordinates: [string, string] };
@@ -126,6 +130,8 @@ export type VenueType = {
     country: string;
     postalCode: string;
   };
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type PostType = {
