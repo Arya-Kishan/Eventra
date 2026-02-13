@@ -163,7 +163,7 @@ const EmailVerificationScreen = () => {
       <Pressable
         onPress={() => handleLogout(navigation)}
         style={styles.already}>
-        <CustomText style={{color: AppConstants.whiteColor}} fontWeight="600">
+        <CustomText style={{color: AppConstants.redColor}} fontWeight="600">
           Already have an account
         </CustomText>
       </Pressable>

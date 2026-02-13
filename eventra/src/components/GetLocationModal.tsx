@@ -1,9 +1,9 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
 import {AppConstants} from '@constants/AppConstants';
+import React, {FC} from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {s} from 'react-native-size-matters';
 import CustomModal from './global/CustomModal';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import CustomText from './global/CustomText';
 
 interface GetLocationModalProps {
@@ -104,6 +104,12 @@ const GetLocationModal: FC<GetLocationModalProps> = ({
           }
         />
       </View>
+      <CustomText
+        numberOfLines={2}
+        fontWeight="700"
+        style={{textAlign: 'center'}}>
+        Note: Search results may take a few seconds to load
+      </CustomText>
     </CustomModal>
   );
 };
