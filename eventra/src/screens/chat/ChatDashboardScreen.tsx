@@ -2,6 +2,7 @@ import ConversationItem from '@components/chat/ConversationItem';
 import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
+import EmptyData from '@components/global/EmptyData';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {getUserConversationsApi} from '@services/ChatService';
@@ -51,7 +52,7 @@ const ChatDashboardScreen = () => {
         </CustomText>
       </View>
 
-      {allConversations && (
+      {allConversations && allConversations.length > 0 ? (
         <FlatList
           data={allConversations}
           renderItem={({item}: {item: userType}) => (
@@ -64,6 +65,13 @@ const ChatDashboardScreen = () => {
           keyExtractor={item => `${item._id}`}
           refreshing={loader}
           onRefresh={fetchAllConversations}
+        />
+      ) : (
+        <EmptyData
+          title="No Chat"
+          handleAddClick={() => {}}
+          showBtn={false}
+          textStyle={{color: AppConstants.grayColor}}
         />
       )}
     </CustomSafeScreen>

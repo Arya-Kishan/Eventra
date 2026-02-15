@@ -48,10 +48,10 @@ const CustomSplashScreen = () => {
       dispatch(setLoggedInUser(userDetails));
     }
     setLoader(false);
-    SplashScreen.hide();
   };
 
   useEffect(() => {
+    SplashScreen.hide();
     if (!isAnimationCompeleted) return;
     if (loader) return;
     if (loggedInUser) {

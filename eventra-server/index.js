@@ -2,7 +2,10 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { dbConnection } from "./config/database.js";
+import authMiddleware from "./middlewares/auth_middleware.js";
+import bannerRoutes from "./routes/bannerRoute.js";
 import eventRoutes from "./routes/eventRoute.js";
+import noticeRoutes from "./routes/noticeRoute.js";
 import notificationRoute from "./routes/notificationRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import otpRoute from "./routes/otpRoute.js";
@@ -12,10 +15,6 @@ import productRoute from "./routes/productRoute.js";
 import spotlightRoute from "./routes/spotlightRoute.js";
 import userRoutes from "./routes/userRoute.js";
 import venueRoutes from "./routes/venueRoute.js";
-import bannerRoutes from "./routes/bannerRoute.js";
-import noticeRoutes from "./routes/noticeRoute.js";
-import authMiddleware from "./middlewares/auth_middleware.js";
-import jwt from "jsonwebtoken";
 
 const server = express();
 
