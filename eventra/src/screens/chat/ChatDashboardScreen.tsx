@@ -3,13 +3,14 @@ import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomLoader from '@components/global/CustomLoader';
 import CustomText from '@components/global/CustomText';
 import EmptyData from '@components/global/EmptyData';
+import Icon from '@components/global/Icon';
 import {AppConstants} from '@constants/AppConstants';
 import {useNavigation} from '@react-navigation/native';
 import {getUserConversationsApi} from '@services/ChatService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setAllConversations} from '@store/reducers/chatSlice';
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {s} from 'react-native-size-matters';
 import {NavigationProps, userType} from 'types/AppTypes';
 
@@ -50,6 +51,15 @@ const ChatDashboardScreen = () => {
         <CustomText variant="h2" style={{color: AppConstants.whiteColor}}>
           Messages
         </CustomText>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            navigation.navigate('SearchScreen', {
+              type: 'user',
+            })
+          }>
+          <Icon icon="person-add-alt-1" iconType="MaterialIcons" size={s(25)} />
+        </TouchableOpacity>
       </View>
 
       {allConversations && allConversations.length > 0 ? (
@@ -88,6 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: s(10),
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   chatContainer: {
     flex: 1,

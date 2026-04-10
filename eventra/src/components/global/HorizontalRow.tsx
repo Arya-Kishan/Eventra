@@ -1,25 +1,30 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, ReactNode} from 'react';
 import {s} from 'react-native-size-matters';
 import {AppConstants} from '@constants/AppConstants';
+import Icon from './Icon';
 
 interface HorizontalRowType {
   leftText: string;
   rightText: string;
   rightClick?: () => void;
+  isRightIcon?: boolean;
+  icon?: ReactNode;
 }
 
 const HorizontalRow: FC<HorizontalRowType> = ({
   leftText,
   rightText,
   rightClick,
+  isRightIcon = false,
+  icon = 'undefined',
 }) => {
   return (
     <View style={styles.main}>
       <Text style={styles.leftText}>{leftText}</Text>
 
       <Pressable onPress={rightClick}>
-        <Text style={styles.rightText}>{rightText}</Text>
+        {isRightIcon ? icon : <Text style={styles.rightText}>{rightText}</Text>}
       </Pressable>
     </View>
   );

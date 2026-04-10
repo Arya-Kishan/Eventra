@@ -46,8 +46,8 @@ const ChatHeader: FC<ChatHeaderProps> = ({
     <View style={styles.header}>
       <CustomImage
         source={
-          opponentUser?.profilePic.url !== ''
-            ? opponentUser?.profilePic.url!
+          opponentUser?.profilePic!.url !== ''
+            ? opponentUser?.profilePic!.url!
             : AppConstants.fallbackProfilePic
         }
         width={s(40)}

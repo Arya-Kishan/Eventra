@@ -36,7 +36,7 @@ const SearchHeader: FC<SearchHeaderProps> = ({
 
   const handleAnimate = (show: boolean) => {
     show
-      ? (translateY.value = withTiming(vs(150), {duration: 1000}))
+      ? (translateY.value = withTiming(vs(200), {duration: 1000}))
       : (translateY.value = withTiming(vs(0), {duration: 1000}));
   };
 
@@ -123,6 +123,7 @@ const SearchHeader: FC<SearchHeaderProps> = ({
         <TextInput
           placeholder="Search..."
           onChangeText={(val: string) => handleInput(val)}
+          placeholderTextColor={AppConstants.grayColor}
           value={input}
           style={styles.input}
           onSubmitEditing={() => handleSearch(input)}
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     padding: AppConstants.screenPadding,
     gap: s(30),
     position: 'absolute',
-    top: -vs(150),
+    top: -vs(200),
     left: 0,
     zIndex: 10,
     height: vs(150),

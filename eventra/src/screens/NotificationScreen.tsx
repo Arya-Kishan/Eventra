@@ -1,3 +1,4 @@
+import CustomSafeScreen from '@components/CustomSafeScreen';
 import CustomText from '@components/global/CustomText';
 import EmptyData from '@components/global/EmptyData';
 import Icon from '@components/global/Icon';
@@ -42,7 +43,7 @@ const NotificationScreen = () => {
   }, [allNotifications]);
 
   return (
-    <SafeAreaView style={styles.flex}>
+    <CustomSafeScreen style={styles.flex}>
       <View style={styles.main}>
         <Pressable onPress={() => navigation.goBack()} style={styles.heading}>
           <Icon icon="arrow-back-ios" iconType="MaterialIcons" />
@@ -71,7 +72,7 @@ const NotificationScreen = () => {
       ) : (
         <EmptyData title="NO NOTIFICATIONS" />
       )}
-    </SafeAreaView>
+    </CustomSafeScreen>
   );
 };
 

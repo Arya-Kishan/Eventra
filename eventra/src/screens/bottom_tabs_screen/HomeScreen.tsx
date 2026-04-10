@@ -1,5 +1,6 @@
 import CustomSafeScreen from '@components/CustomSafeScreen';
 import HorizontalRow from '@components/global/HorizontalRow';
+import Icon from '@components/global/Icon';
 import CustomCarousel from '@components/home/CustomCarousel';
 import DoubleHorizontalFlatList from '@components/home/DoubleHorizontalFlatList';
 import HomeHeader from '@components/home/HomeHeader';
@@ -57,7 +58,19 @@ const HomeScreen = () => {
 
         <View style={styles.main}>
           {/* CAROUSEL CONTAINER */}
-          <HorizontalRow leftText="For You" rightText="See All" />
+          <HorizontalRow
+            leftText="For You"
+            rightText="See All"
+            isRightIcon={true}
+            icon={
+              <Icon
+                icon="assessment"
+                iconType="MaterialIcons"
+                size={s(25)}
+                color={AppConstants.redColor}
+              />
+            }
+          />
 
           <CustomCarousel />
 
